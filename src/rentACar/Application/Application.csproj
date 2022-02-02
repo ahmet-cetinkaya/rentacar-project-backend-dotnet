@@ -7,6 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Features\Cars\Rules\**" />
+    <EmbeddedResource Remove="Features\Cars\Rules\**" />
+    <None Remove="Features\Cars\Rules\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="Features\Cars\Rules\CarBusinessRules.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\corePackages\Core.CrossCuttingConcers\Core.CrossCuttingConcerns.csproj" />
     <ProjectReference Include="..\..\corePackages\Core.Persistence\Core.Persistence.csproj" />
     <ProjectReference Include="..\Domain\Domain.csproj" />
@@ -14,12 +24,6 @@
 
   <ItemGroup>
     <Folder Include="Features\Brands\Tests\" />
-    <Folder Include="Features\Cars\Commands\" />
-    <Folder Include="Features\Cars\Dtos\" />
-    <Folder Include="Features\Cars\Models\" />
-    <Folder Include="Features\Cars\Profiles\" />
-    <Folder Include="Features\Cars\Queries\" />
-    <Folder Include="Features\Cars\Rules\" />
     <Folder Include="Features\Cars\Tests\" />
     <Folder Include="Features\Models\Dtos\" />
     <Folder Include="Features\Models\Models\" />
