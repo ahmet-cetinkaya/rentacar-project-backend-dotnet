@@ -1,4 +1,5 @@
 ﻿using Domain.Entities;
+using Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
@@ -85,5 +86,24 @@ public class BaseDbContext : DbContext
             t.Property(p => p.Name).HasColumnName("Name");
             t.HasMany(p => p.Models);
         });
+
+        Brand[] brandSeeds = { new(1, "BMW"), new(2, "Mercedes") };
+        modelBuilder.Entity<Brand>().HasData(brandSeeds);
+
+        Car[] carSeeds =
+            { new(1, 1, 1, CarState.Available, 2018, "07ABC07"), new(2, 2, 2, CarState.Rented, 2018, "15ABC15") };
+        modelBuilder.Entity<Car>().HasData(carSeeds);
+
+        Color[] colorSeeds = { new(1, "Red"), new(2, "Blue") };
+        modelBuilder.Entity<Color>().HasData(colorSeeds);
+
+        Fuel[] fuelSeeds = { new(1, "Diesel"), new(2, "Electric") };
+        modelBuilder.Entity<Fuel>().HasData(fuelSeeds);
+
+        Model[] modelSeeds = { new(1, 1, 1, 2, "418i", 1000, ""), new(2, 2, 2, 1, "CLA 180D", 600, "") };
+        modelBuilder.Entity<Model>().HasData(modelSeeds);
+
+        Transmission[] transmissionsSeeds = { new(1, "Manuel"), new(2, "Automatic") };
+        modelBuilder.Entity<Transmission>().HasData(transmissionsSeeds);
     }
 }
