@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Features\Brands\Commands\DeleteBrand\" />
     <Folder Include="Features\Brands\Tests\" />
     <Folder Include="Features\Cars\Commands\" />
     <Folder Include="Features\Cars\Dtos\" />

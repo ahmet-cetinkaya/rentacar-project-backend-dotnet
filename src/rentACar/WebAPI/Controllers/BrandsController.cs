@@ -1,4 +1,5 @@
 ﻿using Application.Features.Brands.Commands.CreateBrand;
+using Application.Features.Brands.Commands.UpdateBrand;
 using Application.Features.Brands.Models;
 using Application.Features.Brands.Queries.GetListBrand;
 using Domain.Entities;
@@ -22,5 +23,12 @@ public class BrandsController : BaseController
     {
         Brand result = await Mediator.Send(createBrandCommand);
         return Created("", result);
+    }
+
+    [HttpPut]
+    public async Task<IActionResult> Update([FromBody] UpdateBrandCommand updateBrandCommand)
+    {
+        await Mediator.Send(updateBrandCommand);
+        return Ok();
     }
 }
