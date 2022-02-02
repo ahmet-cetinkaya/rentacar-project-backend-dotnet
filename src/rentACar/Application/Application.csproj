@@ -13,10 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\Brands\Dtos\" />
-    <Folder Include="Features\Brands\Models\" />
     <Folder Include="Features\Brands\Tests\" />
-    <Folder Include="Features\Brands\Queries\" />
     <Folder Include="Features\Cars\Commands\" />
     <Folder Include="Features\Cars\Dtos\" />
     <Folder Include="Features\Cars\Models\" />

@@ -9,7 +9,6 @@ namespace Application.Features.Brands.Commands.CreateBrand;
 public class CreateBrandCommand : IRequest<Brand>
 {
     public string Name { get; set; }
-    public string Description { get; set; }
 
     public class CreateBrandResponseHandler : IRequestHandler<CreateBrandCommand, Brand>
     {
