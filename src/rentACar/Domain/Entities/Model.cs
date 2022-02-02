@@ -14,13 +14,15 @@ public class Model : Entity
     public virtual Brand Brand { get; set; }
     public virtual Transmission Transmission { get; set; }
     public virtual Fuel Fuel { get; set; }
+    public virtual ICollection<Car> Cars { get; set; }
 
     public Model()
     {
+        Cars = new HashSet<Car>();
     }
 
     public Model(int id, string name, decimal dailyPrice, int brandId, int transmissionId, int fuelId,
-        string imageUrl) : this()
+                 string imageUrl) : this()
     {
         Id = id;
         Name = name;

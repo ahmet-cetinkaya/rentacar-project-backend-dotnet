@@ -45,6 +45,7 @@ public class BaseDbContext : DbContext
             b.HasOne(p => p.Brand);
             b.HasOne(p => p.Transmission);
             b.HasOne(p => p.Fuel);
+            b.HasMany(p => p.Cars);
         });
     }
 }
