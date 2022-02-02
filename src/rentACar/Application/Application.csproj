@@ -26,6 +26,7 @@
     <Folder Include="Features\Brands\Tests\" />
     <Folder Include="Features\Cars\Tests\" />
     <Folder Include="Features\Colors\Tests\" />
+    <Folder Include="Features\Fuels\Tests\" />
     <Folder Include="Features\Models\Dtos\" />
     <Folder Include="Features\Models\Models\" />
     <Folder Include="Features\Models\Queries\" />
