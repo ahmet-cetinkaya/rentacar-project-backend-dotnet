@@ -2,6 +2,7 @@
 using Application.Features.Brands.Commands.DeleteBrand;
 using Application.Features.Brands.Commands.UpdateBrand;
 using Application.Features.Brands.Models;
+using Application.Features.Brands.Queries.GetByIdBrand;
 using Application.Features.Brands.Queries.GetListBrand;
 using Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
@@ -12,6 +13,13 @@ namespace WebAPI.Controllers;
 [ApiController]
 public class BrandsController : BaseController
 {
+    [HttpGet("{Id}")]
+    public async Task<IActionResult> GetById([FromRoute] GetByIdBrandQuery getByIdBrandQuery)
+    {
+        Brand result = await Mediator.Send(getByIdBrandQuery);
+        return Ok(result);
+    }
+
     [HttpGet]
     public async Task<IActionResult> GetList([FromQuery] GetListBrandQuery getListBrandQuery)
     {
