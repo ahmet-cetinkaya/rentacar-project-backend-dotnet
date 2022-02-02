@@ -1,4 +1,5 @@
 ﻿using Application.Features.Brands.Commands.CreateBrand;
+using Application.Features.Brands.Commands.DeleteBrand;
 using Application.Features.Brands.Commands.UpdateBrand;
 using Application.Features.Brands.Dtos;
 using Application.Features.Brands.Models;
@@ -14,6 +15,7 @@ public class MappingProfiles : Profile
     {
         CreateMap<Brand, CreateBrandCommand>().ReverseMap();
         CreateMap<Brand, UpdateBrandCommand>().ReverseMap();
+        CreateMap<Brand, DeleteBrandCommand>().ReverseMap();
         CreateMap<Brand, BrandListDto>().ReverseMap();
         CreateMap<IPaginate<Brand>, BrandListModel>().ReverseMap();
     }
