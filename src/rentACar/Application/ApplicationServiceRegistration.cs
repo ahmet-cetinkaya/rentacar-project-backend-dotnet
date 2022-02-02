@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using Application.Features.Brands.Rules;
+using Application.Features.Models.Rules;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -12,6 +13,7 @@ public static class ApplicationServiceRegistration
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
         services.AddMediatR(Assembly.GetExecutingAssembly());
         services.AddScoped<BrandBusinessRules>();
+        services.AddScoped<ModelBusinessRules>();
         return services;
     }
 }
