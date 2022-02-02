@@ -16,6 +16,7 @@ public static class PersistenceServiceRegistration
             options.UseSqlServer(configuration.GetConnectionString("RentACarConnectionString")));
         services.AddScoped<IBrandRepository, BrandRepository>();
         services.AddScoped<ICarRepository, CarRepository>();
+        services.AddScoped<IColorRepository, ColorRepository>();
         services.AddScoped<IModelRepository, ModelRepository>();
         return services;
     }

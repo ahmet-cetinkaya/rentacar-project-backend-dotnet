@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using Application.Features.Brands.Rules;
 using Application.Features.Cars.Rules;
+using Application.Features.Colors.Rules;
 using Application.Features.Models.Rules;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,6 +16,7 @@ public static class ApplicationServiceRegistration
         services.AddMediatR(Assembly.GetExecutingAssembly());
         services.AddScoped<BrandBusinessRules>();
         services.AddScoped<CarBusinessRules>();
+        services.AddScoped<ColorBusinessRules>();
         services.AddScoped<ModelBusinessRules>();
         return services;
     }
