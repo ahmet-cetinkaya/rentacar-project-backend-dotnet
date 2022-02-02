@@ -7,8 +7,31 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\corePackages\Core.CrossCuttingConcers\Core.CrossCuttingConcerns.csproj" />
     <ProjectReference Include="..\..\corePackages\Core.Persistence\Core.Persistence.csproj" />
     <ProjectReference Include="..\Domain\Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Features\Brands\Dtos\" />
+    <Folder Include="Features\Brands\Models\" />
+    <Folder Include="Features\Brands\Tests\" />
+    <Folder Include="Features\Brands\Queries\" />
+    <Folder Include="Features\Cars\Commands\" />
+    <Folder Include="Features\Cars\Dtos\" />
+    <Folder Include="Features\Cars\Models\" />
+    <Folder Include="Features\Cars\Profiles\" />
+    <Folder Include="Features\Cars\Queries\" />
+    <Folder Include="Features\Cars\Rules\" />
+    <Folder Include="Features\Cars\Tests\" />
+    <Folder Include="Features\Models\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="11.0.0" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+    <PackageReference Include="MediatR" Version="10.0.1" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1" />
   </ItemGroup>
 
 </Project>
