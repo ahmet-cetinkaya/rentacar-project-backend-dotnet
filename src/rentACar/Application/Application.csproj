@@ -29,6 +29,10 @@
     <Folder Include="Features\Colors\Tests\" />
     <Folder Include="Features\Fuels\Tests\" />
     <Folder Include="Features\Models\Tests\" />
+    <Folder Include="Features\Rentals\Dtos\" />
+    <Folder Include="Features\Rentals\Models\" />
+    <Folder Include="Features\Rentals\Queries\" />
+    <Folder Include="Features\Rentals\Tests\" />
     <Folder Include="Features\Transmissions\Tests\" />
   </ItemGroup>
 

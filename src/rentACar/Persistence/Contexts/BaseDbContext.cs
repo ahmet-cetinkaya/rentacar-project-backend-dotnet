@@ -79,6 +79,16 @@ public class BaseDbContext : DbContext
             m.HasOne(p => p.Fuel);
             m.HasOne(p => p.Transmission);
         });
+        modelBuilder.Entity<Rental>(r =>
+        {
+            r.ToTable("Rentals").HasKey(k => k.Id);
+            r.Property(p => p.Id).HasColumnName("Id");
+            r.Property(p => p.CarId).HasColumnName("CarId");
+            r.Property(p => p.RentStartDate).HasColumnName("RentStartDate");
+            r.Property(p => p.RentEndDate).HasColumnName("RentEndDate");
+            r.Property(p => p.ReturnDate).HasColumnName("ReturnDate");
+            r.HasOne(p => p.Car);
+        });
         modelBuilder.Entity<Transmission>(t =>
         {
             t.ToTable("Transmissions").HasKey(k => k.Id);
@@ -102,6 +112,9 @@ public class BaseDbContext : DbContext
 
         Model[] modelSeeds = { new(1, 1, 1, 2, "418i", 1000, ""), new(2, 2, 2, 1, "CLA 180D", 600, "") };
         modelBuilder.Entity<Model>().HasData(modelSeeds);
+
+        Rental[] rentalSeeds = { new(1, 2, DateTime.Today, DateTime.Today.AddDays(2), null) };
+        modelBuilder.Entity<Rental>().HasData(rentalSeeds);
 
         Transmission[] transmissionsSeeds = { new(1, "Manuel"), new(2, "Automatic") };
         modelBuilder.Entity<Transmission>().HasData(transmissionsSeeds);

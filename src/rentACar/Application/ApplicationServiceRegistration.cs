@@ -4,6 +4,7 @@ using Application.Features.Cars.Rules;
 using Application.Features.Colors.Rules;
 using Application.Features.Fuels.Rules;
 using Application.Features.Models.Rules;
+using Application.Features.Rentals.Rules;
 using Application.Features.Transmissions.Rules;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,6 +22,7 @@ public static class ApplicationServiceRegistration
         services.AddScoped<ColorBusinessRules>();
         services.AddScoped<FuelBusinessRules>();
         services.AddScoped<ModelBusinessRules>();
+        services.AddScoped<RentalBusinessRules>();
         services.AddScoped<TransmissionBusinessRules>();
         return services;
     }
