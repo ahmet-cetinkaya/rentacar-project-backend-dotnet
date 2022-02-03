@@ -1,6 +1,7 @@
 ﻿using Application.Features.Transmissions.Models;
 using Application.Services.Repositories;
 using AutoMapper;
+using Core.Application.Requests;
 using Core.Persistence.Paging;
 using Domain.Entities;
 using MediatR;
@@ -9,6 +10,8 @@ namespace Application.Features.Transmissions.Queries.GetListTransmission;
 
 public class GetListTransmissionQuery : IRequest<TransmissionListModel>
 {
+    public PageRequest PageRequest { get; set; }
+
     public class GetListTransmissionResponseHandler : IRequestHandler<GetListTransmissionQuery, TransmissionListModel>
     {
         private readonly ITransmissionRepository _transmissionRepository;
@@ -23,7 +26,9 @@ public class GetListTransmissionQuery : IRequest<TransmissionListModel>
         public async Task<TransmissionListModel> Handle(GetListTransmissionQuery request,
                                                         CancellationToken cancellationToken)
         {
-            IPaginate<Transmission> transmissions = await _transmissionRepository.GetListAsync();
+            IPaginate<Transmission> transmissions = await _transmissionRepository.GetListAsync(
+                                                        index: request.PageRequest.Page,
+                                                        size: request.PageRequest.PageSize);
             TransmissionListModel mappedTransmissionListModel = _mapper.Map<TransmissionListModel>(transmissions);
             return mappedTransmissionListModel;
         }

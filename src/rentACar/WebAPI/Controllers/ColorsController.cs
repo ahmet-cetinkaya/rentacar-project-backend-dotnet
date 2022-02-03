@@ -4,6 +4,7 @@ using Application.Features.Colors.Commands.UpdateColor;
 using Application.Features.Colors.Models;
 using Application.Features.Colors.Queries.GetByIdColor;
 using Application.Features.Colors.Queries.GetListColor;
+using Core.Application.Requests;
 using Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,8 +22,9 @@ public class ColorsController : BaseController
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetList([FromQuery] GetListColorQuery getListColorQuery)
+    public async Task<IActionResult> GetList([FromQuery] PageRequest pageRequest)
     {
+        GetListColorQuery getListColorQuery = new() { PageRequest = pageRequest };
         ColorListModel result = await Mediator.Send(getListColorQuery);
         return Ok(result);
     }

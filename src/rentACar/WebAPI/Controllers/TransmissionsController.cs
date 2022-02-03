@@ -4,6 +4,7 @@ using Application.Features.Transmissions.Commands.UpdateTransmission;
 using Application.Features.Transmissions.Models;
 using Application.Features.Transmissions.Queries.GetByIdTransmission;
 using Application.Features.Transmissions.Queries.GetListTransmission;
+using Core.Application.Requests;
 using Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,8 +22,9 @@ public class TransmissionsController : BaseController
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetList([FromQuery] GetListTransmissionQuery getListTransmissionQuery)
+    public async Task<IActionResult> GetList([FromQuery] PageRequest pageRequest)
     {
+        GetListTransmissionQuery getListTransmissionQuery = new() { PageRequest = pageRequest };
         TransmissionListModel result = await Mediator.Send(getListTransmissionQuery);
         return Ok(result);
     }

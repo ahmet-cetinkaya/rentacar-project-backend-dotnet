@@ -4,6 +4,7 @@ using Application.Features.Brands.Commands.UpdateBrand;
 using Application.Features.Brands.Models;
 using Application.Features.Brands.Queries.GetByIdBrand;
 using Application.Features.Brands.Queries.GetListBrand;
+using Core.Application.Requests;
 using Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,8 +22,9 @@ public class BrandsController : BaseController
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetList([FromQuery] GetListBrandQuery getListBrandQuery)
+    public async Task<IActionResult> GetList([FromQuery] PageRequest pageRequest)
     {
+        GetListBrandQuery getListBrandQuery = new() { PageRequest = pageRequest };
         BrandListModel result = await Mediator.Send(getListBrandQuery);
         return Ok(result);
     }

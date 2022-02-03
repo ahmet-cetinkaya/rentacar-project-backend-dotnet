@@ -4,6 +4,7 @@ using Application.Features.Models.Commands.UpdateModel;
 using Application.Features.Models.Models;
 using Application.Features.Models.Queries.GetByIdModel;
 using Application.Features.Models.Queries.GetListModel;
+using Core.Application.Requests;
 using Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,8 +22,9 @@ public class ModelsController : BaseController
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetList([FromQuery] GetListModelQuery getListModelQuery)
+    public async Task<IActionResult> GetList([FromQuery] PageRequest pageRequest)
     {
+        GetListModelQuery getListModelQuery = new() { PageRequest = pageRequest };
         ModelListModel result = await Mediator.Send(getListModelQuery);
         return Ok(result);
     }

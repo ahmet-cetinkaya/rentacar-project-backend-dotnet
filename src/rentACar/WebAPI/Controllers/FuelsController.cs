@@ -4,6 +4,7 @@ using Application.Features.Fuels.Commands.UpdateFuel;
 using Application.Features.Fuels.Models;
 using Application.Features.Fuels.Queries.GetByIdFuel;
 using Application.Features.Fuels.Queries.GetListFuel;
+using Core.Application.Requests;
 using Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,8 +22,9 @@ public class FuelsController : BaseController
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetList([FromQuery] GetListFuelQuery getListFuelQuery)
+    public async Task<IActionResult> GetList([FromQuery] PageRequest pageRequest)
     {
+        GetListFuelQuery getListFuelQuery = new() { PageRequest = pageRequest };
         FuelListModel result = await Mediator.Send(getListFuelQuery);
         return Ok(result);
     }

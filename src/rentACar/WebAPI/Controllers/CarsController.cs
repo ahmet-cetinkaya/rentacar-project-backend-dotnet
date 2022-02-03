@@ -4,6 +4,7 @@ using Application.Features.Cars.Commands.UpdateCar;
 using Application.Features.Cars.Models;
 using Application.Features.Cars.Queries.GetByIdCar;
 using Application.Features.Cars.Queries.GetListCar;
+using Core.Application.Requests;
 using Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,8 +22,9 @@ public class CarsController : BaseController
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetList([FromQuery] GetListCarQuery getListCarQuery)
+    public async Task<IActionResult> GetList([FromQuery] PageRequest pageRequest)
     {
+        GetListCarQuery getListCarQuery = new() { PageRequest = pageRequest };
         CarListModel result = await Mediator.Send(getListCarQuery);
         return Ok(result);
     }

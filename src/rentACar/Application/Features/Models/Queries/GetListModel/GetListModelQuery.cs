@@ -1,6 +1,7 @@
 ﻿using Application.Features.Models.Models;
 using Application.Services.Repositories;
 using AutoMapper;
+using Core.Application.Requests;
 using Core.Persistence.Paging;
 using Domain.Entities;
 using MediatR;
@@ -10,6 +11,8 @@ namespace Application.Features.Models.Queries.GetListModel;
 
 public class GetListModelQuery : IRequest<ModelListModel>
 {
+    public PageRequest PageRequest { get; set; }
+
     public class GetListModelResponseHandler : IRequestHandler<GetListModelQuery, ModelListModel>
     {
         private readonly IModelRepository _modelRepository;
@@ -23,10 +26,13 @@ public class GetListModelQuery : IRequest<ModelListModel>
 
         public async Task<ModelListModel> Handle(GetListModelQuery request, CancellationToken cancellationToken)
         {
-            IPaginate<Model> models = await _modelRepository.GetListAsync(null, null,
-                c => c.Include(c => c.Brand)
-                      .Include(c => c.Fuel)
-                      .Include(c => c.Transmission));
+            IPaginate<Model> models = await _modelRepository.GetListAsync(include:
+                                                                          c => c.Include(c => c.Brand)
+                                                                              .Include(c => c.Fuel)
+                                                                              .Include(c => c.Transmission),
+                                                                          index: request.PageRequest.Page,
+                                                                          size: request.PageRequest.PageSize
+                                      );
             ModelListModel mappedModelListModel = _mapper.Map<ModelListModel>(models);
             return mappedModelListModel;
         }

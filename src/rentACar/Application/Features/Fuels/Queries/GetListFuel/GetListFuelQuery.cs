@@ -1,6 +1,7 @@
 ﻿using Application.Features.Fuels.Models;
 using Application.Services.Repositories;
 using AutoMapper;
+using Core.Application.Requests;
 using Core.Persistence.Paging;
 using Domain.Entities;
 using MediatR;
@@ -9,6 +10,8 @@ namespace Application.Features.Fuels.Queries.GetListFuel;
 
 public class GetListFuelQuery : IRequest<FuelListModel>
 {
+    public PageRequest PageRequest { get; set; }
+
     public class GetListFuelResponseHandler : IRequestHandler<GetListFuelQuery, FuelListModel>
     {
         private readonly IFuelRepository _fuelRepository;
@@ -22,7 +25,8 @@ public class GetListFuelQuery : IRequest<FuelListModel>
 
         public async Task<FuelListModel> Handle(GetListFuelQuery request, CancellationToken cancellationToken)
         {
-            IPaginate<Fuel> fuels = await _fuelRepository.GetListAsync();
+            IPaginate<Fuel> fuels = await _fuelRepository.GetListAsync(index: request.PageRequest.Page,
+                                                                       size: request.PageRequest.PageSize);
             FuelListModel mappedFuelListModel = _mapper.Map<FuelListModel>(fuels);
             return mappedFuelListModel;
         }
