@@ -1,5 +1,6 @@
 ﻿using Application.Features.Cars.Commands.CreateCar;
 using Application.Features.Cars.Commands.DeleteCar;
+using Application.Features.Cars.Commands.MaintainCar;
 using Application.Features.Cars.Commands.UpdateCar;
 using Application.Features.Cars.Models;
 using Application.Features.Cars.Queries.GetByIdCar;
@@ -41,6 +42,13 @@ public class CarsController : BaseController
     {
         await Mediator.Send(updateCarCommand);
         return Ok();
+    }
+
+    [HttpPut("maintain")]
+    public async Task<IActionResult> MaintainCar([FromBody] MaintainCarCommand maintainCarCommand)
+    {
+        Car result = await Mediator.Send(maintainCarCommand);
+        return Ok(result);
     }
 
     [HttpDelete]

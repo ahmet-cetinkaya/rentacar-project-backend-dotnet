@@ -4,6 +4,7 @@ using AutoMapper;
 using Core.Application.Requests;
 using Core.Persistence.Paging;
 using Domain.Entities;
+using Domain.Enums;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -26,7 +27,8 @@ public class GetListCarQuery : IRequest<CarListModel>
 
         public async Task<CarListModel> Handle(GetListCarQuery request, CancellationToken cancellationToken)
         {
-            IPaginate<Car> cars = await _carRepository.GetListAsync(include:
+            IPaginate<Car> cars = await _carRepository.GetListAsync(c => c.CarState != CarState.Maintenance,
+                                                                    include:
                                                                     c => c.Include(c => c.Model)
                                                                           .Include(c => c.Model.Brand)
                                                                           .Include(c => c.Color),
