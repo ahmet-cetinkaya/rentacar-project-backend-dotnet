@@ -10,14 +10,14 @@ public class CreateTransmissionCommand : IRequest<Transmission>
 {
     public string Name { get; set; }
 
-    public class CreateTransmissionResponseHandler : IRequestHandler<CreateTransmissionCommand, Transmission>
+    public class CreateTransmissionCommandHandler : IRequestHandler<CreateTransmissionCommand, Transmission>
     {
         private readonly ITransmissionRepository _transmissionRepository;
         private readonly IMapper _mapper;
         private readonly TransmissionBusinessRules _transmissionBusinessRules;
 
-        public CreateTransmissionResponseHandler(ITransmissionRepository transmissionRepository, IMapper mapper,
-                                                 TransmissionBusinessRules transmissionBusinessRules)
+        public CreateTransmissionCommandHandler(ITransmissionRepository transmissionRepository, IMapper mapper,
+                                                TransmissionBusinessRules transmissionBusinessRules)
         {
             _transmissionRepository = transmissionRepository;
             _mapper = mapper;

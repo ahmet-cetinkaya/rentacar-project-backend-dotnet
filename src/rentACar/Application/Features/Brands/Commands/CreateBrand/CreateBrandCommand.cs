@@ -10,14 +10,14 @@ public class CreateBrandCommand : IRequest<Brand>
 {
     public string Name { get; set; }
 
-    public class CreateBrandResponseHandler : IRequestHandler<CreateBrandCommand, Brand>
+    public class CreateBrandCommandHandler : IRequestHandler<CreateBrandCommand, Brand>
     {
         private readonly IBrandRepository _brandRepository;
         private readonly IMapper _mapper;
         private readonly BrandBusinessRules _brandBusinessRules;
 
-        public CreateBrandResponseHandler(IBrandRepository brandRepository, IMapper mapper,
-                                          BrandBusinessRules brandBusinessRules)
+        public CreateBrandCommandHandler(IBrandRepository brandRepository, IMapper mapper,
+                                         BrandBusinessRules brandBusinessRules)
         {
             _brandRepository = brandRepository;
             _mapper = mapper;

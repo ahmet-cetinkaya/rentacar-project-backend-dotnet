@@ -9,12 +9,12 @@ public class DeleteModelCommand : IRequest
 {
     public int Id { get; set; }
 
-    public class DeleteModelResponseHandler : IRequestHandler<DeleteModelCommand>
+    public class DeleteModelCommandHandler : IRequestHandler<DeleteModelCommand>
     {
         private readonly IModelRepository _modelRepository;
         private readonly IMapper _mapper;
 
-        public DeleteModelResponseHandler(IModelRepository modelRepository, IMapper mapper)
+        public DeleteModelCommandHandler(IModelRepository modelRepository, IMapper mapper)
         {
             _modelRepository = modelRepository;
             _mapper = mapper;

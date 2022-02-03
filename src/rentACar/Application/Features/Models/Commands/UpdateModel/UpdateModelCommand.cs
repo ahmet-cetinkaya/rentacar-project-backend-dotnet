@@ -15,12 +15,12 @@ public class UpdateModelCommand : IRequest
     public decimal DailyPrice { get; set; }
     public string ImageUrl { get; set; }
 
-    public class UpdateModelResponseHandler : IRequestHandler<UpdateModelCommand>
+    public class UpdateModelCommandHandler : IRequestHandler<UpdateModelCommand>
     {
         private IModelRepository _modelRepository { get; }
         private IMapper _mapper { get; }
 
-        public UpdateModelResponseHandler(IModelRepository modelRepository, IMapper mapper)
+        public UpdateModelCommandHandler(IModelRepository modelRepository, IMapper mapper)
         {
             _modelRepository = modelRepository;
             _mapper = mapper;

@@ -9,12 +9,12 @@ public class DeleteBrandCommand : IRequest
 {
     public int Id { get; set; }
 
-    public class DeleteBrandResponseHandler : IRequestHandler<DeleteBrandCommand>
+    public class DeleteBrandCommandHandler : IRequestHandler<DeleteBrandCommand>
     {
         private readonly IBrandRepository _brandRepository;
         private readonly IMapper _mapper;
 
-        public DeleteBrandResponseHandler(IBrandRepository brandRepository, IMapper mapper)
+        public DeleteBrandCommandHandler(IBrandRepository brandRepository, IMapper mapper)
         {
             _brandRepository = brandRepository;
             _mapper = mapper;

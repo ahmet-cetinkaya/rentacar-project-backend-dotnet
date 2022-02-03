@@ -15,14 +15,14 @@ public class CreateRentalCommand : IRequest<Rental>
     public DateTime RentEndDate { get; set; }
     public DateTime? ReturnDate { get; set; }
 
-    public class CreateRentalResponseHandler : IRequestHandler<CreateRentalCommand, Rental>
+    public class CreateRentalCommandHandler : IRequestHandler<CreateRentalCommand, Rental>
     {
         private readonly IRentalRepository _rentalRepository;
         private readonly IMapper _mapper;
         private readonly RentalBusinessRules _rentalBusinessRules;
 
-        public CreateRentalResponseHandler(IRentalRepository rentalRepository, IMapper mapper,
-                                           RentalBusinessRules rentalBusinessRules)
+        public CreateRentalCommandHandler(IRentalRepository rentalRepository, IMapper mapper,
+                                          RentalBusinessRules rentalBusinessRules)
         {
             _rentalRepository = rentalRepository;
             _mapper = mapper;
@@ -31,9 +31,9 @@ public class CreateRentalCommand : IRequest<Rental>
 
         public async Task<Rental> Handle(CreateRentalCommand request, CancellationToken cancellationToken)
         {
-            await _rentalBusinessRules.CarCanNotBeRentWhenIsRenting(request.CarId, request.RentStartDate,
-                                                                    request.RentEndDate);
-            await _rentalBusinessRules.CarCanNotBeRentWhenIsMaintaining(request.CarId);
+            await _rentalBusinessRules.RentalCanNotBeCreateWhenCarIsRented(request.CarId, request.RentStartDate,
+                                                                           request.RentEndDate);
+            await _rentalBusinessRules.RentalCanNotBeCreatedWhenCarIsInMaintenance(request.CarId);
 
             Rental mappedRental = _mapper.Map<Rental>(request);
             Rental createdRental = await _rentalRepository.AddAsync(mappedRental);

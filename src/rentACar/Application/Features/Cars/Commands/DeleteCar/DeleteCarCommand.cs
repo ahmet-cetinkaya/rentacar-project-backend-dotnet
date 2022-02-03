@@ -9,12 +9,12 @@ public class DeleteCarCommand : IRequest
 {
     public int Id { get; set; }
 
-    public class DeleteCarResponseHandler : IRequestHandler<DeleteCarCommand>
+    public class DeleteCarCommandHandler : IRequestHandler<DeleteCarCommand>
     {
         private readonly ICarRepository _carRepository;
         private readonly IMapper _mapper;
 
-        public DeleteCarResponseHandler(ICarRepository carRepository, IMapper mapper)
+        public DeleteCarCommandHandler(ICarRepository carRepository, IMapper mapper)
         {
             _carRepository = carRepository;
             _mapper = mapper;

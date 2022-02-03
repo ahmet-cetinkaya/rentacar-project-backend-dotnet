@@ -14,12 +14,12 @@ public class CreateCarCommand : IRequest<Car>
     public short ModelYear { get; set; }
     public string Plate { get; set; }
 
-    public class CreateCarResponseHandler : IRequestHandler<CreateCarCommand, Car>
+    public class CreateCarCommandHandler : IRequestHandler<CreateCarCommand, Car>
     {
         private readonly ICarRepository _carRepository;
         private readonly IMapper _mapper;
 
-        public CreateCarResponseHandler(ICarRepository carRepository, IMapper mapper)
+        public CreateCarCommandHandler(ICarRepository carRepository, IMapper mapper)
         {
             _carRepository = carRepository;
             _mapper = mapper;

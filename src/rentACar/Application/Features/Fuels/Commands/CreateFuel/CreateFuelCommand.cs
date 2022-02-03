@@ -10,14 +10,14 @@ public class CreateFuelCommand : IRequest<Fuel>
 {
     public string Name { get; set; }
 
-    public class CreateFuelResponseHandler : IRequestHandler<CreateFuelCommand, Fuel>
+    public class CreateFuelCommandHandler : IRequestHandler<CreateFuelCommand, Fuel>
     {
         private readonly IFuelRepository _fuelRepository;
         private readonly IMapper _mapper;
         private readonly FuelBusinessRules _fuelBusinessRules;
 
-        public CreateFuelResponseHandler(IFuelRepository fuelRepository, IMapper mapper,
-                                         FuelBusinessRules fuelBusinessRules)
+        public CreateFuelCommandHandler(IFuelRepository fuelRepository, IMapper mapper,
+                                        FuelBusinessRules fuelBusinessRules)
         {
             _fuelRepository = fuelRepository;
             _mapper = mapper;

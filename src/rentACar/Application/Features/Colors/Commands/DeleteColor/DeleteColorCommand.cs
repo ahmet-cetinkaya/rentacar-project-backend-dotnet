@@ -9,12 +9,12 @@ public class DeleteColorCommand : IRequest
 {
     public int Id { get; set; }
 
-    public class DeleteColorResponseHandler : IRequestHandler<DeleteColorCommand>
+    public class DeleteColorCommandHandler : IRequestHandler<DeleteColorCommand>
     {
         private readonly IColorRepository _colorRepository;
         private readonly IMapper _mapper;
 
-        public DeleteColorResponseHandler(IColorRepository colorRepository, IMapper mapper)
+        public DeleteColorCommandHandler(IColorRepository colorRepository, IMapper mapper)
         {
             _colorRepository = colorRepository;
             _mapper = mapper;

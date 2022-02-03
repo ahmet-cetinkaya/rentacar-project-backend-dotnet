@@ -10,12 +10,12 @@ public class UpdateTransmissionCommand : IRequest
     public int Id { get; set; }
     public string Name { get; set; }
 
-    public class UpdateTransmissionResponseHandler : IRequestHandler<UpdateTransmissionCommand>
+    public class UpdateTransmissionCommandHandler : IRequestHandler<UpdateTransmissionCommand>
     {
         private ITransmissionRepository _transmissionRepository { get; }
         private IMapper _mapper { get; }
 
-        public UpdateTransmissionResponseHandler(ITransmissionRepository transmissionRepository, IMapper mapper)
+        public UpdateTransmissionCommandHandler(ITransmissionRepository transmissionRepository, IMapper mapper)
         {
             _transmissionRepository = transmissionRepository;
             _mapper = mapper;

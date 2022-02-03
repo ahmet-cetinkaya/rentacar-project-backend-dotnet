@@ -15,12 +15,12 @@ public class UpdateCarCommand : IRequest
     public short ModelYear { get; set; }
     public string Plate { get; set; }
 
-    public class UpdateCarResponseHandler : IRequestHandler<UpdateCarCommand>
+    public class UpdateCarCommandHandler : IRequestHandler<UpdateCarCommand>
     {
         private ICarRepository _carRepository { get; }
         private IMapper _mapper { get; }
 
-        public UpdateCarResponseHandler(ICarRepository carRepository, IMapper mapper)
+        public UpdateCarCommandHandler(ICarRepository carRepository, IMapper mapper)
         {
             _carRepository = carRepository;
             _mapper = mapper;

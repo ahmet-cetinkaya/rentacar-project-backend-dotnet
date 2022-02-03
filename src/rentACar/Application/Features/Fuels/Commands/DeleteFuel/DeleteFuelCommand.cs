@@ -9,12 +9,12 @@ public class DeleteFuelCommand : IRequest
 {
     public int Id { get; set; }
 
-    public class DeleteFuelResponseHandler : IRequestHandler<DeleteFuelCommand>
+    public class DeleteFuelCommandHandler : IRequestHandler<DeleteFuelCommand>
     {
         private readonly IFuelRepository _fuelRepository;
         private readonly IMapper _mapper;
 
-        public DeleteFuelResponseHandler(IFuelRepository fuelRepository, IMapper mapper)
+        public DeleteFuelCommandHandler(IFuelRepository fuelRepository, IMapper mapper)
         {
             _fuelRepository = fuelRepository;
             _mapper = mapper;

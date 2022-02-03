@@ -10,12 +10,12 @@ public class UpdateFuelCommand : IRequest
     public int Id { get; set; }
     public string Name { get; set; }
 
-    public class UpdateFuelResponseHandler : IRequestHandler<UpdateFuelCommand>
+    public class UpdateFuelCommandHandler : IRequestHandler<UpdateFuelCommand>
     {
         private IFuelRepository _fuelRepository { get; }
         private IMapper _mapper { get; }
 
-        public UpdateFuelResponseHandler(IFuelRepository fuelRepository, IMapper mapper)
+        public UpdateFuelCommandHandler(IFuelRepository fuelRepository, IMapper mapper)
         {
             _fuelRepository = fuelRepository;
             _mapper = mapper;

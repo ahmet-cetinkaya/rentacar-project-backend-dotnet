@@ -10,14 +10,14 @@ public class CreateColorCommand : IRequest<Color>
 {
     public string Name { get; set; }
 
-    public class CreateColorResponseHandler : IRequestHandler<CreateColorCommand, Color>
+    public class CreateColorCommandHandler : IRequestHandler<CreateColorCommand, Color>
     {
         private readonly IColorRepository _colorRepository;
         private readonly IMapper _mapper;
         private readonly ColorBusinessRules _colorBusinessRules;
 
-        public CreateColorResponseHandler(IColorRepository colorRepository, IMapper mapper,
-                                          ColorBusinessRules colorBusinessRules)
+        public CreateColorCommandHandler(IColorRepository colorRepository, IMapper mapper,
+                                         ColorBusinessRules colorBusinessRules)
         {
             _colorRepository = colorRepository;
             _mapper = mapper;

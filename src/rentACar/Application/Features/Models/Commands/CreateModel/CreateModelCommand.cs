@@ -15,14 +15,14 @@ public class CreateModelCommand : IRequest<Model>
     public int FuelId { get; set; }
     public string ImageUrl { get; set; }
 
-    public class CreateModelResponseHandler : IRequestHandler<CreateModelCommand, Model>
+    public class CreateModelCommandHandler : IRequestHandler<CreateModelCommand, Model>
     {
         private readonly IModelRepository _modelRepository;
         private readonly IMapper _mapper;
         private readonly ModelBusinessRules _modelBusinessRules;
 
-        public CreateModelResponseHandler(IModelRepository modelRepository, IMapper mapper,
-                                          ModelBusinessRules modelBusinessRules)
+        public CreateModelCommandHandler(IModelRepository modelRepository, IMapper mapper,
+                                         ModelBusinessRules modelBusinessRules)
         {
             _modelRepository = modelRepository;
             _mapper = mapper;

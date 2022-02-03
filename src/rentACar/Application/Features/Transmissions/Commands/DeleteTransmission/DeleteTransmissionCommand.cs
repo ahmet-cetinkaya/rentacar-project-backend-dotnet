@@ -9,12 +9,12 @@ public class DeleteTransmissionCommand : IRequest
 {
     public int Id { get; set; }
 
-    public class DeleteTransmissionResponseHandler : IRequestHandler<DeleteTransmissionCommand>
+    public class DeleteTransmissionCommandHandler : IRequestHandler<DeleteTransmissionCommand>
     {
         private readonly ITransmissionRepository _transmissionRepository;
         private readonly IMapper _mapper;
 
-        public DeleteTransmissionResponseHandler(ITransmissionRepository transmissionRepository, IMapper mapper)
+        public DeleteTransmissionCommandHandler(ITransmissionRepository transmissionRepository, IMapper mapper)
         {
             _transmissionRepository = transmissionRepository;
             _mapper = mapper;

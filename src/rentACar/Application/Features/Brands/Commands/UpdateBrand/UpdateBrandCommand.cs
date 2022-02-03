@@ -10,12 +10,12 @@ public class UpdateBrandCommand : IRequest
     public int Id { get; set; }
     public string Name { get; set; }
 
-    public class UpdateBrandResponseHandler : IRequestHandler<UpdateBrandCommand>
+    public class UpdateBrandCommandHandler : IRequestHandler<UpdateBrandCommand>
     {
         private IBrandRepository _brandRepository { get; }
         private IMapper _mapper { get; }
 
-        public UpdateBrandResponseHandler(IBrandRepository brandRepository, IMapper mapper)
+        public UpdateBrandCommandHandler(IBrandRepository brandRepository, IMapper mapper)
         {
             _brandRepository = brandRepository;
             _mapper = mapper;

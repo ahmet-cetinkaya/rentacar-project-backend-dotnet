@@ -10,12 +10,12 @@ public class UpdateColorCommand : IRequest
     public int Id { get; set; }
     public string Name { get; set; }
 
-    public class UpdateColorResponseHandler : IRequestHandler<UpdateColorCommand>
+    public class UpdateColorCommandHandler : IRequestHandler<UpdateColorCommand>
     {
         private IColorRepository _colorRepository { get; }
         private IMapper _mapper { get; }
 
-        public UpdateColorResponseHandler(IColorRepository colorRepository, IMapper mapper)
+        public UpdateColorCommandHandler(IColorRepository colorRepository, IMapper mapper)
         {
             _colorRepository = colorRepository;
             _mapper = mapper;
