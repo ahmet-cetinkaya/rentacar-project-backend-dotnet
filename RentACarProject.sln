@@ -23,7 +23,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.Persistence", "src\cor
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.CrossCuttingConcerns", "src\corePackages\Core.CrossCuttingConcers\Core.CrossCuttingConcerns.csproj", "{58361D6C-B594-42B2-9BDA-92C1B5812A50}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Application", "src\corePackages\Core.Application\Core.Application.csproj", "{0B8A1EBC-8A90-4324-A9C6-E98D1E2D0293}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.Application", "src\corePackages\Core.Application\Core.Application.csproj", "{0B8A1EBC-8A90-4324-A9C6-E98D1E2D0293}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Mailing", "src\corePackages\Core.Mailing\Core.Mailing.csproj", "{3E439D5D-35A3-4A08-9985-EC0F1EC9C650}"
 EndProject
@@ -61,6 +61,10 @@ Global
 		{0B8A1EBC-8A90-4324-A9C6-E98D1E2D0293}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0B8A1EBC-8A90-4324-A9C6-E98D1E2D0293}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0B8A1EBC-8A90-4324-A9C6-E98D1E2D0293}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E439D5D-35A3-4A08-9985-EC0F1EC9C650}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E439D5D-35A3-4A08-9985-EC0F1EC9C650}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E439D5D-35A3-4A08-9985-EC0F1EC9C650}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E439D5D-35A3-4A08-9985-EC0F1EC9C650}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -75,6 +79,7 @@ Global
 		{430101C0-BAE0-41E7-801E-0BC492073E28} = {403A7B6A-EDB3-4B56-8DF2-A92A3247C721}
 		{58361D6C-B594-42B2-9BDA-92C1B5812A50} = {403A7B6A-EDB3-4B56-8DF2-A92A3247C721}
 		{0B8A1EBC-8A90-4324-A9C6-E98D1E2D0293} = {403A7B6A-EDB3-4B56-8DF2-A92A3247C721}
+		{3E439D5D-35A3-4A08-9985-EC0F1EC9C650} = {403A7B6A-EDB3-4B56-8DF2-A92A3247C721}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9208CFCE-156A-49CD-9E43-32CE67AAB957}
