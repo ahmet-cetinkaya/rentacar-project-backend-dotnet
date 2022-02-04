@@ -5,11 +5,11 @@ using MediatR;
 
 namespace Application.Features.Cars.Commands.DeleteCar;
 
-public class DeleteCarCommand : IRequest
+public class DeleteCarCommand : IRequest<Car>
 {
     public int Id { get; set; }
 
-    public class DeleteCarCommandHandler : IRequestHandler<DeleteCarCommand>
+    public class DeleteCarCommandHandler : IRequestHandler<DeleteCarCommand, Car>
     {
         private readonly ICarRepository _carRepository;
         private readonly IMapper _mapper;
@@ -20,11 +20,11 @@ public class DeleteCarCommand : IRequest
             _mapper = mapper;
         }
 
-        public async Task<Unit> Handle(DeleteCarCommand request, CancellationToken cancellationToken)
+        public async Task<Car> Handle(DeleteCarCommand request, CancellationToken cancellationToken)
         {
             Car mappedCar = _mapper.Map<Car>(request);
-            await _carRepository.DeleteAsync(mappedCar);
-            return Unit.Value;
+            Car car = await _carRepository.DeleteAsync(mappedCar);
+            return car;
         }
     }
 }

@@ -5,12 +5,12 @@ using MediatR;
 
 namespace Application.Features.Brands.Commands.UpdateBrand;
 
-public class UpdateBrandCommand : IRequest
+public class UpdateBrandCommand : IRequest<Brand>
 {
     public int Id { get; set; }
     public string Name { get; set; }
 
-    public class UpdateBrandCommandHandler : IRequestHandler<UpdateBrandCommand>
+    public class UpdateBrandCommandHandler : IRequestHandler<UpdateBrandCommand, Brand>
     {
         private IBrandRepository _brandRepository { get; }
         private IMapper _mapper { get; }
@@ -21,11 +21,11 @@ public class UpdateBrandCommand : IRequest
             _mapper = mapper;
         }
 
-        public async Task<Unit> Handle(UpdateBrandCommand request, CancellationToken cancellationToken)
+        public async Task<Brand> Handle(UpdateBrandCommand request, CancellationToken cancellationToken)
         {
-            Brand brand = _mapper.Map<Brand>(request);
-            await _brandRepository.UpdateAsync(brand);
-            return Unit.Value; //todo: is correct?
+            Brand mappedBrand = _mapper.Map<Brand>(request);
+            Brand updatedBrand = await _brandRepository.UpdateAsync(mappedBrand);
+            return updatedBrand;
         }
     }
 }

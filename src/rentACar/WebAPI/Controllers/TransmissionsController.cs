@@ -39,14 +39,14 @@ public class TransmissionsController : BaseController
     [HttpPut]
     public async Task<IActionResult> Update([FromBody] UpdateTransmissionCommand updateTransmissionCommand)
     {
-        await Mediator.Send(updateTransmissionCommand);
-        return Ok();
+        Transmission result = await Mediator.Send(updateTransmissionCommand);
+        return Ok(result);
     }
 
     [HttpDelete]
     public async Task<IActionResult> Delete([FromBody] DeleteTransmissionCommand deleteTransmissionCommand)
     {
-        await Mediator.Send(deleteTransmissionCommand);
-        return Ok();
+        Transmission result = await Mediator.Send(deleteTransmissionCommand);
+        return Ok(result);
     }
 }

@@ -5,12 +5,12 @@ using MediatR;
 
 namespace Application.Features.Colors.Commands.UpdateColor;
 
-public class UpdateColorCommand : IRequest
+public class UpdateColorCommand : IRequest<Color>
 {
     public int Id { get; set; }
     public string Name { get; set; }
 
-    public class UpdateColorCommandHandler : IRequestHandler<UpdateColorCommand>
+    public class UpdateColorCommandHandler : IRequestHandler<UpdateColorCommand, Color>
     {
         private IColorRepository _colorRepository { get; }
         private IMapper _mapper { get; }
@@ -21,11 +21,11 @@ public class UpdateColorCommand : IRequest
             _mapper = mapper;
         }
 
-        public async Task<Unit> Handle(UpdateColorCommand request, CancellationToken cancellationToken)
+        public async Task<Color> Handle(UpdateColorCommand request, CancellationToken cancellationToken)
         {
-            Color color = _mapper.Map<Color>(request);
-            await _colorRepository.UpdateAsync(color);
-            return Unit.Value;
+            Color mappedColor = _mapper.Map<Color>(request);
+            Color color = await _colorRepository.UpdateAsync(mappedColor);
+            return color;
         }
     }
 }

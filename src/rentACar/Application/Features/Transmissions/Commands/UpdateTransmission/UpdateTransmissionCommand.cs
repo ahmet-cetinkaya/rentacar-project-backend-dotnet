@@ -5,12 +5,12 @@ using MediatR;
 
 namespace Application.Features.Transmissions.Commands.UpdateTransmission;
 
-public class UpdateTransmissionCommand : IRequest
+public class UpdateTransmissionCommand : IRequest<Transmission>
 {
     public int Id { get; set; }
     public string Name { get; set; }
 
-    public class UpdateTransmissionCommandHandler : IRequestHandler<UpdateTransmissionCommand>
+    public class UpdateTransmissionCommandHandler : IRequestHandler<UpdateTransmissionCommand, Transmission>
     {
         private ITransmissionRepository _transmissionRepository { get; }
         private IMapper _mapper { get; }
@@ -21,11 +21,11 @@ public class UpdateTransmissionCommand : IRequest
             _mapper = mapper;
         }
 
-        public async Task<Unit> Handle(UpdateTransmissionCommand request, CancellationToken cancellationToken)
+        public async Task<Transmission> Handle(UpdateTransmissionCommand request, CancellationToken cancellationToken)
         {
-            Transmission transmission = _mapper.Map<Transmission>(request);
-            await _transmissionRepository.UpdateAsync(transmission);
-            return Unit.Value;
+            Transmission mappedTransmission = _mapper.Map<Transmission>(request);
+            Transmission transmission = await _transmissionRepository.UpdateAsync(mappedTransmission);
+            return transmission;
         }
     }
 }

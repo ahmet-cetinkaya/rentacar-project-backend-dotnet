@@ -5,11 +5,11 @@ using MediatR;
 
 namespace Application.Features.Colors.Commands.DeleteColor;
 
-public class DeleteColorCommand : IRequest
+public class DeleteColorCommand : IRequest<Color>
 {
     public int Id { get; set; }
 
-    public class DeleteColorCommandHandler : IRequestHandler<DeleteColorCommand>
+    public class DeleteColorCommandHandler : IRequestHandler<DeleteColorCommand, Color>
     {
         private readonly IColorRepository _colorRepository;
         private readonly IMapper _mapper;
@@ -20,11 +20,11 @@ public class DeleteColorCommand : IRequest
             _mapper = mapper;
         }
 
-        public async Task<Unit> Handle(DeleteColorCommand request, CancellationToken cancellationToken)
+        public async Task<Color> Handle(DeleteColorCommand request, CancellationToken cancellationToken)
         {
             Color mappedColor = _mapper.Map<Color>(request);
-            await _colorRepository.DeleteAsync(mappedColor);
-            return Unit.Value;
+            Color color = await _colorRepository.DeleteAsync(mappedColor);
+            return color;
         }
     }
 }

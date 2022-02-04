@@ -1,5 +1,6 @@
 ﻿using Application.Features.Cars.Commands.CreateCar;
 using Application.Features.Cars.Commands.DeleteCar;
+using Application.Features.Cars.Commands.DeliverRentalCar;
 using Application.Features.Cars.Commands.MaintainCar;
 using Application.Features.Cars.Commands.UpdateCar;
 using Application.Features.Cars.Models;
@@ -40,11 +41,11 @@ public class CarsController : BaseController
     [HttpPut]
     public async Task<IActionResult> Update([FromBody] UpdateCarCommand updateCarCommand)
     {
-        await Mediator.Send(updateCarCommand);
-        return Ok();
+        Car result = await Mediator.Send(updateCarCommand);
+        return Ok(result);
     }
 
-    [HttpPut("maintain")]
+    [HttpPut("Maintain")]
     public async Task<IActionResult> MaintainCar([FromBody] MaintainCarCommand maintainCarCommand)
     {
         Car result = await Mediator.Send(maintainCarCommand);
@@ -54,7 +55,7 @@ public class CarsController : BaseController
     [HttpDelete]
     public async Task<IActionResult> Delete([FromBody] DeleteCarCommand deleteCarCommand)
     {
-        await Mediator.Send(deleteCarCommand);
-        return Ok();
+        Car result = await Mediator.Send(deleteCarCommand);
+        return Ok(result);
     }
 }

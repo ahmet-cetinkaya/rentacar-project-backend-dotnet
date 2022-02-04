@@ -5,11 +5,11 @@ using MediatR;
 
 namespace Application.Features.Brands.Commands.DeleteBrand;
 
-public class DeleteBrandCommand : IRequest
+public class DeleteBrandCommand : IRequest<Brand>
 {
     public int Id { get; set; }
 
-    public class DeleteBrandCommandHandler : IRequestHandler<DeleteBrandCommand>
+    public class DeleteBrandCommandHandler : IRequestHandler<DeleteBrandCommand, Brand>
     {
         private readonly IBrandRepository _brandRepository;
         private readonly IMapper _mapper;
@@ -20,11 +20,11 @@ public class DeleteBrandCommand : IRequest
             _mapper = mapper;
         }
 
-        public async Task<Unit> Handle(DeleteBrandCommand request, CancellationToken cancellationToken)
+        public async Task<Brand> Handle(DeleteBrandCommand request, CancellationToken cancellationToken)
         {
             Brand mappedBrand = _mapper.Map<Brand>(request);
-            await _brandRepository.DeleteAsync(mappedBrand);
-            return Unit.Value;
+            Brand deletedBrand = await _brandRepository.DeleteAsync(mappedBrand);
+            return deletedBrand;
         }
     }
 }

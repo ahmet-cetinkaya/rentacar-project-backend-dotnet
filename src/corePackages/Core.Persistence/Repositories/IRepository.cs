@@ -1,6 +1,6 @@
-﻿using Core.Persistence.Paging;
+﻿using System.Linq.Expressions;
+using Core.Persistence.Paging;
 using Microsoft.EntityFrameworkCore.Query;
-using System.Linq.Expressions;
 
 namespace Core.Persistence.Repositories;
 
@@ -17,6 +17,6 @@ public interface IRepository<T> where T : Entity
 
     IQueryable<T> Query();
     T Add(T entity);
-    void Update(T entity);
-    void Delete(T entity);
+    T Update(T entity);
+    T Delete(T entity);
 }

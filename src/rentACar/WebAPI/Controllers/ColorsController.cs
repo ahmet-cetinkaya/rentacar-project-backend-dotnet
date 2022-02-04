@@ -39,14 +39,14 @@ public class ColorsController : BaseController
     [HttpPut]
     public async Task<IActionResult> Update([FromBody] UpdateColorCommand updateColorCommand)
     {
-        await Mediator.Send(updateColorCommand);
-        return Ok();
+        Color result = await Mediator.Send(updateColorCommand);
+        return Ok(result);
     }
 
     [HttpDelete]
     public async Task<IActionResult> Delete([FromBody] DeleteColorCommand deleteColorCommand)
     {
-        await Mediator.Send(deleteColorCommand);
-        return Ok();
+        Color result = await Mediator.Send(deleteColorCommand);
+        return Ok(result);
     }
 }

@@ -6,7 +6,7 @@ using MediatR;
 
 namespace Application.Features.Cars.Commands.UpdateCar;
 
-public class UpdateCarCommand : IRequest
+public class UpdateCarCommand : IRequest<Car>
 {
     public int Id { get; set; }
     public int ColorId { get; set; }
@@ -15,7 +15,7 @@ public class UpdateCarCommand : IRequest
     public short ModelYear { get; set; }
     public string Plate { get; set; }
 
-    public class UpdateCarCommandHandler : IRequestHandler<UpdateCarCommand>
+    public class UpdateCarCommandHandler : IRequestHandler<UpdateCarCommand, Car>
     {
         private ICarRepository _carRepository { get; }
         private IMapper _mapper { get; }
@@ -26,11 +26,11 @@ public class UpdateCarCommand : IRequest
             _mapper = mapper;
         }
 
-        public async Task<Unit> Handle(UpdateCarCommand request, CancellationToken cancellationToken)
+        public async Task<Car> Handle(UpdateCarCommand request, CancellationToken cancellationToken)
         {
-            Car car = _mapper.Map<Car>(request);
-            await _carRepository.UpdateAsync(car);
-            return Unit.Value;
+            Car mappedCar = _mapper.Map<Car>(request);
+            Car car = await _carRepository.UpdateAsync(mappedCar);
+            return car;
         }
     }
 }

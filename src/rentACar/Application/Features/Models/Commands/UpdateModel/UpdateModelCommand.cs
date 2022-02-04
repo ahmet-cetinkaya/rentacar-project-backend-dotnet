@@ -5,7 +5,7 @@ using MediatR;
 
 namespace Application.Features.Models.Commands.UpdateModel;
 
-public class UpdateModelCommand : IRequest
+public class UpdateModelCommand : IRequest<Model>
 {
     public int Id { get; set; }
     public int BrandId { get; set; }
@@ -15,7 +15,7 @@ public class UpdateModelCommand : IRequest
     public decimal DailyPrice { get; set; }
     public string ImageUrl { get; set; }
 
-    public class UpdateModelCommandHandler : IRequestHandler<UpdateModelCommand>
+    public class UpdateModelCommandHandler : IRequestHandler<UpdateModelCommand, Model>
     {
         private IModelRepository _modelRepository { get; }
         private IMapper _mapper { get; }
@@ -26,11 +26,11 @@ public class UpdateModelCommand : IRequest
             _mapper = mapper;
         }
 
-        public async Task<Unit> Handle(UpdateModelCommand request, CancellationToken cancellationToken)
+        public async Task<Model> Handle(UpdateModelCommand request, CancellationToken cancellationToken)
         {
-            Model model = _mapper.Map<Model>(request);
-            await _modelRepository.UpdateAsync(model);
-            return Unit.Value;
+            Model mappedModel = _mapper.Map<Model>(request);
+            Model model = await _modelRepository.UpdateAsync(mappedModel);
+            return model;
         }
     }
 }

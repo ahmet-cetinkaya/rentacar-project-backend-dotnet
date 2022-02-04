@@ -39,14 +39,14 @@ public class ModelsController : BaseController
     [HttpPut]
     public async Task<IActionResult> Update([FromBody] UpdateModelCommand updateModelCommand)
     {
-        await Mediator.Send(updateModelCommand);
-        return Ok();
+        Model result = await Mediator.Send(updateModelCommand);
+        return Ok(result);
     }
 
     [HttpDelete]
     public async Task<IActionResult> Delete([FromBody] DeleteModelCommand deleteModelCommand)
     {
-        await Mediator.Send(deleteModelCommand);
-        return Ok();
+        Model result = await Mediator.Send(deleteModelCommand);
+        return Ok(result);
     }
 }

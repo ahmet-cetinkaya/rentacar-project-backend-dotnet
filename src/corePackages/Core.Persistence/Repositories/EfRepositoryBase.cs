@@ -50,16 +50,18 @@ public class EfRepositoryBase<TEntity, TContext> : IAsyncRepository<TEntity>, IR
         return entity;
     }
 
-    public async Task UpdateAsync(TEntity entity)
+    public async Task<TEntity> UpdateAsync(TEntity entity)
     {
         Context.Entry(entity).State = EntityState.Modified;
         await Context.SaveChangesAsync();
+        return entity;
     }
 
-    public async Task DeleteAsync(TEntity entity)
+    public async Task<TEntity> DeleteAsync(TEntity entity)
     {
         Context.Entry(entity).State = EntityState.Deleted;
         await Context.SaveChangesAsync();
+        return entity;
     }
 
     public TEntity Get(Expression<Func<TEntity, bool>> predicate)
@@ -89,15 +91,17 @@ public class EfRepositoryBase<TEntity, TContext> : IAsyncRepository<TEntity>, IR
         return entity;
     }
 
-    public void Update(TEntity entity)
+    public TEntity Update(TEntity entity)
     {
         Context.Entry(entity).State = EntityState.Modified;
         Context.SaveChanges();
+        return entity;
     }
 
-    public void Delete(TEntity entity)
+    public TEntity Delete(TEntity entity)
     {
         Context.Entry(entity).State = EntityState.Deleted;
         Context.SaveChanges();
+        return entity;
     }
 }

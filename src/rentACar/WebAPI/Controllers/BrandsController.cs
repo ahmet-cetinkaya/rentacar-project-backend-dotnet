@@ -39,14 +39,14 @@ public class BrandsController : BaseController
     [HttpPut]
     public async Task<IActionResult> Update([FromBody] UpdateBrandCommand updateBrandCommand)
     {
-        await Mediator.Send(updateBrandCommand);
-        return Ok();
+        Brand result = await Mediator.Send(updateBrandCommand);
+        return Ok(result);
     }
 
     [HttpDelete]
     public async Task<IActionResult> Delete([FromBody] DeleteBrandCommand deleteBrandCommand)
     {
-        await Mediator.Send(deleteBrandCommand);
-        return Ok();
+        Brand result = await Mediator.Send(deleteBrandCommand);
+        return Ok(result);
     }
 }

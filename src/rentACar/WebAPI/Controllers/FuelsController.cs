@@ -39,14 +39,14 @@ public class FuelsController : BaseController
     [HttpPut]
     public async Task<IActionResult> Update([FromBody] UpdateFuelCommand updateFuelCommand)
     {
-        await Mediator.Send(updateFuelCommand);
-        return Ok();
+        Fuel result = await Mediator.Send(updateFuelCommand);
+        return Ok(result);
     }
 
     [HttpDelete]
     public async Task<IActionResult> Delete([FromBody] DeleteFuelCommand deleteFuelCommand)
     {
-        await Mediator.Send(deleteFuelCommand);
-        return Ok();
+        Fuel result = await Mediator.Send(deleteFuelCommand);
+        return Ok(result);
     }
 }
