@@ -52,6 +52,13 @@ public class CarsController : BaseController
         return Ok(result);
     }
 
+    [HttpPut("DeliverRentalCar")]
+    public async Task<IActionResult> DeliverRentalCarCommand([FromBody] DeliverRentalCarCommand deliverRentalCarCommand)
+    {
+        Car result = await Mediator.Send(deliverRentalCarCommand);
+        return Ok(result);
+    }
+
     [HttpDelete]
     public async Task<IActionResult> Delete([FromBody] DeleteCarCommand deleteCarCommand)
     {
