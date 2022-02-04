@@ -6,6 +6,8 @@ using Application.Features.Fuels.Rules;
 using Application.Features.Models.Rules;
 using Application.Features.Rentals.Rules;
 using Application.Features.Transmissions.Rules;
+using Core.Application.Pipelines.Validation;
+using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -24,6 +26,10 @@ public static class ApplicationServiceRegistration
         services.AddScoped<ModelBusinessRules>();
         services.AddScoped<RentalBusinessRules>();
         services.AddScoped<TransmissionBusinessRules>();
+
+        services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestValidationBehavior<,>));
+
         return services;
     }
 }
