@@ -1,6 +1,7 @@
 ﻿using Application.Features.Rentals.Rules;
 using Application.Services.Repositories;
 using AutoMapper;
+using Core.Mailing;
 using Domain.Entities;
 using MediatR;
 
@@ -19,13 +20,15 @@ public class CreateRentalCommand : IRequest<Rental>
         private readonly IRentalRepository _rentalRepository;
         private readonly IMapper _mapper;
         private readonly RentalBusinessRules _rentalBusinessRules;
+        private readonly IMailService _mailService;
 
         public CreateRentalCommandHandler(IRentalRepository rentalRepository, IMapper mapper,
-                                          RentalBusinessRules rentalBusinessRules)
+                                          RentalBusinessRules rentalBusinessRules, IMailService mailService)
         {
             _rentalRepository = rentalRepository;
             _mapper = mapper;
             _rentalBusinessRules = rentalBusinessRules;
+            _mailService = mailService;
         }
 
         public async Task<Rental> Handle(CreateRentalCommand request, CancellationToken cancellationToken)
@@ -34,6 +37,15 @@ public class CreateRentalCommand : IRequest<Rental>
                                                                            request.RentEndDate);
             Rental mappedRental = _mapper.Map<Rental>(request);
             Rental createdRental = await _rentalRepository.AddAsync(mappedRental);
+
+            _mailService.SendMail(new Mail
+            {
+                Subject = "New Rental",
+                TextBody = "A rental has been created.",
+                ToEmail = "ahmetcetinkaya7@outlook.com",
+                ToFullName = "Ahmet Çetinkaya"
+            });
+
             return createdRental;
         }
     }
