@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Persistence.Contexts;
 
@@ -11,9 +12,10 @@ using Persistence.Contexts;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(BaseDbContext))]
-    partial class BaseDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220207072259_Customers")]
+    partial class Customers
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -168,8 +170,7 @@ namespace Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CustomerId")
-                        .IsUnique();
+                    b.HasIndex("CustomerId");
 
                     b.ToTable("CorporateCustomers", (string)null);
 
@@ -275,8 +276,7 @@ namespace Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CustomerId")
-                        .IsUnique();
+                    b.HasIndex("CustomerId");
 
                     b.ToTable("IndividualCustomers", (string)null);
 
@@ -372,9 +372,8 @@ namespace Persistence.Migrations
                         .HasColumnType("int")
                         .HasColumnName("CarId");
 
-                    b.Property<int>("CustomerId")
-                        .HasColumnType("int")
-                        .HasColumnName("CustomerId");
+                    b.Property<int?>("CustomerId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("RentEndDate")
                         .HasColumnType("datetime2")
@@ -401,15 +400,6 @@ namespace Persistence.Migrations
                         {
                             Id = 1,
                             CarId = 2,
-                            CustomerId = 1,
-                            RentEndDate = new DateTime(2022, 2, 9, 0, 0, 0, 0, DateTimeKind.Local),
-                            RentStartDate = new DateTime(2022, 2, 7, 0, 0, 0, 0, DateTimeKind.Local)
-                        },
-                        new
-                        {
-                            Id = 2,
-                            CarId = 1,
-                            CustomerId = 2,
                             RentEndDate = new DateTime(2022, 2, 9, 0, 0, 0, 0, DateTimeKind.Local),
                             RentStartDate = new DateTime(2022, 2, 7, 0, 0, 0, 0, DateTimeKind.Local)
                         });
@@ -468,8 +458,8 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Domain.Entities.CorporateCustomer", b =>
                 {
                     b.HasOne("Domain.Entities.Customer", "Customer")
-                        .WithOne("CorporateCustomer")
-                        .HasForeignKey("Domain.Entities.CorporateCustomer", "CustomerId")
+                        .WithMany()
+                        .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -479,8 +469,8 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Domain.Entities.IndividualCustomer", b =>
                 {
                     b.HasOne("Domain.Entities.Customer", "Customer")
-                        .WithOne("IndividualCustomer")
-                        .HasForeignKey("Domain.Entities.IndividualCustomer", "CustomerId")
+                        .WithMany()
+                        .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -522,15 +512,11 @@ namespace Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Domain.Entities.Customer", "Customer")
+                    b.HasOne("Domain.Entities.Customer", null)
                         .WithMany("Rentals")
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CustomerId");
 
                     b.Navigation("Car");
-
-                    b.Navigation("Customer");
                 });
 
             modelBuilder.Entity("Domain.Entities.Brand", b =>
@@ -545,12 +531,6 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Entities.Customer", b =>
                 {
-                    b.Navigation("CorporateCustomer")
-                        .IsRequired();
-
-                    b.Navigation("IndividualCustomer")
-                        .IsRequired();
-
                     b.Navigation("Rentals");
                 });
 
