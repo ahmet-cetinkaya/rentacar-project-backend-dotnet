@@ -7,6 +7,7 @@ public class Customer : Entity
     public string Email { get; set; }
 
     public virtual CorporateCustomer CorporateCustomer { get; set; }
+    public virtual FindeksCreditRate FindeksCreditRate { get; set; }
     public virtual IndividualCustomer IndividualCustomer { get; set; }
     public virtual ICollection<Rental> Rentals { get; set; }
 

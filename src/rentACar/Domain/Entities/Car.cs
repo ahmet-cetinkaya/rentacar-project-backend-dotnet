@@ -10,6 +10,7 @@ public class Car : Entity
     public CarState CarState { get; set; }
     public short ModelYear { get; set; }
     public string Plate { get; set; }
+    public short MinFindeksCreditRate { get; set; }
 
 
     public virtual Color Color { get; set; }
@@ -19,13 +20,14 @@ public class Car : Entity
     {
     }
 
-    public Car(int id, int colorId, int modelId, CarState carState, short modelYear, string plate) : this()
+    public Car(int id, int colorId, int modelId, CarState carState, short modelYear, string plate,
+               short minFindeksCreditRate) : base(id)
     {
-        Id = id;
         ColorId = colorId;
         ModelId = modelId;
         CarState = carState;
         ModelYear = modelYear;
         Plate = plate;
+        MinFindeksCreditRate = minFindeksCreditRate;
     }
 }
