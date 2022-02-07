@@ -10,7 +10,6 @@ namespace Application.Features.Rentals.Commands.CreateRental;
 public class CreateRentalCommand : IRequest<Rental>
 {
     public int CarId { get; set; }
-
     public int CustomerId { get; set; }
     public DateTime RentStartDate { get; set; }
     public DateTime RentEndDate { get; set; }
