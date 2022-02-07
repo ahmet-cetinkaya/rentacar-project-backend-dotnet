@@ -5,7 +5,7 @@ using Core.Mailing;
 using Domain.Entities;
 using MediatR;
 
-namespace Application.Features.Rentals.Commands.CreateRentalCommand;
+namespace Application.Features.Rentals.Commands.CreateRental;
 
 public class CreateRentalCommand : IRequest<Rental>
 {

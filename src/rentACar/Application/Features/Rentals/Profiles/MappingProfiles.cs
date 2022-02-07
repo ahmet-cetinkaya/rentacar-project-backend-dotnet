@@ -1,4 +1,4 @@
-﻿using Application.Features.Rentals.Commands.CreateRentalCommand;
+﻿using Application.Features.Rentals.Commands.CreateRental;
 using AutoMapper;
 using Domain.Entities;
 
