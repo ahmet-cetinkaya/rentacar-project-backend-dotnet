@@ -2,6 +2,7 @@
 using Application.Features.Brands.Rules;
 using Application.Features.Cars.Rules;
 using Application.Features.Colors.Rules;
+using Application.Features.CorporateCustomers.Rules;
 using Application.Features.Customers.Rules;
 using Application.Features.Fuels.Rules;
 using Application.Features.IndividualCustomers.Rules;
@@ -24,6 +25,7 @@ public static class ApplicationServiceRegistration
         services.AddScoped<BrandBusinessRules>();
         services.AddScoped<CarBusinessRules>();
         services.AddScoped<ColorBusinessRules>();
+        services.AddScoped<CorporateCustomerBusinessRules>();
         services.AddScoped<CustomerBusinessRules>();
         services.AddScoped<FuelBusinessRules>();
         services.AddScoped<IndividualCustomerBusinessRules>();
