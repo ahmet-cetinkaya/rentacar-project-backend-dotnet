@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Persistence.Contexts;
 
@@ -11,9 +12,10 @@ using Persistence.Contexts;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(BaseDbContext))]
-    partial class BaseDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220207113234_add-findeks")]
+    partial class addfindeks
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -70,9 +72,6 @@ namespace Persistence.Migrations
                         .HasColumnType("int")
                         .HasColumnName("ColorId");
 
-                    b.Property<short>("MinFindeksCreditRate")
-                        .HasColumnType("smallint");
-
                     b.Property<int>("ModelId")
                         .HasColumnType("int")
                         .HasColumnName("ModelId");
@@ -100,7 +99,6 @@ namespace Persistence.Migrations
                             Id = 1,
                             CarState = 1,
                             ColorId = 1,
-                            MinFindeksCreditRate = (short)500,
                             ModelId = 1,
                             ModelYear = (short)2018,
                             Plate = "07ABC07"
@@ -110,7 +108,6 @@ namespace Persistence.Migrations
                             Id = 2,
                             CarState = 2,
                             ColorId = 2,
-                            MinFindeksCreditRate = (short)1100,
                             ModelId = 2,
                             ModelYear = (short)2018,
                             Plate = "15ABC15"
@@ -254,7 +251,7 @@ namespace Persistence.Migrations
                         {
                             Id = 2,
                             CustomerId = 2,
-                            Score = (short)1900
+                            Score = (short)5000
                         });
                 });
 
