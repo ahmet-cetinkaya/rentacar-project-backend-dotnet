@@ -18,7 +18,10 @@ public static class PersistenceServiceRegistration
         services.AddScoped<IBrandRepository, BrandRepository>();
         services.AddScoped<ICarRepository, CarRepository>();
         services.AddScoped<IColorRepository, ColorRepository>();
+        services.AddScoped<ICorporateCustomerRepository, CorporateCustomerRepository>();
+        services.AddScoped<ICustomerRepository, CustomerRepository>();
         services.AddScoped<IFuelRepository, FuelRepository>();
+        services.AddScoped<IIndividualCustomerRepository, IndividualCustomerRepository>();
         services.AddScoped<IModelRepository, ModelRepository>();
         services.AddScoped<IRentalRepository, RentalRepository>();
         services.AddScoped<ITransmissionRepository, TransmissionRepository>();
