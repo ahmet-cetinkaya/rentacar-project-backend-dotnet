@@ -14,7 +14,6 @@ public class RentalBusinessRules
         _rentalRepository = rentalRepository;
     }
 
-    public async Task RentalCanNotBeCreateWhenCarIsRented(int carId, DateTime RentStartDate, DateTime RentEndDate)
     public async Task RentalIdShouldExistWhenSelected(int id)
     {
         Rental? result = await _rentalRepository.GetAsync(b => b.Id == id);
@@ -25,8 +24,6 @@ public class RentalBusinessRules
     {
         IPaginate<Rental> rentals = await _rentalRepository.GetListAsync(
                                         r => r.CarId == carId &&
-                                             r.RentEndDate >= RentStartDate &&
-                                             r.RentStartDate <= RentEndDate);
                                              r.RentEndDate >= rentStartDate &&
                                              r.RentStartDate <= rentEndDate);
         if (rentals.Items.Any()) throw new BusinessException("Rental can't be create when car is rented.");
@@ -41,5 +38,14 @@ public class RentalBusinessRules
                                              r.RentStartDate <= rentEndDate);
         if (rentals.Items.Any())
             throw new BusinessException("Rental can't be updated when there is another rented car for the date.");
+    }
+
+    public Task RentalCanNotBeCreatedWhenCustomerFindeksScoreLowerThanCarMinFindeksScore(
+        short customerFindeksCreditRate, short carMinFindeksCreditRate)
+    {
+        if (customerFindeksCreditRate < carMinFindeksCreditRate)
+            throw new BusinessException(
+                "Rental can not be created when customer findeks credit score lower than car min findeks score.");
+        return Task.CompletedTask;
     }
 }
