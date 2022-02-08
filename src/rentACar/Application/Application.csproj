@@ -32,6 +32,7 @@
     <Folder Include="Features\Fuels\Tests\" />
     <Folder Include="Features\Models\Tests\" />
     <Folder Include="Features\Rentals\Commands\DeleteRental\" />
+    <Folder Include="Features\Rentals\Commands\PickUpRental\" />
     <Folder Include="Features\Rentals\Tests\" />
     <Folder Include="Features\Transmissions\Tests\" />
   </ItemGroup>
