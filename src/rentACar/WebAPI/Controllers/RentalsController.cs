@@ -1,5 +1,6 @@
 ﻿using Application.Features.Rentals.Commands.CreateRental;
 using Application.Features.Rentals.Commands.DeleteRental;
+using Application.Features.Rentals.Commands.PickUpRental;
 using Application.Features.Rentals.Commands.UpdateRental;
 using Application.Features.Rentals.Models;
 using Application.Features.Rentals.Queries.GetByIdRental;
@@ -40,6 +41,13 @@ public class RentalsController : BaseController
     public async Task<IActionResult> Update([FromBody] UpdateRentalCommand updateRentalCommand)
     {
         Rental result = await Mediator.Send(updateRentalCommand);
+        return Ok(result);
+    }
+
+    [HttpPut("PickUp")]
+    public async Task<IActionResult> PickUp([FromBody] PickUpRentalCommand pickUpRentalCommand)
+    {
+        Rental result = await Mediator.Send(pickUpRentalCommand);
         return Ok(result);
     }
 
