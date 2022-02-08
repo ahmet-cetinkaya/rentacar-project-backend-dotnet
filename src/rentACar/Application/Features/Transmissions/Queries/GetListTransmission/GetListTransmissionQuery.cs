@@ -12,12 +12,12 @@ public class GetListTransmissionQuery : IRequest<TransmissionListModel>
 {
     public PageRequest PageRequest { get; set; }
 
-    public class GetListTransmissionResponseHandler : IRequestHandler<GetListTransmissionQuery, TransmissionListModel>
+    public class GetListTransmissionQueryHandler : IRequestHandler<GetListTransmissionQuery, TransmissionListModel>
     {
         private readonly ITransmissionRepository _transmissionRepository;
         private readonly IMapper _mapper;
 
-        public GetListTransmissionResponseHandler(ITransmissionRepository transmissionRepository, IMapper mapper)
+        public GetListTransmissionQueryHandler(ITransmissionRepository transmissionRepository, IMapper mapper)
         {
             _transmissionRepository = transmissionRepository;
             _mapper = mapper;

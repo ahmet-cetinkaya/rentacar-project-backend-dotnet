@@ -1,3 +1,4 @@
+using Application.Features.Invoices.Dtos;
 using Application.Features.Invoices.Rules;
 using Application.Services.Repositories;
 using AutoMapper;
@@ -6,7 +7,7 @@ using MediatR;
 
 namespace Application.Features.Invoices.Commands.UpdateInvoice;
 
-public class UpdateInvoiceCommand : IRequest<Invoice>
+public class UpdateInvoiceCommand : IRequest<UpdatedInvoiceDto>
 {
     public int Id { get; set; }
     public int CustomerId { get; set; }
@@ -17,7 +18,7 @@ public class UpdateInvoiceCommand : IRequest<Invoice>
     public short TotalRentalDate { get; set; }
     public decimal RentalPrice { get; set; }
 
-    public class UpdateInvoiceCommandHandler : IRequestHandler<UpdateInvoiceCommand, Invoice>
+    public class UpdateInvoiceCommandHandler : IRequestHandler<UpdateInvoiceCommand, UpdatedInvoiceDto>
     {
         private readonly IInvoiceRepository _invoiceRepository;
         private readonly IMapper _mapper;
@@ -31,11 +32,12 @@ public class UpdateInvoiceCommand : IRequest<Invoice>
             _invoiceBusinessRules = invoiceBusinessRules;
         }
 
-        public async Task<Invoice> Handle(UpdateInvoiceCommand request, CancellationToken cancellationToken)
+        public async Task<UpdatedInvoiceDto> Handle(UpdateInvoiceCommand request, CancellationToken cancellationToken)
         {
             Invoice mappedInvoice = _mapper.Map<Invoice>(request);
             Invoice updatedInvoice = await _invoiceRepository.UpdateAsync(mappedInvoice);
-            return updatedInvoice;
+            UpdatedInvoiceDto updatedInvoiceDto = _mapper.Map<UpdatedInvoiceDto>(updatedInvoice);
+            return updatedInvoiceDto;
         }
     }
 }

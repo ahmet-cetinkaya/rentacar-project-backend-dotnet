@@ -12,12 +12,12 @@ public class GetListColorQuery : IRequest<ColorListModel>
 {
     public PageRequest PageRequest { get; set; }
 
-    public class GetListColorResponseHandler : IRequestHandler<GetListColorQuery, ColorListModel>
+    public class GetListColorQueryHandler : IRequestHandler<GetListColorQuery, ColorListModel>
     {
         private readonly IColorRepository _colorRepository;
         private readonly IMapper _mapper;
 
-        public GetListColorResponseHandler(IColorRepository colorRepository, IMapper mapper)
+        public GetListColorQueryHandler(IColorRepository colorRepository, IMapper mapper)
         {
             _colorRepository = colorRepository;
             _mapper = mapper;

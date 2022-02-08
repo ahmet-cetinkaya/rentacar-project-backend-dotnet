@@ -1,3 +1,4 @@
+using Application.Features.Invoices.Dtos;
 using Application.Features.Invoices.Rules;
 using Application.Services.Repositories;
 using AutoMapper;
@@ -6,7 +7,7 @@ using MediatR;
 
 namespace Application.Features.Invoices.Commands.CreateInvoice;
 
-public class CreateInvoiceCommand : IRequest<Invoice>
+public class CreateInvoiceCommand : IRequest<CreatedInvoiceDto>
 {
     public int CustomerId { get; set; }
     public string No { get; set; }
@@ -16,7 +17,7 @@ public class CreateInvoiceCommand : IRequest<Invoice>
     public short TotalRentalDate { get; set; }
     public decimal RentalPrice { get; set; }
 
-    public class CreateInvoiceCommandHandler : IRequestHandler<CreateInvoiceCommand, Invoice>
+    public class CreateInvoiceCommandHandler : IRequestHandler<CreateInvoiceCommand, CreatedInvoiceDto>
     {
         private readonly IInvoiceRepository _invoiceRepository;
         private readonly IMapper _mapper;
@@ -30,11 +31,12 @@ public class CreateInvoiceCommand : IRequest<Invoice>
             _invoiceBusinessRules = invoiceBusinessRules;
         }
 
-        public async Task<Invoice> Handle(CreateInvoiceCommand request, CancellationToken cancellationToken)
+        public async Task<CreatedInvoiceDto> Handle(CreateInvoiceCommand request, CancellationToken cancellationToken)
         {
             Invoice mappedInvoice = _mapper.Map<Invoice>(request);
             Invoice createdInvoice = await _invoiceRepository.AddAsync(mappedInvoice);
-            return createdInvoice;
+            CreatedInvoiceDto createdInvoiceDto = _mapper.Map<CreatedInvoiceDto>(createdInvoice);
+            return createdInvoiceDto;
         }
     }
 }

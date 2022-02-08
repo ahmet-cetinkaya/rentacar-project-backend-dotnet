@@ -1,15 +1,16 @@
-﻿using Application.Services.Repositories;
+﻿using Application.Features.Colors.Dtos;
+using Application.Services.Repositories;
 using AutoMapper;
 using Domain.Entities;
 using MediatR;
 
 namespace Application.Features.Colors.Commands.DeleteColor;
 
-public class DeleteColorCommand : IRequest<Color>
+public class DeleteColorCommand : IRequest<DeletedColorDto>
 {
     public int Id { get; set; }
 
-    public class DeleteColorCommandHandler : IRequestHandler<DeleteColorCommand, Color>
+    public class DeleteColorCommandHandler : IRequestHandler<DeleteColorCommand, DeletedColorDto>
     {
         private readonly IColorRepository _colorRepository;
         private readonly IMapper _mapper;
@@ -20,11 +21,12 @@ public class DeleteColorCommand : IRequest<Color>
             _mapper = mapper;
         }
 
-        public async Task<Color> Handle(DeleteColorCommand request, CancellationToken cancellationToken)
+        public async Task<DeletedColorDto> Handle(DeleteColorCommand request, CancellationToken cancellationToken)
         {
             Color mappedColor = _mapper.Map<Color>(request);
-            Color color = await _colorRepository.DeleteAsync(mappedColor);
-            return color;
+            Color updatedColor = await _colorRepository.DeleteAsync(mappedColor);
+            DeletedColorDto deletedColorDto = _mapper.Map<DeletedColorDto>(updatedColor);
+            return deletedColorDto;
         }
     }
 }

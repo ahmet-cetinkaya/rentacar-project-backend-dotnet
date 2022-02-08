@@ -1,3 +1,4 @@
+using Application.Features.FindeksCreditRates.Dtos;
 using Application.Features.FindeksCreditRates.Rules;
 using Application.Services.Repositories;
 using AutoMapper;
@@ -6,12 +7,13 @@ using MediatR;
 
 namespace Application.Features.FindeksCreditRates.Commands.DeleteFindeksCreditRate;
 
-public class DeleteFindeksCreditRateCommand : IRequest<FindeksCreditRate>
+public class DeleteFindeksCreditRateCommand : IRequest<DeletedFindeksCreditRateDto>
 {
     public int Id { get; set; }
 
     public class
-        DeleteFindeksCreditRateCommandHandler : IRequestHandler<DeleteFindeksCreditRateCommand, FindeksCreditRate>
+        DeleteFindeksCreditRateCommandHandler : IRequestHandler<DeleteFindeksCreditRateCommand,
+            DeletedFindeksCreditRateDto>
     {
         private readonly IFindeksCreditRateRepository _findeksCreditRateRepository;
         private readonly IMapper _mapper;
@@ -26,15 +28,17 @@ public class DeleteFindeksCreditRateCommand : IRequest<FindeksCreditRate>
             _findeksCreditRateBusinessRules = findeksCreditRateBusinessRules;
         }
 
-        public async Task<FindeksCreditRate> Handle(DeleteFindeksCreditRateCommand request,
-                                                    CancellationToken cancellationToken)
+        public async Task<DeletedFindeksCreditRateDto> Handle(DeleteFindeksCreditRateCommand request,
+                                                              CancellationToken cancellationToken)
         {
             await _findeksCreditRateBusinessRules.FindeksCreditRateIdShouldExistWhenSelected(request.Id);
 
             FindeksCreditRate mappedFindeksCreditRate = _mapper.Map<FindeksCreditRate>(request);
             FindeksCreditRate deletedFindeksCreditRate =
                 await _findeksCreditRateRepository.DeleteAsync(mappedFindeksCreditRate);
-            return deletedFindeksCreditRate;
+            DeletedFindeksCreditRateDto deletedFindeksCreditRateDto =
+                _mapper.Map<DeletedFindeksCreditRateDto>(deletedFindeksCreditRate);
+            return deletedFindeksCreditRateDto;
         }
     }
 }

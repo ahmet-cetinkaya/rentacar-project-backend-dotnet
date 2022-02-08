@@ -12,12 +12,12 @@ public class GetListFuelQuery : IRequest<FuelListModel>
 {
     public PageRequest PageRequest { get; set; }
 
-    public class GetListFuelResponseHandler : IRequestHandler<GetListFuelQuery, FuelListModel>
+    public class GetListFuelQueryHandler : IRequestHandler<GetListFuelQuery, FuelListModel>
     {
         private readonly IFuelRepository _fuelRepository;
         private readonly IMapper _mapper;
 
-        public GetListFuelResponseHandler(IFuelRepository fuelRepository, IMapper mapper)
+        public GetListFuelQueryHandler(IFuelRepository fuelRepository, IMapper mapper)
         {
             _fuelRepository = fuelRepository;
             _mapper = mapper;

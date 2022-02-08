@@ -12,22 +12,28 @@ public class GetListCorporateCustomerQuery : IRequest<CorporateCustomerListModel
 {
     public PageRequest PageRequest { get; set; }
 
-    public class GetListCorporateCustomerResponseHandler : IRequestHandler<GetListCorporateCustomerQuery, CorporateCustomerListModel>
+    public class
+        GetListCorporateCustomerQueryHandler : IRequestHandler<GetListCorporateCustomerQuery,
+            CorporateCustomerListModel>
     {
         private readonly ICorporateCustomerRepository _corporateCustomerRepository;
         private readonly IMapper _mapper;
 
-        public GetListCorporateCustomerResponseHandler(ICorporateCustomerRepository corporateCustomerRepository, IMapper mapper)
+        public GetListCorporateCustomerQueryHandler(ICorporateCustomerRepository corporateCustomerRepository,
+                                                    IMapper mapper)
         {
             _corporateCustomerRepository = corporateCustomerRepository;
             _mapper = mapper;
         }
 
-        public async Task<CorporateCustomerListModel> Handle(GetListCorporateCustomerQuery request, CancellationToken cancellationToken)
+        public async Task<CorporateCustomerListModel> Handle(GetListCorporateCustomerQuery request,
+                                                             CancellationToken cancellationToken)
         {
-            IPaginate<CorporateCustomer> corporateCustomers = await _corporateCustomerRepository.GetListAsync(index: request.PageRequest.Page,
-                                                                          size: request.PageRequest.PageSize);
-            CorporateCustomerListModel mappedCorporateCustomerListModel = _mapper.Map<CorporateCustomerListModel>(corporateCustomers);
+            IPaginate<CorporateCustomer> corporateCustomers = await _corporateCustomerRepository.GetListAsync(
+                                                                  index: request.PageRequest.Page,
+                                                                  size: request.PageRequest.PageSize);
+            CorporateCustomerListModel mappedCorporateCustomerListModel =
+                _mapper.Map<CorporateCustomerListModel>(corporateCustomers);
             return mappedCorporateCustomerListModel;
         }
     }

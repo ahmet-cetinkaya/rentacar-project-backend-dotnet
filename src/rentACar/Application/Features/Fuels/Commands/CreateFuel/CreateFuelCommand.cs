@@ -1,4 +1,5 @@
-﻿using Application.Features.Fuels.Rules;
+﻿using Application.Features.Fuels.Dtos;
+using Application.Features.Fuels.Rules;
 using Application.Services.Repositories;
 using AutoMapper;
 using Domain.Entities;
@@ -6,11 +7,11 @@ using MediatR;
 
 namespace Application.Features.Fuels.Commands.CreateFuel;
 
-public class CreateFuelCommand : IRequest<Fuel>
+public class CreateFuelCommand : IRequest<CreatedFuelDto>
 {
     public string Name { get; set; }
 
-    public class CreateFuelCommandHandler : IRequestHandler<CreateFuelCommand, Fuel>
+    public class CreateFuelCommandHandler : IRequestHandler<CreateFuelCommand, CreatedFuelDto>
     {
         private readonly IFuelRepository _fuelRepository;
         private readonly IMapper _mapper;
@@ -24,13 +25,14 @@ public class CreateFuelCommand : IRequest<Fuel>
             _fuelBusinessRules = fuelBusinessRules;
         }
 
-        public async Task<Fuel> Handle(CreateFuelCommand request, CancellationToken cancellationToken)
+        public async Task<CreatedFuelDto> Handle(CreateFuelCommand request, CancellationToken cancellationToken)
         {
             await _fuelBusinessRules.FuelNameCanNotBeDuplicatedWhenInserted(request.Name);
 
             Fuel mappedFuel = _mapper.Map<Fuel>(request);
             Fuel createdFuel = await _fuelRepository.AddAsync(mappedFuel);
-            return createdFuel;
+            CreatedFuelDto createdFuelDto = _mapper.Map<CreatedFuelDto>(createdFuel);
+            return createdFuelDto;
         }
     }
 }

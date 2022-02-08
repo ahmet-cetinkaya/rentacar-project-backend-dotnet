@@ -1,31 +1,37 @@
-﻿using Application.Features.Fuels.Rules;
+﻿using Application.Features.Fuels.Dtos;
+using Application.Features.Fuels.Rules;
 using Application.Services.Repositories;
+using AutoMapper;
 using Domain.Entities;
 using MediatR;
 
 namespace Application.Features.Fuels.Queries.GetByIdFuel;
 
-public class GetByIdFuelQuery : IRequest<Fuel>
+public class GetByIdFuelQuery : IRequest<FuelDto>
 {
     public int Id { get; set; }
 
-    public class GetByIdFuelResponseHandler : IRequestHandler<GetByIdFuelQuery, Fuel>
+    public class GetByIdFuelQueryHandler : IRequestHandler<GetByIdFuelQuery, FuelDto>
     {
         private readonly IFuelRepository _fuelRepository;
+        private readonly IMapper _mapper;
         private readonly FuelBusinessRules _fuelBusinessRules;
 
-        public GetByIdFuelResponseHandler(IFuelRepository fuelRepository, FuelBusinessRules fuelBusinessRules)
+        public GetByIdFuelQueryHandler(IFuelRepository fuelRepository, FuelBusinessRules fuelBusinessRules,
+                                       IMapper mapper)
         {
             _fuelRepository = fuelRepository;
             _fuelBusinessRules = fuelBusinessRules;
+            _mapper = mapper;
         }
 
-        public async Task<Fuel> Handle(GetByIdFuelQuery request, CancellationToken cancellationToken)
+        public async Task<FuelDto> Handle(GetByIdFuelQuery request, CancellationToken cancellationToken)
         {
             await _fuelBusinessRules.FuelIdShouldExistWhenSelected(request.Id);
 
             Fuel? fuel = await _fuelRepository.GetAsync(f => f.Id == request.Id);
-            return fuel;
+            FuelDto fuelDto = _mapper.Map<FuelDto>(fuel);
+            return fuelDto;
         }
     }
 }

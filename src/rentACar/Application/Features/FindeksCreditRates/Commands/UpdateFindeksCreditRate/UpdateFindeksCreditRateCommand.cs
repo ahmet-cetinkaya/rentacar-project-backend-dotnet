@@ -1,3 +1,4 @@
+using Application.Features.FindeksCreditRates.Dtos;
 using Application.Features.FindeksCreditRates.Rules;
 using Application.Services.Repositories;
 using AutoMapper;
@@ -6,14 +7,15 @@ using MediatR;
 
 namespace Application.Features.FindeksCreditRates.Commands.UpdateFindeksCreditRate;
 
-public class UpdateFindeksCreditRateCommand : IRequest<FindeksCreditRate>
+public class UpdateFindeksCreditRateCommand : IRequest<UpdatedFindeksCreditRateDto>
 {
     public int Id { get; set; }
     public int CustomerId { get; set; }
     public short Score { get; set; }
 
     public class
-        UpdateFindeksCreditRateCommandHandler : IRequestHandler<UpdateFindeksCreditRateCommand, FindeksCreditRate>
+        UpdateFindeksCreditRateCommandHandler : IRequestHandler<UpdateFindeksCreditRateCommand,
+            UpdatedFindeksCreditRateDto>
     {
         private readonly IFindeksCreditRateRepository _findeksCreditRateRepository;
         private readonly IMapper _mapper;
@@ -28,13 +30,15 @@ public class UpdateFindeksCreditRateCommand : IRequest<FindeksCreditRate>
             _findeksCreditRateBusinessRules = findeksCreditRateBusinessRules;
         }
 
-        public async Task<FindeksCreditRate> Handle(UpdateFindeksCreditRateCommand request,
-                                                    CancellationToken cancellationToken)
+        public async Task<UpdatedFindeksCreditRateDto> Handle(UpdateFindeksCreditRateCommand request,
+                                                              CancellationToken cancellationToken)
         {
             FindeksCreditRate mappedFindeksCreditRate = _mapper.Map<FindeksCreditRate>(request);
             FindeksCreditRate updatedFindeksCreditRate =
                 await _findeksCreditRateRepository.UpdateAsync(mappedFindeksCreditRate);
-            return updatedFindeksCreditRate;
+            UpdatedFindeksCreditRateDto updatedFindeksCreditRateDto =
+                _mapper.Map<UpdatedFindeksCreditRateDto>(updatedFindeksCreditRate);
+            return updatedFindeksCreditRateDto;
         }
     }
 }

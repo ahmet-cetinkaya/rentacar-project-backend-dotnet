@@ -1,4 +1,5 @@
-﻿using Application.Features.Transmissions.Rules;
+﻿using Application.Features.Transmissions.Dtos;
+using Application.Features.Transmissions.Rules;
 using Application.Services.Repositories;
 using AutoMapper;
 using Domain.Entities;
@@ -6,11 +7,11 @@ using MediatR;
 
 namespace Application.Features.Transmissions.Commands.CreateTransmission;
 
-public class CreateTransmissionCommand : IRequest<Transmission>
+public class CreateTransmissionCommand : IRequest<CreatedTransmissionDto>
 {
     public string Name { get; set; }
 
-    public class CreateTransmissionCommandHandler : IRequestHandler<CreateTransmissionCommand, Transmission>
+    public class CreateTransmissionCommandHandler : IRequestHandler<CreateTransmissionCommand, CreatedTransmissionDto>
     {
         private readonly ITransmissionRepository _transmissionRepository;
         private readonly IMapper _mapper;
@@ -24,13 +25,15 @@ public class CreateTransmissionCommand : IRequest<Transmission>
             _transmissionBusinessRules = transmissionBusinessRules;
         }
 
-        public async Task<Transmission> Handle(CreateTransmissionCommand request, CancellationToken cancellationToken)
+        public async Task<CreatedTransmissionDto> Handle(CreateTransmissionCommand request,
+                                                         CancellationToken cancellationToken)
         {
             await _transmissionBusinessRules.TransmissionNameCanNotBeDuplicatedWhenInserted(request.Name);
 
             Transmission mappedTransmission = _mapper.Map<Transmission>(request);
             Transmission createdTransmission = await _transmissionRepository.AddAsync(mappedTransmission);
-            return createdTransmission;
+            CreatedTransmissionDto createdTransmissionDto = _mapper.Map<CreatedTransmissionDto>(createdTransmission);
+            return createdTransmissionDto;
         }
     }
 }

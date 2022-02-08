@@ -12,12 +12,12 @@ public class GetListBrandQuery : IRequest<BrandListModel>
 {
     public PageRequest PageRequest { get; set; }
 
-    public class GetListBrandResponseHandler : IRequestHandler<GetListBrandQuery, BrandListModel>
+    public class GetListBrandQueryHandler : IRequestHandler<GetListBrandQuery, BrandListModel>
     {
         private readonly IBrandRepository _brandRepository;
         private readonly IMapper _mapper;
 
-        public GetListBrandResponseHandler(IBrandRepository brandRepository, IMapper mapper)
+        public GetListBrandQueryHandler(IBrandRepository brandRepository, IMapper mapper)
         {
             _brandRepository = brandRepository;
             _mapper = mapper;

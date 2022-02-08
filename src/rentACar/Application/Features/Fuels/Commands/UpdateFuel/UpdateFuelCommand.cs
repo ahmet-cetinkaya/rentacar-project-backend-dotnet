@@ -1,16 +1,17 @@
-﻿using Application.Services.Repositories;
+﻿using Application.Features.Fuels.Dtos;
+using Application.Services.Repositories;
 using AutoMapper;
 using Domain.Entities;
 using MediatR;
 
 namespace Application.Features.Fuels.Commands.UpdateFuel;
 
-public class UpdateFuelCommand : IRequest<Fuel>
+public class UpdateFuelCommand : IRequest<UpdatedFuelDto>
 {
     public int Id { get; set; }
     public string Name { get; set; }
 
-    public class UpdateFuelCommandHandler : IRequestHandler<UpdateFuelCommand, Fuel>
+    public class UpdateFuelCommandHandler : IRequestHandler<UpdateFuelCommand, UpdatedFuelDto>
     {
         private IFuelRepository _fuelRepository { get; }
         private IMapper _mapper { get; }
@@ -21,11 +22,12 @@ public class UpdateFuelCommand : IRequest<Fuel>
             _mapper = mapper;
         }
 
-        public async Task<Fuel> Handle(UpdateFuelCommand request, CancellationToken cancellationToken)
+        public async Task<UpdatedFuelDto> Handle(UpdateFuelCommand request, CancellationToken cancellationToken)
         {
             Fuel mappedFuel = _mapper.Map<Fuel>(request);
-            Fuel fuel = await _fuelRepository.UpdateAsync(mappedFuel);
-            return fuel;
+            Fuel updatedFuel = await _fuelRepository.UpdateAsync(mappedFuel);
+            UpdatedFuelDto updatedFuelDto = _mapper.Map<UpdatedFuelDto>(updatedFuel);
+            return updatedFuelDto;
         }
     }
 }

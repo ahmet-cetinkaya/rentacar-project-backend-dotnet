@@ -1,15 +1,16 @@
-﻿using Application.Services.Repositories;
+﻿using Application.Features.Models.Dtos;
+using Application.Services.Repositories;
 using AutoMapper;
 using Domain.Entities;
 using MediatR;
 
 namespace Application.Features.Models.Commands.DeleteModel;
 
-public class DeleteModelCommand : IRequest<Model>
+public class DeleteModelCommand : IRequest<DeletedModelDto>
 {
     public int Id { get; set; }
 
-    public class DeleteModelCommandHandler : IRequestHandler<DeleteModelCommand, Model>
+    public class DeleteModelCommandHandler : IRequestHandler<DeleteModelCommand, DeletedModelDto>
     {
         private readonly IModelRepository _modelRepository;
         private readonly IMapper _mapper;
@@ -20,11 +21,12 @@ public class DeleteModelCommand : IRequest<Model>
             _mapper = mapper;
         }
 
-        public async Task<Model> Handle(DeleteModelCommand request, CancellationToken cancellationToken)
+        public async Task<DeletedModelDto> Handle(DeleteModelCommand request, CancellationToken cancellationToken)
         {
             Model mappedModel = _mapper.Map<Model>(request);
-            Model model = await _modelRepository.DeleteAsync(mappedModel);
-            return model;
+            Model deletedModel = await _modelRepository.DeleteAsync(mappedModel);
+            DeletedModelDto deletedModelDto = _mapper.Map<DeletedModelDto>(deletedModel);
+            return deletedModelDto;
         }
     }
 }

@@ -12,12 +12,12 @@ public class GetListCustomerQuery : IRequest<CustomerListModel>
 {
     public PageRequest PageRequest { get; set; }
 
-    public class GetListCustomerResponseHandler : IRequestHandler<GetListCustomerQuery, CustomerListModel>
+    public class GetListCustomerQueryHandler : IRequestHandler<GetListCustomerQuery, CustomerListModel>
     {
         private readonly ICustomerRepository _customerRepository;
         private readonly IMapper _mapper;
 
-        public GetListCustomerResponseHandler(ICustomerRepository customerRepository, IMapper mapper)
+        public GetListCustomerQueryHandler(ICustomerRepository customerRepository, IMapper mapper)
         {
             _customerRepository = customerRepository;
             _mapper = mapper;
@@ -26,7 +26,7 @@ public class GetListCustomerQuery : IRequest<CustomerListModel>
         public async Task<CustomerListModel> Handle(GetListCustomerQuery request, CancellationToken cancellationToken)
         {
             IPaginate<Customer> customers = await _customerRepository.GetListAsync(index: request.PageRequest.Page,
-                                                                          size: request.PageRequest.PageSize);
+                                                size: request.PageRequest.PageSize);
             CustomerListModel mappedCustomerListModel = _mapper.Map<CustomerListModel>(customers);
             return mappedCustomerListModel;
         }

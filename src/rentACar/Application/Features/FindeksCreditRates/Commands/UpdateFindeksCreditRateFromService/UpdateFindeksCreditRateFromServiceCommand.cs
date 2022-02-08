@@ -1,4 +1,5 @@
-﻿using Application.Services;
+﻿using Application.Features.FindeksCreditRates.Dtos;
+using Application.Services;
 using Application.Services.Repositories;
 using AutoMapper;
 using Domain.Entities;
@@ -6,14 +7,14 @@ using MediatR;
 
 namespace Application.Features.FindeksCreditRates.Commands.UpdateFindeksCreditRateFromService;
 
-public class UpdateFindeksCreditRateFromServiceCommand : IRequest<FindeksCreditRate>
+public class UpdateFindeksCreditRateFromServiceCommand : IRequest<UpdatedFindeksCreditRateDto>
 {
     public int Id { get; set; }
     public string IdentityNumber { get; set; }
 
     public class UpdateFindeksCreditRateFromServiceCommandHandler : IRequestHandler<
         UpdateFindeksCreditRateFromServiceCommand,
-        FindeksCreditRate>
+        UpdatedFindeksCreditRateDto>
     {
         private readonly IFindeksCreditRateRepository _findeksCreditRateRepository;
         private readonly IFindeksCreditRateService _findeksCreditRateService;
@@ -28,14 +29,16 @@ public class UpdateFindeksCreditRateFromServiceCommand : IRequest<FindeksCreditR
             _mapper = mapper;
         }
 
-        public async Task<FindeksCreditRate> Handle(UpdateFindeksCreditRateFromServiceCommand request,
-                                                    CancellationToken cancellationToken)
+        public async Task<UpdatedFindeksCreditRateDto> Handle(UpdateFindeksCreditRateFromServiceCommand request,
+                                                              CancellationToken cancellationToken)
         {
             FindeksCreditRate? findeksCreditRate = await _findeksCreditRateRepository.GetAsync(f => f.Id == request.Id);
             findeksCreditRate!.Score = _findeksCreditRateService.GetScore(request.IdentityNumber);
             FindeksCreditRate updatedFindeksCreditRate =
                 await _findeksCreditRateRepository.UpdateAsync(findeksCreditRate);
-            return updatedFindeksCreditRate;
+            UpdatedFindeksCreditRateDto updatedFindeksCreditRateDto =
+                _mapper.Map<UpdatedFindeksCreditRateDto>(updatedFindeksCreditRate);
+            return updatedFindeksCreditRateDto;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Application.Services.Repositories;
+﻿using Application.Features.Cars.Dtos;
+using Application.Services.Repositories;
 using AutoMapper;
 using Domain.Entities;
 using Domain.Enums;
@@ -6,7 +7,7 @@ using MediatR;
 
 namespace Application.Features.Cars.Commands.UpdateCar;
 
-public class UpdateCarCommand : IRequest<Car>
+public class UpdateCarCommand : IRequest<UpdatedCarDto>
 {
     public int Id { get; set; }
     public int ColorId { get; set; }
@@ -15,7 +16,7 @@ public class UpdateCarCommand : IRequest<Car>
     public short ModelYear { get; set; }
     public string Plate { get; set; }
 
-    public class UpdateCarCommandHandler : IRequestHandler<UpdateCarCommand, Car>
+    public class UpdateCarCommandHandler : IRequestHandler<UpdateCarCommand, UpdatedCarDto>
     {
         private ICarRepository _carRepository { get; }
         private IMapper _mapper { get; }
@@ -26,11 +27,12 @@ public class UpdateCarCommand : IRequest<Car>
             _mapper = mapper;
         }
 
-        public async Task<Car> Handle(UpdateCarCommand request, CancellationToken cancellationToken)
+        public async Task<UpdatedCarDto> Handle(UpdateCarCommand request, CancellationToken cancellationToken)
         {
             Car mappedCar = _mapper.Map<Car>(request);
-            Car car = await _carRepository.UpdateAsync(mappedCar);
-            return car;
+            Car updatedCar = await _carRepository.UpdateAsync(mappedCar);
+            UpdatedCarDto updatedCarDto = _mapper.Map<UpdatedCarDto>(updatedCar);
+            return updatedCarDto;
         }
     }
 }

@@ -1,11 +1,12 @@
-﻿using Application.Services.Repositories;
+﻿using Application.Features.Models.Dtos;
+using Application.Services.Repositories;
 using AutoMapper;
 using Domain.Entities;
 using MediatR;
 
 namespace Application.Features.Models.Commands.UpdateModel;
 
-public class UpdateModelCommand : IRequest<Model>
+public class UpdateModelCommand : IRequest<UpdatedModelDto>
 {
     public int Id { get; set; }
     public int BrandId { get; set; }
@@ -15,7 +16,7 @@ public class UpdateModelCommand : IRequest<Model>
     public decimal DailyPrice { get; set; }
     public string ImageUrl { get; set; }
 
-    public class UpdateModelCommandHandler : IRequestHandler<UpdateModelCommand, Model>
+    public class UpdateModelCommandHandler : IRequestHandler<UpdateModelCommand, UpdatedModelDto>
     {
         private IModelRepository _modelRepository { get; }
         private IMapper _mapper { get; }
@@ -26,11 +27,12 @@ public class UpdateModelCommand : IRequest<Model>
             _mapper = mapper;
         }
 
-        public async Task<Model> Handle(UpdateModelCommand request, CancellationToken cancellationToken)
+        public async Task<UpdatedModelDto> Handle(UpdateModelCommand request, CancellationToken cancellationToken)
         {
             Model mappedModel = _mapper.Map<Model>(request);
-            Model model = await _modelRepository.UpdateAsync(mappedModel);
-            return model;
+            Model updatedModel = await _modelRepository.UpdateAsync(mappedModel);
+            UpdatedModelDto updatedModelDto = _mapper.Map<UpdatedModelDto>(updatedModel);
+            return updatedModelDto;
         }
     }
 }

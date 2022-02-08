@@ -1,3 +1,4 @@
+using Application.Features.FindeksCreditRates.Dtos;
 using Application.Features.FindeksCreditRates.Rules;
 using Application.Services.Repositories;
 using AutoMapper;
@@ -6,13 +7,14 @@ using MediatR;
 
 namespace Application.Features.FindeksCreditRates.Commands.CreateFindeksCreditRate;
 
-public class CreateFindeksCreditRateCommand : IRequest<FindeksCreditRate>
+public class CreateFindeksCreditRateCommand : IRequest<CreatedFindeksCreditRateDto>
 {
     public int CustomerId { get; set; }
     public short Score { get; set; }
 
     public class
-        CreateFindeksCreditRateCommandHandler : IRequestHandler<CreateFindeksCreditRateCommand, FindeksCreditRate>
+        CreateFindeksCreditRateCommandHandler : IRequestHandler<CreateFindeksCreditRateCommand,
+            CreatedFindeksCreditRateDto>
     {
         private readonly IFindeksCreditRateRepository _findeksCreditRateRepository;
         private readonly IMapper _mapper;
@@ -27,13 +29,15 @@ public class CreateFindeksCreditRateCommand : IRequest<FindeksCreditRate>
             _findeksCreditRateBusinessRules = findeksCreditRateBusinessRules;
         }
 
-        public async Task<FindeksCreditRate> Handle(CreateFindeksCreditRateCommand request,
-                                                    CancellationToken cancellationToken)
+        public async Task<CreatedFindeksCreditRateDto> Handle(CreateFindeksCreditRateCommand request,
+                                                              CancellationToken cancellationToken)
         {
             FindeksCreditRate mappedFindeksCreditRate = _mapper.Map<FindeksCreditRate>(request);
             FindeksCreditRate createdFindeksCreditRate =
                 await _findeksCreditRateRepository.AddAsync(mappedFindeksCreditRate);
-            return createdFindeksCreditRate;
+            CreatedFindeksCreditRateDto createdFindeksCreditRateDto =
+                _mapper.Map<CreatedFindeksCreditRateDto>(createdFindeksCreditRate);
+            return createdFindeksCreditRateDto;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Application.Features.Rentals.Rules;
+﻿using Application.Features.Rentals.Dtos;
+using Application.Features.Rentals.Rules;
 using Application.Services.POSService;
 using Application.Services.Repositories;
 using AutoMapper;
@@ -8,7 +9,7 @@ using MediatR;
 
 namespace Application.Features.Rentals.Commands.CreateRental;
 
-public class CreateRentalCommand : IRequest<Rental>
+public class CreateRentalCommand : IRequest<CreatedRentalDto>
 {
     public int CarId { get; set; }
     public int CustomerId { get; set; }
@@ -16,7 +17,7 @@ public class CreateRentalCommand : IRequest<Rental>
     public DateTime RentEndDate { get; set; }
     public int RentEndRentalBranchId { get; set; }
 
-    public class CreateRentalCommandHandler : IRequestHandler<CreateRentalCommand, Rental>
+    public class CreateRentalCommandHandler : IRequestHandler<CreateRentalCommand, CreatedRentalDto>
     {
         private readonly IRentalRepository _rentalRepository;
         private readonly IFindeksCreditRateRepository _findeksCreditRateRepository;
@@ -46,7 +47,7 @@ public class CreateRentalCommand : IRequest<Rental>
             _invoiceRepository = invoiceRepository;
         }
 
-        public async Task<Rental> Handle(CreateRentalCommand request, CancellationToken cancellationToken)
+        public async Task<CreatedRentalDto> Handle(CreateRentalCommand request, CancellationToken cancellationToken)
         {
             await _rentalBusinessRules.RentalCanNotBeCreateWhenCarIsRented(request.CarId, request.RentStartDate,
                                                                            request.RentEndDate);
@@ -62,8 +63,9 @@ public class CreateRentalCommand : IRequest<Rental>
             mappedRental.RentStartRentalBranchId = car.RentalBranchId;
             mappedRental.RentStartKilometer = car.Kilometer;
 
-
-            short totalRentalDate = Convert.ToInt16(mappedRental.RentEndDate.Day - mappedRental.RentStartDate.Day);
+            short totalRentalDate = Convert.ToInt16(mappedRental.RentEndDate.Day - mappedRental.RentStartDate.Day > 0
+                                                        ? mappedRental.RentEndDate.Day - mappedRental.RentStartDate.Day
+                                                        : 1);
             Invoice invoice = new()
             {
                 CustomerId = mappedRental.CustomerId,
@@ -89,7 +91,8 @@ public class CreateRentalCommand : IRequest<Rental>
                 ToFullName = "Ahmet Çetinkaya"
             });
 
-            return createdRental;
+            CreatedRentalDto createdRentalDto = _mapper.Map<CreatedRentalDto>(createdRental);
+            return createdRentalDto;
         }
     }
 }

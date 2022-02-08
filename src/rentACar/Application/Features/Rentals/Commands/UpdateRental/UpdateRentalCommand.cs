@@ -1,4 +1,5 @@
-﻿using Application.Features.Rentals.Rules;
+﻿using Application.Features.Rentals.Dtos;
+using Application.Features.Rentals.Rules;
 using Application.Services.Repositories;
 using AutoMapper;
 using Domain.Entities;
@@ -6,7 +7,7 @@ using MediatR;
 
 namespace Application.Features.Rentals.Commands.UpdateRental;
 
-public class UpdateRentalCommand : IRequest<Rental>
+public class UpdateRentalCommand : IRequest<UpdatedRentalDto>
 {
     public int Id { get; set; }
     public int CarId { get; set; }
@@ -15,7 +16,7 @@ public class UpdateRentalCommand : IRequest<Rental>
     public DateTime RentEndDate { get; set; }
     public DateTime? ReturnDate { get; set; }
 
-    public class UpdateRentalCommandHandler : IRequestHandler<UpdateRentalCommand, Rental>
+    public class UpdateRentalCommandHandler : IRequestHandler<UpdateRentalCommand, UpdatedRentalDto>
     {
         private readonly IRentalRepository _rentalRepository;
         private readonly IMapper _mapper;
@@ -29,15 +30,16 @@ public class UpdateRentalCommand : IRequest<Rental>
             _rentalBusinessRules = rentalBusinessRules;
         }
 
-        public async Task<Rental> Handle(UpdateRentalCommand request, CancellationToken cancellationToken)
+        public async Task<UpdatedRentalDto> Handle(UpdateRentalCommand request, CancellationToken cancellationToken)
         {
             await _rentalBusinessRules.RentalCanNotBeUpdateWhenThereIsARentedCarInDate(request.Id,
                 request.CarId, request.RentStartDate,
                 request.RentEndDate);
 
             Rental mappedRental = _mapper.Map<Rental>(request);
-            Rental rental = await _rentalRepository.UpdateAsync(mappedRental);
-            return rental;
+            Rental updatedRental = await _rentalRepository.UpdateAsync(mappedRental);
+            UpdatedRentalDto updatedRentalDto = _mapper.Map<UpdatedRentalDto>(updatedRental);
+            return updatedRentalDto;
         }
     }
 }

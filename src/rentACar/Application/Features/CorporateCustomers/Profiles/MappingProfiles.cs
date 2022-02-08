@@ -14,8 +14,12 @@ public class MappingProfiles : Profile
     public MappingProfiles()
     {
         CreateMap<CorporateCustomer, CreateCorporateCustomerCommand>().ReverseMap();
+        CreateMap<CorporateCustomer, CreatedCorporateCustomerDto>().ReverseMap();
         CreateMap<CorporateCustomer, UpdateCorporateCustomerCommand>().ReverseMap();
+        CreateMap<CorporateCustomer, UpdatedCorporateCustomerDto>().ReverseMap();
         CreateMap<CorporateCustomer, DeleteCorporateCustomerCommand>().ReverseMap();
+        CreateMap<CorporateCustomer, DeletedCorporateCustomerDto>().ReverseMap();
+        CreateMap<CorporateCustomer, CorporateCustomerDto>().ReverseMap();
         CreateMap<CorporateCustomer, CorporateCustomerListDto>().ReverseMap();
         CreateMap<IPaginate<CorporateCustomer>, CorporateCustomerListModel>().ReverseMap();
     }

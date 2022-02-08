@@ -13,14 +13,14 @@ public class GetListFindeksCreditRateQuery : IRequest<FindeksCreditRateListModel
     public PageRequest PageRequest { get; set; }
 
     public class
-        GetListFindeksCreditRateResponseHandler : IRequestHandler<GetListFindeksCreditRateQuery,
+        GetListFindeksCreditRateQueryHandler : IRequestHandler<GetListFindeksCreditRateQuery,
             FindeksCreditRateListModel>
     {
         private readonly IFindeksCreditRateRepository _findeksCreditRateRepository;
         private readonly IMapper _mapper;
 
-        public GetListFindeksCreditRateResponseHandler(IFindeksCreditRateRepository findeksCreditRateRepository,
-                                                       IMapper mapper)
+        public GetListFindeksCreditRateQueryHandler(IFindeksCreditRateRepository findeksCreditRateRepository,
+                                                    IMapper mapper)
         {
             _findeksCreditRateRepository = findeksCreditRateRepository;
             _mapper = mapper;

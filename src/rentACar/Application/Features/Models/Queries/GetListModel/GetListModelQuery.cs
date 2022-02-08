@@ -13,12 +13,12 @@ public class GetListModelQuery : IRequest<ModelListModel>
 {
     public PageRequest PageRequest { get; set; }
 
-    public class GetListModelResponseHandler : IRequestHandler<GetListModelQuery, ModelListModel>
+    public class GetListModelQueryHandler : IRequestHandler<GetListModelQuery, ModelListModel>
     {
         private readonly IModelRepository _modelRepository;
         private readonly IMapper _mapper;
 
-        public GetListModelResponseHandler(IModelRepository modelRepository, IMapper mapper)
+        public GetListModelQueryHandler(IModelRepository modelRepository, IMapper mapper)
         {
             _modelRepository = modelRepository;
             _mapper = mapper;

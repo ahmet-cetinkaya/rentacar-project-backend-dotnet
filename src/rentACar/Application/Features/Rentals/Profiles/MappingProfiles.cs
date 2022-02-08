@@ -14,9 +14,7 @@ public class MappingProfiles : Profile
     public MappingProfiles()
     {
         CreateMap<Rental, CreateRentalCommand>().ReverseMap();
-        CreateMap<Rental, UpdateRentalCommand>().ReverseMap();
-        CreateMap<Rental, DeleteRentalCommand>().ReverseMap();
-        CreateMap<Rental, RentalListDto>()
+        CreateMap<Rental, CreatedRentalDto>()
             .ForMember(r => r.CarModelBrandName, opt => opt.MapFrom(r => r.Car.Model.Brand.Name))
             .ForMember(r => r.CarModelName, opt => opt.MapFrom(r => r.Car.Model.Name))
             .ForMember(r => r.CarColorName, opt => opt.MapFrom(r => r.Car.Color.Name))
@@ -27,7 +25,32 @@ public class MappingProfiles : Profile
                         r.Customer.IndividualCustomer != null
                             ? $"{r.Customer.IndividualCustomer.FirstName} {r.Customer.IndividualCustomer.FirstName}"
                             : r.Customer.CorporateCustomer.CompanyName))
-            .ForMember(r => r.CustomerMail, opt => opt.MapFrom(r => r.Customer.Email));
+            .ForMember(r => r.CustomerMail, opt => opt.MapFrom(r => r.Customer.Email)).ReverseMap();
+        CreateMap<Rental, UpdateRentalCommand>().ReverseMap();
+        CreateMap<Rental, UpdatedRentalDto>()
+            .ForMember(r => r.CarModelBrandName, opt => opt.MapFrom(r => r.Car.Model.Brand.Name))
+            .ForMember(r => r.CarModelName, opt => opt.MapFrom(r => r.Car.Model.Name))
+            .ForMember(r => r.CarColorName, opt => opt.MapFrom(r => r.Car.Color.Name))
+            .ForMember(r => r.CarModelYear, opt => opt.MapFrom(r => r.Car.ModelYear))
+            .ForMember(r => r.CarPlate, opt => opt.MapFrom(r => r.Car.Plate)).ForMember(r => r.CustomerFullName,
+                opt => opt.MapFrom(
+                    r =>
+                        r.Customer.IndividualCustomer != null
+                            ? $"{r.Customer.IndividualCustomer.FirstName} {r.Customer.IndividualCustomer.FirstName}"
+                            : r.Customer.CorporateCustomer.CompanyName))
+            .ForMember(r => r.CustomerMail, opt => opt.MapFrom(r => r.Customer.Email)).ReverseMap();
+
+        CreateMap<Rental, DeleteRentalCommand>().ReverseMap();
+        CreateMap<Rental, DeletedRentalDto>()
+            .ForMember(r => r.CarModelBrandName, opt => opt.MapFrom(r => r.Car.Model.Brand.Name))
+            .ForMember(r => r.CarModelName, opt => opt.MapFrom(r => r.Car.Model.Name))
+            .ForMember(r => r.CustomerFullName,
+                       opt => opt.MapFrom(
+                           r =>
+                               r.Customer.IndividualCustomer != null
+                                   ? $"{r.Customer.IndividualCustomer.FirstName} {r.Customer.IndividualCustomer.FirstName}"
+                                   : r.Customer.CorporateCustomer.CompanyName))
+            .ReverseMap();
         CreateMap<IPaginate<Rental>, RentalListModel>().ReverseMap();
     }
 }

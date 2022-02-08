@@ -1,3 +1,4 @@
+using Application.Features.CarDamages.Dtos;
 using Application.Features.CarDamages.Rules;
 using Application.Services.Repositories;
 using AutoMapper;
@@ -6,12 +7,12 @@ using MediatR;
 
 namespace Application.Features.CarDamages.Commands.CreateCarDamage;
 
-public class CreateCarDamageCommand : IRequest<CarDamage>
+public class CreateCarDamageCommand : IRequest<CreatedCarDamageDto>
 {
     public int CarId { get; set; }
     public string DamageDescription { get; set; }
 
-    public class CreateCarDamageCommandHandler : IRequestHandler<CreateCarDamageCommand, CarDamage>
+    public class CreateCarDamageCommandHandler : IRequestHandler<CreateCarDamageCommand, CreatedCarDamageDto>
     {
         private readonly ICarDamageRepository _carDamageRepository;
         private readonly IMapper _mapper;
@@ -25,11 +26,13 @@ public class CreateCarDamageCommand : IRequest<CarDamage>
             _carDamageBusinessRules = carDamageBusinessRules;
         }
 
-        public async Task<CarDamage> Handle(CreateCarDamageCommand request, CancellationToken cancellationToken)
+        public async Task<CreatedCarDamageDto> Handle(CreateCarDamageCommand request,
+                                                      CancellationToken cancellationToken)
         {
             CarDamage mappedCarDamage = _mapper.Map<CarDamage>(request);
             CarDamage createdCarDamage = await _carDamageRepository.AddAsync(mappedCarDamage);
-            return createdCarDamage;
+            CreatedCarDamageDto createdCarDamageDto = _mapper.Map<CreatedCarDamageDto>(createdCarDamage);
+            return createdCarDamageDto;
         }
     }
 }

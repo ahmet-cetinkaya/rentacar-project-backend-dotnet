@@ -14,8 +14,12 @@ public class MappingProfiles : Profile
     public MappingProfiles()
     {
         CreateMap<Color, CreateColorCommand>().ReverseMap();
+        CreateMap<Color, CreatedColorDto>().ReverseMap();
         CreateMap<Color, UpdateColorCommand>().ReverseMap();
+        CreateMap<Color, UpdatedColorDto>().ReverseMap();
         CreateMap<Color, DeleteColorCommand>().ReverseMap();
+        CreateMap<Color, DeletedColorDto>().ReverseMap();
+        CreateMap<Color, ColorDto>().ReverseMap();
         CreateMap<Color, ColorListDto>().ReverseMap();
         CreateMap<IPaginate<Color>, ColorListModel>().ReverseMap();
     }

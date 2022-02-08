@@ -13,12 +13,12 @@ public class GetListRentalQuery : IRequest<RentalListModel>
 {
     public PageRequest PageRequest { get; set; }
 
-    public class GetListRentalResponseHandler : IRequestHandler<GetListRentalQuery, RentalListModel>
+    public class GetListRentalQueryHandler : IRequestHandler<GetListRentalQuery, RentalListModel>
     {
         private readonly IRentalRepository _rentalRepository;
         private readonly IMapper _mapper;
 
-        public GetListRentalResponseHandler(IRentalRepository rentalRepository, IMapper mapper)
+        public GetListRentalQueryHandler(IRentalRepository rentalRepository, IMapper mapper)
         {
             _rentalRepository = rentalRepository;
             _mapper = mapper;

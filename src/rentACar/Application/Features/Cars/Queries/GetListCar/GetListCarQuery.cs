@@ -14,12 +14,12 @@ public class GetListCarQuery : IRequest<CarListModel>
 {
     public PageRequest PageRequest { get; set; }
 
-    public class GetListCarResponseHandler : IRequestHandler<GetListCarQuery, CarListModel>
+    public class GetListCarQueryHandler : IRequestHandler<GetListCarQuery, CarListModel>
     {
         private readonly ICarRepository _carRepository;
         private readonly IMapper _mapper;
 
-        public GetListCarResponseHandler(ICarRepository carRepository, IMapper mapper)
+        public GetListCarQueryHandler(ICarRepository carRepository, IMapper mapper)
         {
             _carRepository = carRepository;
             _mapper = mapper;

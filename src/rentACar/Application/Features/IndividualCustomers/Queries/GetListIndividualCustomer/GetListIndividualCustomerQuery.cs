@@ -12,22 +12,28 @@ public class GetListIndividualCustomerQuery : IRequest<IndividualCustomerListMod
 {
     public PageRequest PageRequest { get; set; }
 
-    public class GetListIndividualCustomerResponseHandler : IRequestHandler<GetListIndividualCustomerQuery, IndividualCustomerListModel>
+    public class
+        GetListIndividualCustomerQueryHandler : IRequestHandler<GetListIndividualCustomerQuery,
+            IndividualCustomerListModel>
     {
         private readonly IIndividualCustomerRepository _individualCustomerRepository;
         private readonly IMapper _mapper;
 
-        public GetListIndividualCustomerResponseHandler(IIndividualCustomerRepository individualCustomerRepository, IMapper mapper)
+        public GetListIndividualCustomerQueryHandler(IIndividualCustomerRepository individualCustomerRepository,
+                                                     IMapper mapper)
         {
             _individualCustomerRepository = individualCustomerRepository;
             _mapper = mapper;
         }
 
-        public async Task<IndividualCustomerListModel> Handle(GetListIndividualCustomerQuery request, CancellationToken cancellationToken)
+        public async Task<IndividualCustomerListModel> Handle(GetListIndividualCustomerQuery request,
+                                                              CancellationToken cancellationToken)
         {
-            IPaginate<IndividualCustomer> individualCustomers = await _individualCustomerRepository.GetListAsync(index: request.PageRequest.Page,
-                                                                          size: request.PageRequest.PageSize);
-            IndividualCustomerListModel mappedIndividualCustomerListModel = _mapper.Map<IndividualCustomerListModel>(individualCustomers);
+            IPaginate<IndividualCustomer> individualCustomers = await _individualCustomerRepository.GetListAsync(
+                                                                    index: request.PageRequest.Page,
+                                                                    size: request.PageRequest.PageSize);
+            IndividualCustomerListModel mappedIndividualCustomerListModel =
+                _mapper.Map<IndividualCustomerListModel>(individualCustomers);
             return mappedIndividualCustomerListModel;
         }
     }

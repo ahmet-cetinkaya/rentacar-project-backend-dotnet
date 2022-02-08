@@ -1,16 +1,17 @@
-﻿using Application.Services.Repositories;
+﻿using Application.Features.Brands.Dtos;
+using Application.Services.Repositories;
 using AutoMapper;
 using Domain.Entities;
 using MediatR;
 
 namespace Application.Features.Brands.Commands.UpdateBrand;
 
-public class UpdateBrandCommand : IRequest<Brand>
+public class UpdateBrandCommand : IRequest<UpdatedBrandDto>
 {
     public int Id { get; set; }
     public string Name { get; set; }
 
-    public class UpdateBrandCommandHandler : IRequestHandler<UpdateBrandCommand, Brand>
+    public class UpdateBrandCommandHandler : IRequestHandler<UpdateBrandCommand, UpdatedBrandDto>
     {
         private IBrandRepository _brandRepository { get; }
         private IMapper _mapper { get; }
@@ -21,11 +22,12 @@ public class UpdateBrandCommand : IRequest<Brand>
             _mapper = mapper;
         }
 
-        public async Task<Brand> Handle(UpdateBrandCommand request, CancellationToken cancellationToken)
+        public async Task<UpdatedBrandDto> Handle(UpdateBrandCommand request, CancellationToken cancellationToken)
         {
             Brand mappedBrand = _mapper.Map<Brand>(request);
             Brand updatedBrand = await _brandRepository.UpdateAsync(mappedBrand);
-            return updatedBrand;
+            UpdatedBrandDto updatedBrandDto = _mapper.Map<UpdatedBrandDto>(updatedBrand);
+            return updatedBrandDto;
         }
     }
 }
