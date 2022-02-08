@@ -17,6 +17,7 @@ public static class PersistenceServiceRegistration
                                                      configuration.GetConnectionString("RentACarConnectionString")));
         services.AddScoped<IBrandRepository, BrandRepository>();
         services.AddScoped<ICarRepository, CarRepository>();
+        services.AddScoped<ICarDamageRepository, CarDamageRepository>();
         services.AddScoped<IColorRepository, ColorRepository>();
         services.AddScoped<ICorporateCustomerRepository, CorporateCustomerRepository>();
         services.AddScoped<ICustomerRepository, CustomerRepository>();
