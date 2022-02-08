@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Persistence.Contexts;
 
@@ -11,9 +12,10 @@ using Persistence.Contexts;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(BaseDbContext))]
-    partial class BaseDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220208085630_Fix-Rental-RentEndBranchId")]
+    partial class FixRentalRentEndBranchId
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -507,11 +509,11 @@ namespace Persistence.Migrations
                         .HasColumnType("datetime2")
                         .HasColumnName("RentEndDate");
 
-                    b.Property<int?>("RentEndKilometer")
+                    b.Property<int>("RentEndKilometer")
                         .HasColumnType("int")
                         .HasColumnName("RentEndKilometer");
 
-                    b.Property<int?>("RentEndRentalBranchId")
+                    b.Property<int>("RentEndRentalBranchId")
                         .HasColumnType("int")
                         .HasColumnName("RentEndRentalBranchId");
 
@@ -745,7 +747,9 @@ namespace Persistence.Migrations
 
                     b.HasOne("Domain.Entities.RentalBranch", "RentEndRentalBranch")
                         .WithMany()
-                        .HasForeignKey("RentEndRentalBranchId");
+                        .HasForeignKey("RentEndRentalBranchId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Domain.Entities.RentalBranch", "RentStartRentalBranch")
                         .WithMany()

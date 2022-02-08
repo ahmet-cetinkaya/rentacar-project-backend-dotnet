@@ -47,6 +47,8 @@ public class CreateRentalCommand : IRequest<Rental>
                 customerFindeksCreditRate!.Score, car!.MinFindeksCreditRate);
 
             Rental mappedRental = _mapper.Map<Rental>(request);
+            mappedRental.RentStartRentalBranchId = car.RentalBranchId;
+            mappedRental.RentStartKilometer = car.Kilometer;
             Rental createdRental = await _rentalRepository.AddAsync(mappedRental);
 
             _mailService.SendMail(new Mail
