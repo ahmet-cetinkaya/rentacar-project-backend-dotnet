@@ -135,7 +135,7 @@ public class BaseDbContext : DbContext
             i.Property(i => i.Id).HasColumnName("Id");
             i.Property(i => i.CustomerId).HasColumnName("CustomerId");
             i.Property(i => i.No).HasColumnName("No");
-            i.Property(i => i.CreatedDate).HasColumnName("CreatedDate");
+            i.Property(i => i.CreatedDate).HasColumnName("CreatedDate").HasDefaultValue(DateTime.Now);
             i.Property(i => i.RentalStartDate).HasColumnName("RentalStartDate");
             i.Property(i => i.RentalEndDate).HasColumnName("RentalEndDate");
             i.Property(i => i.TotalRentalDate).HasColumnName("TotalRentalDate");
