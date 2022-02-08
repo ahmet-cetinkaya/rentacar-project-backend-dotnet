@@ -8,7 +8,7 @@ public class CorporateCustomer : Entity
     public string CompanyName { get; set; }
     public string TaxNo { get; set; }
 
-    public virtual Customer Customer { get; set; }
+    public virtual Customer? Customer { get; set; }
 
     public CorporateCustomer()
     {

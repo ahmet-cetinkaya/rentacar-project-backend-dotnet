@@ -12,7 +12,7 @@ public class Invoice : Entity
     public short TotalRentalDate { get; set; }
     public decimal RentalPrice { get; set; }
 
-    public virtual Customer Customer { get; set; }
+    public virtual Customer? Customer { get; set; }
 
     public Invoice()
     {

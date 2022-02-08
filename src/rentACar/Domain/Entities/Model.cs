@@ -11,10 +11,10 @@ public class Model : Entity
     public decimal DailyPrice { get; set; }
     public string ImageUrl { get; set; }
 
-    public virtual Brand Brand { get; set; }
+    public virtual Brand? Brand { get; set; }
     public virtual ICollection<Car> Cars { get; set; }
-    public virtual Fuel Fuel { get; set; }
-    public virtual Transmission Transmission { get; set; }
+    public virtual Fuel? Fuel { get; set; }
+    public virtual Transmission? Transmission { get; set; }
 
     public Model()
     {

@@ -7,7 +7,12 @@ public class RentalBranch : Entity
 {
     public City City { get; set; }
 
-    public virtual IEnumerable<Car> Cars { get; set; }
+    public virtual ICollection<Car> Cars { get; set; }
+
+    public RentalBranch()
+    {
+        Cars = new HashSet<Car>();
+    }
 
     public RentalBranch(int id, City city) : base(id)
     {

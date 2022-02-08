@@ -14,10 +14,10 @@ public class Rental : Entity
     public int RentStartKilometer { get; set; }
     public int? RentEndKilometer { get; set; }
 
-    public virtual Car Car { get; set; }
-    public virtual Customer Customer { get; set; }
-    public virtual RentalBranch RentStartRentalBranch { get; set; }
-    public virtual RentalBranch RentEndRentalBranch { get; set; }
+    public virtual Car? Car { get; set; }
+    public virtual Customer? Customer { get; set; }
+    public virtual RentalBranch? RentStartRentalBranch { get; set; }
+    public virtual RentalBranch? RentEndRentalBranch { get; set; }
 
     public Rental()
     {
