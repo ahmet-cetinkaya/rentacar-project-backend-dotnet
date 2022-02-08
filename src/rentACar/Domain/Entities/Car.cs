@@ -17,9 +17,11 @@ public class Car : Entity
     public virtual Color Color { get; set; }
     public virtual RentalBranch RentalBranch { get; set; }
     public virtual Model Model { get; set; }
+    public virtual IEnumerable<CarDamage> CarDamages { get; set; }
 
     public Car()
     {
+        CarDamages = new List<CarDamage>();
     }
 
     public Car(int id, int colorId, int modelId, int rentalBranchId, CarState carState, int kilometer,
