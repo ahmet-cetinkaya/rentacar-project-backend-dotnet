@@ -10,6 +10,8 @@ public class BaseDbContext : DbContext
     protected IConfiguration Configuration { get; set; }
     public DbSet<Brand> Brands { get; set; }
     public DbSet<Car> Cars { get; set; }
+
+    public DbSet<CarDamage> CarDamages { get; set; }
     public DbSet<Color> Colors { get; set; }
     public DbSet<CorporateCustomer> CorporateCustomers { get; set; }
     public DbSet<Customer> Customers { get; set; }
@@ -55,8 +57,18 @@ public class BaseDbContext : DbContext
             c.Property(p => p.ModelYear).HasColumnName("ModelYear");
             c.Property(p => p.Plate).HasColumnName("Plate");
             c.HasOne(p => p.Color);
+            c.HasMany(p => p.CarDamages);
             c.HasOne(p => p.Model);
             c.HasOne(c => c.RentalBranch);
+        });
+
+        modelBuilder.Entity<CarDamage>(c =>
+        {
+            c.ToTable("CarDamages").HasKey(k => k.Id);
+            c.Property(p => p.Id).HasColumnName("Id");
+            c.Property(p => p.CarId).HasColumnName("CarId");
+            c.Property(p => p.IsFixed).HasColumnName("IsFixed").HasDefaultValue(false);
+            c.HasOne(p => p.Car);
         });
 
         modelBuilder.Entity<Color>(c =>
