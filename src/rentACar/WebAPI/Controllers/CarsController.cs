@@ -3,11 +3,11 @@ using Application.Features.Cars.Commands.DeleteCar;
 using Application.Features.Cars.Commands.DeliverRentalCar;
 using Application.Features.Cars.Commands.MaintainCar;
 using Application.Features.Cars.Commands.UpdateCar;
+using Application.Features.Cars.Dtos;
 using Application.Features.Cars.Models;
 using Application.Features.Cars.Queries.GetByIdCar;
 using Application.Features.Cars.Queries.GetListCar;
 using Core.Application.Requests;
-using Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers;
@@ -19,7 +19,7 @@ public class CarsController : BaseController
     [HttpGet("{Id}")]
     public async Task<IActionResult> GetById([FromRoute] GetByIdCarQuery getByIdCarQuery)
     {
-        Car result = await Mediator.Send(getByIdCarQuery);
+        CarDto result = await Mediator!.Send(getByIdCarQuery);
         return Ok(result);
     }
 
@@ -27,42 +27,42 @@ public class CarsController : BaseController
     public async Task<IActionResult> GetList([FromQuery] PageRequest pageRequest)
     {
         GetListCarQuery getListCarQuery = new() { PageRequest = pageRequest };
-        CarListModel result = await Mediator.Send(getListCarQuery);
+        CarListModel result = await Mediator!.Send(getListCarQuery);
         return Ok(result);
     }
 
     [HttpPost]
     public async Task<IActionResult> Add([FromBody] CreateCarCommand createCarCommand)
     {
-        Car result = await Mediator.Send(createCarCommand);
+        CreatedCarDto result = await Mediator!.Send(createCarCommand);
         return Created("", result);
     }
 
     [HttpPut]
     public async Task<IActionResult> Update([FromBody] UpdateCarCommand updateCarCommand)
     {
-        Car result = await Mediator.Send(updateCarCommand);
+        UpdatedCarDto result = await Mediator!.Send(updateCarCommand);
         return Ok(result);
     }
 
     [HttpPut("Maintain")]
     public async Task<IActionResult> MaintainCar([FromBody] MaintainCarCommand maintainCarCommand)
     {
-        Car result = await Mediator.Send(maintainCarCommand);
+        UpdatedCarDto result = await Mediator!.Send(maintainCarCommand);
         return Ok(result);
     }
 
     [HttpPut("DeliverRentalCar")]
     public async Task<IActionResult> DeliverRentalCarCommand([FromBody] DeliverRentalCarCommand deliverRentalCarCommand)
     {
-        Car result = await Mediator.Send(deliverRentalCarCommand);
+        UpdatedCarDto result = await Mediator!.Send(deliverRentalCarCommand);
         return Ok(result);
     }
 
     [HttpDelete]
     public async Task<IActionResult> Delete([FromBody] DeleteCarCommand deleteCarCommand)
     {
-        Car result = await Mediator.Send(deleteCarCommand);
+        DeletedCarDto result = await Mediator!.Send(deleteCarCommand);
         return Ok(result);
     }
 }
