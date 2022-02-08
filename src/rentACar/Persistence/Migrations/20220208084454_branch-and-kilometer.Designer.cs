@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Persistence.Contexts;
 
@@ -11,9 +12,10 @@ using Persistence.Contexts;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(BaseDbContext))]
-    partial class BaseDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220208084454_branch-and-kilometer")]
+    partial class branchandkilometer
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -507,13 +509,13 @@ namespace Persistence.Migrations
                         .HasColumnType("datetime2")
                         .HasColumnName("RentEndDate");
 
-                    b.Property<int?>("RentEndKilometer")
+                    b.Property<int>("RentEndKilometer")
                         .HasColumnType("int")
                         .HasColumnName("RentEndKilometer");
 
-                    b.Property<int?>("RentEndRentalBranchId")
+                    b.Property<int>("RentEndRentalBrandId")
                         .HasColumnType("int")
-                        .HasColumnName("RentEndRentalBranchId");
+                        .HasColumnName("RentEndRentalBrandId");
 
                     b.Property<DateTime>("RentStartDate")
                         .HasColumnType("datetime2")
@@ -537,10 +539,6 @@ namespace Persistence.Migrations
 
                     b.HasIndex("CustomerId");
 
-                    b.HasIndex("RentEndRentalBranchId");
-
-                    b.HasIndex("RentStartRentalBranchId");
-
                     b.ToTable("Rentals", (string)null);
 
                     b.HasData(
@@ -551,7 +549,7 @@ namespace Persistence.Migrations
                             CustomerId = 1,
                             RentEndDate = new DateTime(2022, 2, 10, 0, 0, 0, 0, DateTimeKind.Local),
                             RentEndKilometer = 1200,
-                            RentEndRentalBranchId = 2,
+                            RentEndRentalBrandId = 2,
                             RentStartDate = new DateTime(2022, 2, 8, 0, 0, 0, 0, DateTimeKind.Local),
                             RentStartKilometer = 1000,
                             RentStartRentalBranchId = 1
@@ -563,7 +561,7 @@ namespace Persistence.Migrations
                             CustomerId = 2,
                             RentEndDate = new DateTime(2022, 2, 10, 0, 0, 0, 0, DateTimeKind.Local),
                             RentEndKilometer = 1200,
-                            RentEndRentalBranchId = 1,
+                            RentEndRentalBrandId = 1,
                             RentStartDate = new DateTime(2022, 2, 8, 0, 0, 0, 0, DateTimeKind.Local),
                             RentStartKilometer = 1000,
                             RentStartRentalBranchId = 2
@@ -743,23 +741,9 @@ namespace Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Domain.Entities.RentalBranch", "RentEndRentalBranch")
-                        .WithMany()
-                        .HasForeignKey("RentEndRentalBranchId");
-
-                    b.HasOne("Domain.Entities.RentalBranch", "RentStartRentalBranch")
-                        .WithMany()
-                        .HasForeignKey("RentStartRentalBranchId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Car");
 
                     b.Navigation("Customer");
-
-                    b.Navigation("RentEndRentalBranch");
-
-                    b.Navigation("RentStartRentalBranch");
                 });
 
             modelBuilder.Entity("Domain.Entities.Brand", b =>

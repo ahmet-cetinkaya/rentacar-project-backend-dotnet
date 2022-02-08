@@ -18,6 +18,7 @@ public class BaseDbContext : DbContext
     public DbSet<IndividualCustomer> IndividualCustomers { get; set; }
     public DbSet<Invoice> Invoices { get; set; }
     public DbSet<Model> Models { get; set; }
+    public DbSet<RentalBranch> RentalBranches { get; set; }
     public DbSet<Transmission> Transmissions { get; set; }
 
     public BaseDbContext(DbContextOptions dbContextOptions, IConfiguration configuration) : base(dbContextOptions)
@@ -48,11 +49,14 @@ public class BaseDbContext : DbContext
             c.Property(p => p.Id).HasColumnName("Id");
             c.Property(p => p.ColorId).HasColumnName("ColorId");
             c.Property(p => p.ModelId).HasColumnName("ModelId");
+            c.Property(c => c.RentalBranchId).HasColumnName("RentalBranchId");
+            c.Property(p => p.Kilometer).HasColumnName("Kilometer");
             c.Property(p => p.CarState).HasColumnName("State");
             c.Property(p => p.ModelYear).HasColumnName("ModelYear");
             c.Property(p => p.Plate).HasColumnName("Plate");
             c.HasOne(p => p.Color);
             c.HasOne(p => p.Model);
+            c.HasOne(c => c.RentalBranch);
         });
 
         modelBuilder.Entity<Color>(c =>
@@ -149,11 +153,25 @@ public class BaseDbContext : DbContext
             r.Property(r => r.Id).HasColumnName("Id");
             r.Property(r => r.CustomerId).HasColumnName("CustomerId");
             r.Property(r => r.CarId).HasColumnName("CarId");
+            r.Property(r => r.RentStartRentalBranchId).HasColumnName("RentStartRentalBranchId");
+            r.Property(r => r.RentEndRentalBranchId).HasColumnName("RentEndRentalBranchId");
             r.Property(r => r.RentStartDate).HasColumnName("RentStartDate");
             r.Property(r => r.RentEndDate).HasColumnName("RentEndDate");
             r.Property(r => r.ReturnDate).HasColumnName("ReturnDate");
+            r.Property(r => r.RentStartKilometer).HasColumnName("RentStartKilometer");
+            r.Property(r => r.RentEndKilometer).HasColumnName("RentEndKilometer");
             r.HasOne(r => r.Car);
             r.HasOne(r => r.Customer);
+            r.HasOne(r => r.RentStartRentalBranch);
+            r.HasOne(r => r.RentEndRentalBranch);
+        });
+
+        modelBuilder.Entity<RentalBranch>(r =>
+        {
+            r.ToTable("RentalBranches").HasKey(r => r.Id);
+            r.Property(r => r.Id).HasColumnName("Id");
+            r.Property(r => r.City).HasColumnName("City");
+            r.HasMany(r => r.Cars);
         });
 
         modelBuilder.Entity<Transmission>(t =>
@@ -169,7 +187,8 @@ public class BaseDbContext : DbContext
 
         Car[] carSeeds =
         {
-            new(1, 1, 1, CarState.Available, 2018, "07ABC07", 500), new(2, 2, 2, CarState.Rented, 2018, "15ABC15", 1100)
+            new(1, 1, 1, 1, CarState.Available, 1000, 2018, "07ABC07", 500),
+            new(2, 2, 2, 2, CarState.Rented, 1000, 2018, "15ABC15", 1100)
         };
         modelBuilder.Entity<Car>().HasData(carSeeds);
 
@@ -196,10 +215,13 @@ public class BaseDbContext : DbContext
 
         Rental[] rentalSeeds =
         {
-            new(1, 1, 2, DateTime.Today, DateTime.Today.AddDays(2), null),
-            new(2, 2, 1, DateTime.Today, DateTime.Today.AddDays(2), null)
+            new(1, 1, 2, 1, 2, DateTime.Today, DateTime.Today.AddDays(2), null, 1000, 1200),
+            new(2, 2, 1, 2, 1, DateTime.Today, DateTime.Today.AddDays(2), null, 1000, 1200)
         };
         modelBuilder.Entity<Rental>().HasData(rentalSeeds);
+
+        RentalBranch[] rentalBranchSeeds = { new(1, City.Ankara), new(2, City.Antalya) };
+        modelBuilder.Entity<RentalBranch>().HasData(rentalBranchSeeds);
 
         Invoice[] invoiceSeeds =
         {
