@@ -9,10 +9,13 @@ public class Customer : Entity
     public virtual CorporateCustomer CorporateCustomer { get; set; }
     public virtual FindeksCreditRate FindeksCreditRate { get; set; }
     public virtual IndividualCustomer IndividualCustomer { get; set; }
+    public virtual ICollection<Invoice> Invoices { get; set; }
     public virtual ICollection<Rental> Rentals { get; set; }
+
 
     public Customer()
     {
+        Invoices = new List<Invoice>();
         Rentals = new List<Rental>();
     }
 

@@ -16,6 +16,7 @@ public class BaseDbContext : DbContext
     public DbSet<FindeksCreditRate> FindeksCreditRates { get; set; }
     public DbSet<Fuel> Fuel { get; set; }
     public DbSet<IndividualCustomer> IndividualCustomers { get; set; }
+    public DbSet<Invoice> Invoices { get; set; }
     public DbSet<Model> Models { get; set; }
     public DbSet<Transmission> Transmissions { get; set; }
 
@@ -80,6 +81,7 @@ public class BaseDbContext : DbContext
             c.HasOne(c => c.CorporateCustomer);
             c.HasOne(c => c.FindeksCreditRate);
             c.HasOne(c => c.IndividualCustomer);
+            c.HasMany(c => c.Invoices);
             c.HasMany(c => c.Rentals);
         });
 
@@ -109,6 +111,20 @@ public class BaseDbContext : DbContext
             c.Property(i => i.LastName).HasColumnName("LastName");
             c.Property(i => i.NationalIdentity).HasColumnName("NationalIdentity");
             c.HasOne(i => i.Customer);
+        });
+
+        modelBuilder.Entity<Invoice>(i =>
+        {
+            i.ToTable("Invoices").HasKey(i => i.Id);
+            i.Property(i => i.Id).HasColumnName("Id");
+            i.Property(i => i.CustomerId).HasColumnName("CustomerId");
+            i.Property(i => i.No).HasColumnName("No");
+            i.Property(i => i.CreatedDate).HasColumnName("CreatedDate");
+            i.Property(i => i.RentalStartDate).HasColumnName("RentalStartDate");
+            i.Property(i => i.RentalEndDate).HasColumnName("RentalEndDate");
+            i.Property(i => i.TotalRentalDate).HasColumnName("TotalRentalDate");
+            i.Property(i => i.RentalPrice).HasColumnName("RentalPrice");
+            i.HasOne(i => i.Customer);
         });
 
         modelBuilder.Entity<Model>(m =>
@@ -184,6 +200,13 @@ public class BaseDbContext : DbContext
             new(2, 2, 1, DateTime.Today, DateTime.Today.AddDays(2), null)
         };
         modelBuilder.Entity<Rental>().HasData(rentalSeeds);
+
+        Invoice[] invoiceSeeds =
+        {
+            new(1, 1, "123123", DateTime.Today, DateTime.Today, DateTime.Today.AddDays(2), 2, 1000),
+            new(2, 1, "123123", DateTime.Today, DateTime.Today, DateTime.Today.AddDays(2), 2, 2000)
+        };
+        modelBuilder.Entity<Invoice>().HasData(invoiceSeeds);
 
         Transmission[] transmissionsSeeds = { new(1, "Manuel"), new(2, "Automatic") };
         modelBuilder.Entity<Transmission>().HasData(transmissionsSeeds);

@@ -7,6 +7,7 @@ using Application.Features.Customers.Rules;
 using Application.Features.FindeksCreditRates.Rules;
 using Application.Features.Fuels.Rules;
 using Application.Features.IndividualCustomers.Rules;
+using Application.Features.Invoices.Rules;
 using Application.Features.Models.Rules;
 using Application.Features.Rentals.Rules;
 using Application.Features.Transmissions.Rules;
@@ -31,6 +32,7 @@ public static class ApplicationServiceRegistration
         services.AddScoped<FindeksCreditRateBusinessRules>();
         services.AddScoped<FuelBusinessRules>();
         services.AddScoped<IndividualCustomerBusinessRules>();
+        services.AddScoped<InvoiceBusinessRules>();
         services.AddScoped<ModelBusinessRules>();
         services.AddScoped<RentalBusinessRules>();
         services.AddScoped<TransmissionBusinessRules>();
