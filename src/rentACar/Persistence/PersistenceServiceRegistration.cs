@@ -23,6 +23,7 @@ public static class PersistenceServiceRegistration
         services.AddScoped<IFindeksCreditRateRepository, FindeksCreditRateRepository>();
         services.AddScoped<IFuelRepository, FuelRepository>();
         services.AddScoped<IIndividualCustomerRepository, IndividualCustomerRepository>();
+        services.AddScoped<IInvoiceRepository, InvoiceRepository>();
         services.AddScoped<IModelRepository, ModelRepository>();
         services.AddScoped<IRentalRepository, RentalRepository>();
         services.AddScoped<ITransmissionRepository, TransmissionRepository>();
