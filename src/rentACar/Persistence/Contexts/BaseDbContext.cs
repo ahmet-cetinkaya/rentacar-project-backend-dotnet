@@ -96,7 +96,8 @@ public class BaseDbContext : DbContext
         {
             c.ToTable("Customers").HasKey(c => c.Id);
             c.Property(c => c.Id).HasColumnName("Id");
-            c.Property(c => c.Email).HasColumnName("Email");
+            c.Property(c => c.UserId).HasColumnName("UserId");
+            c.HasOne(c => c.User);
             c.HasOne(c => c.CorporateCustomer);
             c.HasOne(c => c.FindeksCreditRate);
             c.HasOne(c => c.IndividualCustomer);
@@ -241,9 +242,6 @@ public class BaseDbContext : DbContext
 
         CorporateCustomer[] corporateCustomers = { new(1, 2, "Ahmet Çetinkaya", "54154512") };
         modelBuilder.Entity<CorporateCustomer>().HasData(corporateCustomers);
-
-        Customer[] customers = { new(1, "ahmetcetinkaya7@outlook.com"), new(2, "ahmet@cetinkaya.com") };
-        modelBuilder.Entity<Customer>().HasData(customers);
 
         FindeksCreditRate[] findeksCreditRates = { new(1, 1, 1000), new(2, 2, 1900) };
         modelBuilder.Entity<FindeksCreditRate>().HasData(findeksCreditRates);
