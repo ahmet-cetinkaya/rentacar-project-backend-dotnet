@@ -1,8 +1,8 @@
 ﻿using Application.Features.Rentals.Dtos;
+using Application.Services.CarService;
 using Application.Services.Repositories;
 using AutoMapper;
 using Domain.Entities;
-using Domain.Enums;
 using MediatR;
 
 namespace Application.Features.Rentals.Commands.PickUpRental;
@@ -17,15 +17,15 @@ public class PickUpRentalCommand : IRequest<UpdatedRentalDto>
     public class PickUpRentalCommandHandler : IRequestHandler<PickUpRentalCommand, UpdatedRentalDto>
     {
         private readonly IRentalRepository _rentalRepository;
-        private readonly ICarRepository _carRepository;
         private readonly IMapper _mapper;
 
-        public PickUpRentalCommandHandler(IRentalRepository rentalRepository, ICarRepository carRepository,
-                                          IMapper mapper)
+        private readonly ICarService _carService;
+
+        public PickUpRentalCommandHandler(IRentalRepository rentalRepository, IMapper mapper, ICarService carService)
         {
             _rentalRepository = rentalRepository;
-            _carRepository = carRepository;
             _mapper = mapper;
+            _carService = carService;
         }
 
         public async Task<UpdatedRentalDto> Handle(PickUpRentalCommand request, CancellationToken cancellationToken)
@@ -35,10 +35,7 @@ public class PickUpRentalCommand : IRequest<UpdatedRentalDto>
             rental.RentEndKilometer = request.RentEndKilometer;
             rental.ReturnDate = request.ReturnDate;
 
-            Car car = await _carRepository.GetAsync(c => c.Id == rental.CarId);
-            car.Kilometer += Convert.ToInt32(rental!.RentEndKilometer - rental.RentStartKilometer);
-            car.CarState = CarState.Available;
-            await _carRepository.UpdateAsync(car);
+            await _carService.PickUpCar(rental);
 
             Rental updatedRental = await _rentalRepository.UpdateAsync(rental);
             UpdatedRentalDto updatedRentalDto = _mapper.Map<UpdatedRentalDto>(updatedRental);

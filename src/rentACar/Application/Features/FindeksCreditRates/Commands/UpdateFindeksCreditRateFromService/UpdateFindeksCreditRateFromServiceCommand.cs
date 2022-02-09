@@ -1,5 +1,5 @@
 ﻿using Application.Features.FindeksCreditRates.Dtos;
-using Application.Services;
+using Application.Services.FindeksService;
 using Application.Services.Repositories;
 using AutoMapper;
 using Domain.Entities;
@@ -17,12 +17,12 @@ public class UpdateFindeksCreditRateFromServiceCommand : IRequest<UpdatedFindeks
         UpdatedFindeksCreditRateDto>
     {
         private readonly IFindeksCreditRateRepository _findeksCreditRateRepository;
-        private readonly IFindeksCreditRateService _findeksCreditRateService;
+        private readonly IFindeksService _findeksCreditRateService;
         private readonly IMapper _mapper;
 
         public UpdateFindeksCreditRateFromServiceCommandHandler(
             IFindeksCreditRateRepository findeksCreditRateRepository,
-            IFindeksCreditRateService findeksCreditRateService, IMapper mapper)
+            IFindeksService findeksCreditRateService, IMapper mapper)
         {
             _findeksCreditRateRepository = findeksCreditRateRepository;
             _findeksCreditRateService = findeksCreditRateService;
@@ -33,7 +33,7 @@ public class UpdateFindeksCreditRateFromServiceCommand : IRequest<UpdatedFindeks
                                                               CancellationToken cancellationToken)
         {
             FindeksCreditRate? findeksCreditRate = await _findeksCreditRateRepository.GetAsync(f => f.Id == request.Id);
-            findeksCreditRate!.Score = _findeksCreditRateService.GetScore(request.IdentityNumber);
+            findeksCreditRate.Score = _findeksCreditRateService.GetScore(request.IdentityNumber);
             FindeksCreditRate updatedFindeksCreditRate =
                 await _findeksCreditRateRepository.UpdateAsync(findeksCreditRate);
             UpdatedFindeksCreditRateDto updatedFindeksCreditRateDto =

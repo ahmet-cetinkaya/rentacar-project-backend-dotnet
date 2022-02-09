@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using Application.Features.Auths.Rules;
 using Application.Features.Brands.Rules;
 using Application.Features.CarDamages.Rules;
 using Application.Features.Cars.Rules;
@@ -13,8 +14,16 @@ using Application.Features.Models.Rules;
 using Application.Features.OperationClaims.Rules;
 using Application.Features.Rentals.Rules;
 using Application.Features.Transmissions.Rules;
+using Application.Features.UserOperationClaims.Rules;
 using Application.Features.Users.Rules;
+using Application.Services.AuthService;
+using Application.Services.CarService;
+using Application.Services.FindeksCreditRateService;
+using Application.Services.InvoiceService;
+using Application.Services.ModelService;
 using Core.Application.Pipelines.Validation;
+using Core.Mailing;
+using Core.Mailing.MailKitImplementations;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -27,6 +36,8 @@ public static class ApplicationServiceRegistration
     {
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
         services.AddMediatR(Assembly.GetExecutingAssembly());
+
+        services.AddScoped<AuthBusinessRules>();
         services.AddScoped<BrandBusinessRules>();
         services.AddScoped<CarBusinessRules>();
         services.AddScoped<CarDamageBusinessRules>();
@@ -41,10 +52,17 @@ public static class ApplicationServiceRegistration
         services.AddScoped<RentalBusinessRules>();
         services.AddScoped<OperationClaimBusinessRules>();
         services.AddScoped<UserBusinessRules>();
+        services.AddScoped<UserOperationClaimBusinessRules>();
         services.AddScoped<TransmissionBusinessRules>();
 
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestValidationBehavior<,>));
+
+        services.AddScoped<ICarService, CarManager>();
+        services.AddScoped<IFindeksCreditRateService, FindeksCreditRateManager>();
+        services.AddScoped<IInvoiceService, InvoiceManager>();
+        services.AddScoped<IModelService, ModelManager>();
+        services.AddSingleton<IMailService, MailKitMailService>();
 
         return services;
     }

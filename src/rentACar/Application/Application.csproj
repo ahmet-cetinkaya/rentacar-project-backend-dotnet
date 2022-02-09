@@ -36,6 +36,10 @@
     <Folder Include="Features\Rentals\Commands\PickUpRental\" />
     <Folder Include="Features\Rentals\Tests\" />
     <Folder Include="Features\Transmissions\Tests\" />
+    <Folder Include="Services\AuthService\" />
+    <Folder Include="Services\CarService\" />
+    <Folder Include="Services\ModelService\" />
+    <Folder Include="Services\InvoiceService\" />
   </ItemGroup>
 
   <ItemGroup>

@@ -3,6 +3,7 @@ using Application.Features.Users.Rules;
 using Application.Services.Repositories;
 using AutoMapper;
 using Core.Security.Entities;
+using Core.Security.Hashing;
 using MediatR;
 
 namespace Application.Features.Users.Commands.UpdateUser;
@@ -32,7 +33,12 @@ public class UpdateUserCommand : IRequest<UpdatedUserDto>
         public async Task<UpdatedUserDto> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
         {
             User mappedUser = _mapper.Map<User>(request);
-            //todo: password check
+
+            byte[] passwordHash, passwordSalt;
+            HashingHelper.CreatePasswordHash(request.Password, out passwordHash, out passwordSalt);
+            mappedUser.PasswordHash = passwordHash;
+            mappedUser.PasswordSalt = passwordSalt;
+
             User updatedUser = await _userRepository.UpdateAsync(mappedUser);
             UpdatedUserDto updatedUserDto = _mapper.Map<UpdatedUserDto>(updatedUser);
             return updatedUserDto;

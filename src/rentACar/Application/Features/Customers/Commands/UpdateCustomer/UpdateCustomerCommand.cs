@@ -10,7 +10,7 @@ namespace Application.Features.Customers.Commands.UpdateCustomer;
 public class UpdateCustomerCommand : IRequest<UpdatedCustomerDto>
 {
     public int Id { get; set; }
-    public string Email { get; set; }
+    public int UserId { get; set; }
 
     public class UpdateCustomerCommandHandler : IRequestHandler<UpdateCustomerCommand, UpdatedCustomerDto>
     {
@@ -28,8 +28,6 @@ public class UpdateCustomerCommand : IRequest<UpdatedCustomerDto>
 
         public async Task<UpdatedCustomerDto> Handle(UpdateCustomerCommand request, CancellationToken cancellationToken)
         {
-            await _customerBusinessRules.CustomerEmailCanNotBeDuplicatedWhenInserted(request.Email);
-
             Customer mappedCustomer = _mapper.Map<Customer>(request);
             Customer updatedCustomer = await _customerRepository.UpdateAsync(mappedCustomer);
             UpdatedCustomerDto updatedCustomerDto = _mapper.Map<UpdatedCustomerDto>(updatedCustomer);

@@ -25,7 +25,7 @@ public class MappingProfiles : Profile
                         r.Customer.IndividualCustomer != null
                             ? $"{r.Customer.IndividualCustomer.FirstName} {r.Customer.IndividualCustomer.FirstName}"
                             : r.Customer.CorporateCustomer.CompanyName))
-            .ForMember(r => r.CustomerMail, opt => opt.MapFrom(r => r.Customer.Email)).ReverseMap();
+            .ForMember(r => r.CustomerMail, opt => opt.MapFrom(r => r.Customer.User.Email)).ReverseMap();
         CreateMap<Rental, UpdateRentalCommand>().ReverseMap();
         CreateMap<Rental, UpdatedRentalDto>()
             .ForMember(r => r.CarModelBrandName, opt => opt.MapFrom(r => r.Car.Model.Brand.Name))
@@ -38,7 +38,7 @@ public class MappingProfiles : Profile
                         r.Customer.IndividualCustomer != null
                             ? $"{r.Customer.IndividualCustomer.FirstName} {r.Customer.IndividualCustomer.FirstName}"
                             : r.Customer.CorporateCustomer.CompanyName))
-            .ForMember(r => r.CustomerMail, opt => opt.MapFrom(r => r.Customer.Email)).ReverseMap();
+            .ForMember(r => r.CustomerMail, opt => opt.MapFrom(r => r.Customer.User.Email)).ReverseMap();
 
         CreateMap<Rental, DeleteRentalCommand>().ReverseMap();
         CreateMap<Rental, DeletedRentalDto>()

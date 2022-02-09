@@ -14,14 +14,15 @@ public class GetByIdInvoiceQuery : IRequest<InvoiceDto>
     public class GetByIdInvoiceQueryHandler : IRequestHandler<GetByIdInvoiceQuery, InvoiceDto>
     {
         private readonly IInvoiceRepository _invoiceRepository;
-        private IMapper _mapper;
+        private readonly IMapper _mapper;
         private readonly InvoiceBusinessRules _invoiceBusinessRules;
 
         public GetByIdInvoiceQueryHandler(IInvoiceRepository invoiceRepository,
-                                          InvoiceBusinessRules invoiceBusinessRules)
+                                          InvoiceBusinessRules invoiceBusinessRules, IMapper mapper)
         {
             _invoiceRepository = invoiceRepository;
             _invoiceBusinessRules = invoiceBusinessRules;
+            _mapper = mapper;
         }
 
 

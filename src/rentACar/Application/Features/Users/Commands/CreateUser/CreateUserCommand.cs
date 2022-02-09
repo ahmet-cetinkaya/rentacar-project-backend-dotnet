@@ -3,6 +3,7 @@ using Application.Features.Users.Rules;
 using Application.Services.Repositories;
 using AutoMapper;
 using Core.Security.Entities;
+using Core.Security.Hashing;
 using MediatR;
 
 namespace Application.Features.Users.Commands.CreateUser;
@@ -31,7 +32,12 @@ public class CreateUserCommand : IRequest<CreatedUserDto>
         public async Task<CreatedUserDto> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
             User mappedUser = _mapper.Map<User>(request);
-            //todo: Hashlama
+
+            byte[] passwordHash, passwordSalt;
+            HashingHelper.CreatePasswordHash(request.Password, out passwordHash, out passwordSalt);
+            mappedUser.PasswordHash = passwordHash;
+            mappedUser.PasswordSalt = passwordSalt;
+
             User createdUser = await _userRepository.AddAsync(mappedUser);
             CreatedUserDto createdUserDto = _mapper.Map<CreatedUserDto>(createdUser);
             return createdUserDto;

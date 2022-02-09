@@ -9,7 +9,7 @@ namespace Application.Features.Customers.Commands.CreateCustomer;
 
 public class CreateCustomerCommand : IRequest<CreatedCustomerDto>
 {
-    public string Email { get; set; }
+    public int UserId { get; set; }
 
     public class CreateCustomerCommandHandler : IRequestHandler<CreateCustomerCommand, CreatedCustomerDto>
     {
@@ -27,8 +27,6 @@ public class CreateCustomerCommand : IRequest<CreatedCustomerDto>
 
         public async Task<CreatedCustomerDto> Handle(CreateCustomerCommand request, CancellationToken cancellationToken)
         {
-            await _customerBusinessRules.CustomerEmailCanNotBeDuplicatedWhenInserted(request.Email);
-
             Customer mappedCustomer = _mapper.Map<Customer>(request);
             Customer createdCustomer = await _customerRepository.AddAsync(mappedCustomer);
             CreatedCustomerDto createdCustomerDto = _mapper.Map<CreatedCustomerDto>(createdCustomer);

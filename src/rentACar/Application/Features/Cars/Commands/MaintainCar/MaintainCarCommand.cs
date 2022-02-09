@@ -32,7 +32,7 @@ public class MaintainCarCommand : IRequest<UpdatedCarDto>
             await _carBusinessRules.CarCanNotBeMaintainWhenIsRented(request.Id);
 
             Car? updatedCar = await _carRepository.GetAsync(c => c.Id == request.Id);
-            updatedCar!.CarState = CarState.Maintenance;
+            updatedCar.CarState = CarState.Maintenance;
             await _carRepository.UpdateAsync(updatedCar);
             UpdatedCarDto updatedCarDto = _mapper.Map<UpdatedCarDto>(updatedCar);
             return updatedCarDto;
