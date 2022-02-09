@@ -23,6 +23,7 @@ public class BaseDbContext : DbContext
     public DbSet<RentalBranch> RentalBranches { get; set; }
     public DbSet<OperationClaim> OperationClaims { get; set; }
     public DbSet<User> Users { get; set; }
+    public DbSet<UserOperationClaim> UserOperationClaims { get; set; }
     public DbSet<Transmission> Transmissions { get; set; }
 
     public BaseDbContext(DbContextOptions dbContextOptions, IConfiguration configuration) : base(dbContextOptions)
@@ -204,7 +205,17 @@ public class BaseDbContext : DbContext
             u.Property(u => u.Email).HasColumnName("Email");
             u.Property(u => u.PasswordSalt).HasColumnName("PasswordSalt");
             u.Property(u => u.PasswordHash).HasColumnName("PasswordHash");
-            u.Property(u => u.Status).HasColumnName("Status");
+            u.Property(u => u.Status).HasColumnName("Status").HasDefaultValue(true);
+        });
+
+        modelBuilder.Entity<UserOperationClaim>(u =>
+        {
+            u.ToTable("UserOperationClaims").HasKey(u => u.Id);
+            u.Property(u => u.Id).HasColumnName("Id");
+            u.Property(u => u.UserId).HasColumnName("UserId");
+            u.Property(u => u.OperationClaimId).HasColumnName("OperationClaimId");
+            u.HasOne(u => u.User);
+            u.HasOne(u => u.OperationClaim);
         });
 
         modelBuilder.Entity<Transmission>(t =>

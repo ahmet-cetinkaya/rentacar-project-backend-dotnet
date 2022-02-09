@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Persistence.Contexts;
 
@@ -11,9 +12,10 @@ using Persistence.Contexts;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(BaseDbContext))]
-    partial class BaseDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220209105251_Add-UserOperationClaims")]
+    partial class AddUserOperationClaims
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -88,9 +90,7 @@ namespace Persistence.Migrations
                         .HasColumnName("PasswordSalt");
 
                     b.Property<bool>("Status")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
-                        .HasDefaultValue(true)
                         .HasColumnName("Status");
 
                     b.HasKey("Id");
@@ -493,7 +493,7 @@ namespace Persistence.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2022, 2, 9, 14, 15, 23, 275, DateTimeKind.Local).AddTicks(6267))
+                        .HasDefaultValue(new DateTime(2022, 2, 9, 13, 52, 50, 346, DateTimeKind.Local).AddTicks(9852))
                         .HasColumnName("CreatedDate");
 
                     b.Property<int>("CustomerId")
