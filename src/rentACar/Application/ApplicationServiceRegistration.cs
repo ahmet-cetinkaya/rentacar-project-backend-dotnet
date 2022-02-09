@@ -58,6 +58,7 @@ public static class ApplicationServiceRegistration
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestValidationBehavior<,>));
 
+        services.AddScoped<IAuthService, AuthManager>();
         services.AddScoped<ICarService, CarManager>();
         services.AddScoped<IFindeksCreditRateService, FindeksCreditRateManager>();
         services.AddScoped<IInvoiceService, InvoiceManager>();

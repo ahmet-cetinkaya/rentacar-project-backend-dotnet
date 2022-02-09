@@ -26,6 +26,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Features\Auths\Commands\Login\" />
+    <Folder Include="Features\Auths\Commands\Register\" />
+    <Folder Include="Features\Auths\Models\" />
+    <Folder Include="Features\Auths\Dtos\" />
+    <Folder Include="Features\Auths\Tests\" />
+    <Folder Include="Features\Auths\Queries\" />
     <Folder Include="Features\Brands\Tests\" />
     <Folder Include="Features\Cars\Tests\" />
     <Folder Include="Features\Colors\Tests\" />
