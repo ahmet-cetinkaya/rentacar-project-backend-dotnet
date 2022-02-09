@@ -19,21 +19,21 @@ public class InvoicesController : BaseController
     [HttpGet("{id}")]
     public async Task<IActionResult> GetById([FromRoute] GetByIdInvoiceQuery request)
     {
-        InvoiceDto result = await Mediator!.Send(request);
+        InvoiceDto result = await Mediator.Send(request);
         return Ok(result);
     }
 
     [HttpGet("ByDates")]
     public async Task<IActionResult> GetById([FromQuery] GetListByDatesInvoiceQuery request)
     {
-        InvoiceListModel result = await Mediator!.Send(request);
+        InvoiceListModel result = await Mediator.Send(request);
         return Ok(result);
     }
 
     [HttpGet("ByCustomerId")]
     public async Task<IActionResult> GetById([FromQuery] GetListByCustomerInvoiceQuery request)
     {
-        InvoiceListModel result = await Mediator!.Send(request);
+        InvoiceListModel result = await Mediator.Send(request);
         return Ok(result);
     }
 
@@ -41,28 +41,28 @@ public class InvoicesController : BaseController
     public async Task<IActionResult> GetList([FromQuery] PageRequest request)
     {
         GetListInvoiceQuery getListInvoiceQuery = new() { PageRequest = request };
-        InvoiceListModel result = await Mediator!.Send(getListInvoiceQuery);
+        InvoiceListModel result = await Mediator.Send(getListInvoiceQuery);
         return Ok(result);
     }
 
     [HttpPost]
     public async Task<IActionResult> Add([FromBody] CreateInvoiceCommand createInvoiceCommand)
     {
-        CreatedInvoiceDto result = await Mediator!.Send(createInvoiceCommand);
+        CreatedInvoiceDto result = await Mediator.Send(createInvoiceCommand);
         return Created("", result);
     }
 
     [HttpPut]
     public async Task<IActionResult> Update([FromBody] UpdateInvoiceCommand updateInvoiceCommand)
     {
-        UpdatedInvoiceDto result = await Mediator!.Send(updateInvoiceCommand);
+        UpdatedInvoiceDto result = await Mediator.Send(updateInvoiceCommand);
         return Ok(result);
     }
 
     [HttpDelete]
     public async Task<IActionResult> Delete([FromBody] DeleteInvoiceCommand deleteInvoiceCommand)
     {
-        DeletedInvoiceDto result = await Mediator!.Send(deleteInvoiceCommand);
+        DeletedInvoiceDto result = await Mediator.Send(deleteInvoiceCommand);
         return Ok(result);
     }
 }

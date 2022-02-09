@@ -17,7 +17,7 @@ public class CustomersController : BaseController
     [HttpGet("{Id}")]
     public async Task<IActionResult> GetById([FromRoute] GetByIdCustomerQuery getByIdCustomerQuery)
     {
-        CustomerDto result = await Mediator!.Send(getByIdCustomerQuery);
+        CustomerDto result = await Mediator.Send(getByIdCustomerQuery);
         return Ok(result);
     }
 
@@ -25,28 +25,28 @@ public class CustomersController : BaseController
     public async Task<IActionResult> GetList([FromQuery] PageRequest pageRequest)
     {
         GetListCustomerQuery getListCustomerQuery = new() { PageRequest = pageRequest };
-        CustomerListModel result = await Mediator!.Send(getListCustomerQuery);
+        CustomerListModel result = await Mediator.Send(getListCustomerQuery);
         return Ok(result);
     }
 
     [HttpPost]
     public async Task<IActionResult> Add([FromBody] CreateCustomerCommand createCustomerCommand)
     {
-        CreatedCustomerDto result = await Mediator!.Send(createCustomerCommand);
+        CreatedCustomerDto result = await Mediator.Send(createCustomerCommand);
         return Created("", result);
     }
 
     [HttpPut]
     public async Task<IActionResult> Update([FromBody] UpdateCustomerCommand updateCustomerCommand)
     {
-        UpdatedCustomerDto result = await Mediator!.Send(updateCustomerCommand);
+        UpdatedCustomerDto result = await Mediator.Send(updateCustomerCommand);
         return Ok(result);
     }
 
     [HttpDelete]
     public async Task<IActionResult> Delete([FromBody] DeleteCustomerCommand deleteCustomerCommand)
     {
-        DeletedCustomerDto result = await Mediator!.Send(deleteCustomerCommand);
+        DeletedCustomerDto result = await Mediator.Send(deleteCustomerCommand);
         return Ok(result);
     }
 }

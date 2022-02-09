@@ -18,7 +18,7 @@ public class FindeksCreditRatesController : BaseController
     [HttpGet("{Id}")]
     public async Task<IActionResult> GetById([FromRoute] GetByIdFindeksCreditRateQuery getByIdFindeksCreditRateQuery)
     {
-        FindeksCreditRateDto result = await Mediator!.Send(getByIdFindeksCreditRateQuery);
+        FindeksCreditRateDto result = await Mediator.Send(getByIdFindeksCreditRateQuery);
         return Ok(result);
     }
 
@@ -26,21 +26,21 @@ public class FindeksCreditRatesController : BaseController
     public async Task<IActionResult> GetList([FromQuery] PageRequest pageRequest)
     {
         GetListFindeksCreditRateQuery getListFindeksCreditRateQuery = new() { PageRequest = pageRequest };
-        FindeksCreditRateListModel result = await Mediator!.Send(getListFindeksCreditRateQuery);
+        FindeksCreditRateListModel result = await Mediator.Send(getListFindeksCreditRateQuery);
         return Ok(result);
     }
 
     [HttpPost]
     public async Task<IActionResult> Add([FromBody] CreateFindeksCreditRateCommand createFindeksCreditRateCommand)
     {
-        CreatedFindeksCreditRateDto result = await Mediator!.Send(createFindeksCreditRateCommand);
+        CreatedFindeksCreditRateDto result = await Mediator.Send(createFindeksCreditRateCommand);
         return Created("", result);
     }
 
     [HttpPut]
     public async Task<IActionResult> Update([FromBody] UpdateFindeksCreditRateCommand updateFindeksCreditRateCommand)
     {
-        UpdatedFindeksCreditRateDto result = await Mediator!.Send(updateFindeksCreditRateCommand);
+        UpdatedFindeksCreditRateDto result = await Mediator.Send(updateFindeksCreditRateCommand);
         return Ok(result);
     }
 
@@ -48,14 +48,14 @@ public class FindeksCreditRatesController : BaseController
     public async Task<IActionResult> UpdateFromService(
         [FromBody] UpdateFindeksCreditRateFromServiceCommand findeksCreditRateFromServiceCommand)
     {
-        UpdatedFindeksCreditRateDto result = await Mediator!.Send(findeksCreditRateFromServiceCommand);
+        UpdatedFindeksCreditRateDto result = await Mediator.Send(findeksCreditRateFromServiceCommand);
         return Ok(result);
     }
 
     [HttpDelete]
     public async Task<IActionResult> Delete([FromBody] DeleteFindeksCreditRateCommand deleteFindeksCreditRateCommand)
     {
-        DeletedFindeksCreditRateDto result = await Mediator!.Send(deleteFindeksCreditRateCommand);
+        DeletedFindeksCreditRateDto result = await Mediator.Send(deleteFindeksCreditRateCommand);
         return Ok(result);
     }
 }

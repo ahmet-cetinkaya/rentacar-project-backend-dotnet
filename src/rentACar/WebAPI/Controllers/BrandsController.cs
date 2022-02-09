@@ -17,7 +17,7 @@ public class BrandsController : BaseController
     [HttpGet("{Id}")]
     public async Task<IActionResult> GetById([FromRoute] GetByIdBrandQuery getByIdBrandQuery)
     {
-        BrandDto result = await Mediator!.Send(getByIdBrandQuery);
+        BrandDto result = await Mediator.Send(getByIdBrandQuery);
         return Ok(result);
     }
 
@@ -25,28 +25,28 @@ public class BrandsController : BaseController
     public async Task<IActionResult> GetList([FromQuery] PageRequest pageRequest)
     {
         GetListBrandQuery getListBrandQuery = new() { PageRequest = pageRequest };
-        BrandListModel result = await Mediator!.Send(getListBrandQuery);
+        BrandListModel result = await Mediator.Send(getListBrandQuery);
         return Ok(result);
     }
 
     [HttpPost]
     public async Task<IActionResult> Add([FromBody] CreateBrandCommand createBrandCommand)
     {
-        CreatedBrandDto result = await Mediator!.Send(createBrandCommand);
+        CreatedBrandDto result = await Mediator.Send(createBrandCommand);
         return Created("", result);
     }
 
     [HttpPut]
     public async Task<IActionResult> Update([FromBody] UpdateBrandCommand updateBrandCommand)
     {
-        UpdatedBrandDto result = await Mediator!.Send(updateBrandCommand);
+        UpdatedBrandDto result = await Mediator.Send(updateBrandCommand);
         return Ok(result);
     }
 
     [HttpDelete]
     public async Task<IActionResult> Delete([FromBody] DeleteBrandCommand deleteBrandCommand)
     {
-        DeletedBrandDto result = await Mediator!.Send(deleteBrandCommand);
+        DeletedBrandDto result = await Mediator.Send(deleteBrandCommand);
         return Ok(result);
     }
 }
