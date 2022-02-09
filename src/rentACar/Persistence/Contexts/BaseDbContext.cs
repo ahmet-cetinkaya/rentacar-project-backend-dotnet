@@ -1,4 +1,5 @@
-﻿using Domain.Entities;
+﻿using Core.Security.Entities;
+using Domain.Entities;
 using Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -10,7 +11,6 @@ public class BaseDbContext : DbContext
     protected IConfiguration Configuration { get; set; }
     public DbSet<Brand> Brands { get; set; }
     public DbSet<Car> Cars { get; set; }
-
     public DbSet<CarDamage> CarDamages { get; set; }
     public DbSet<Color> Colors { get; set; }
     public DbSet<CorporateCustomer> CorporateCustomers { get; set; }
@@ -21,6 +21,8 @@ public class BaseDbContext : DbContext
     public DbSet<Invoice> Invoices { get; set; }
     public DbSet<Model> Models { get; set; }
     public DbSet<RentalBranch> RentalBranches { get; set; }
+    public DbSet<OperationClaim> OperationClaims { get; set; }
+    public DbSet<User> Users { get; set; }
     public DbSet<Transmission> Transmissions { get; set; }
 
     public BaseDbContext(DbContextOptions dbContextOptions, IConfiguration configuration) : base(dbContextOptions)
@@ -186,6 +188,25 @@ public class BaseDbContext : DbContext
             r.HasMany(r => r.Cars);
         });
 
+        modelBuilder.Entity<OperationClaim>(o =>
+        {
+            o.ToTable("OperationClaims").HasKey(o => o.Id);
+            o.Property(o => o.Id).HasColumnName("Id");
+            o.Property(o => o.Name).HasColumnName("Name");
+        });
+
+        modelBuilder.Entity<User>(u =>
+        {
+            u.ToTable("Users").HasKey(u => u.Id);
+            u.Property(u => u.Id).HasColumnName("Id");
+            u.Property(u => u.FirstName).HasColumnName("FirstName");
+            u.Property(u => u.LastName).HasColumnName("LastName");
+            u.Property(u => u.Email).HasColumnName("Email");
+            u.Property(u => u.PasswordSalt).HasColumnName("PasswordSalt");
+            u.Property(u => u.PasswordHash).HasColumnName("PasswordHash");
+            u.Property(u => u.Status).HasColumnName("Status");
+        });
+
         modelBuilder.Entity<Transmission>(t =>
         {
             t.ToTable("Transmissions").HasKey(k => k.Id);
@@ -241,6 +262,9 @@ public class BaseDbContext : DbContext
             new(2, 1, "123123", DateTime.Today, DateTime.Today, DateTime.Today.AddDays(2), 2, 2000)
         };
         modelBuilder.Entity<Invoice>().HasData(invoiceSeeds);
+
+        OperationClaim[] operationClaimSeeds = { new(1, "Admin") };
+        modelBuilder.Entity<OperationClaim>().HasData(operationClaimSeeds);
 
         Transmission[] transmissionsSeeds = { new(1, "Manuel"), new(2, "Automatic") };
         modelBuilder.Entity<Transmission>().HasData(transmissionsSeeds);
