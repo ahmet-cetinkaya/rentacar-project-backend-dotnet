@@ -10,8 +10,10 @@ using Application.Features.Fuels.Rules;
 using Application.Features.IndividualCustomers.Rules;
 using Application.Features.Invoices.Rules;
 using Application.Features.Models.Rules;
+using Application.Features.OperationClaims.Rules;
 using Application.Features.Rentals.Rules;
 using Application.Features.Transmissions.Rules;
+using Application.Features.Users.Rules;
 using Core.Application.Pipelines.Validation;
 using FluentValidation;
 using MediatR;
@@ -37,6 +39,7 @@ public static class ApplicationServiceRegistration
         services.AddScoped<InvoiceBusinessRules>();
         services.AddScoped<ModelBusinessRules>();
         services.AddScoped<RentalBusinessRules>();
+        services.AddScoped<OperationClaimBusinessRules>();
         services.AddScoped<UserBusinessRules>();
         services.AddScoped<TransmissionBusinessRules>();
 
