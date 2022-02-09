@@ -11,8 +11,11 @@ public class User : Entity
     public byte[] PasswordHash { get; set; }
     public bool Status { get; set; }
 
+    public virtual ICollection<UserOperationClaim> UserOperationClaims { get; set; }
+
     public User()
     {
+        UserOperationClaims = new HashSet<UserOperationClaim>();
     }
 
     public User(int id, string firstName, string lastName, string email, byte[] passwordSalt, byte[] passwordHash,
