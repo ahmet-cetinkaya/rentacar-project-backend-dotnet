@@ -1,11 +1,13 @@
 ﻿using Core.Persistence.Repositories;
+using Core.Security.Entities;
 
 namespace Domain.Entities;
 
 public class Customer : Entity
 {
-    public string Email { get; set; }
+    public int UserId { get; set; }
 
+    public virtual User User { get; set; }
     public virtual CorporateCustomer? CorporateCustomer { get; set; }
     public virtual FindeksCreditRate? FindeksCreditRate { get; set; }
     public virtual IndividualCustomer? IndividualCustomer { get; set; }
@@ -19,8 +21,7 @@ public class Customer : Entity
         Rentals = new HashSet<Rental>();
     }
 
-    public Customer(int id, string email) : base(id)
+    public Customer(int id) : base(id)
     {
-        Email = email;
     }
 }

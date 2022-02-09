@@ -9,7 +9,7 @@ public class IndividualCustomer : Entity
     public string LastName { get; set; }
     public string NationalIdentity { get; set; }
 
-    public virtual Customer? Customer { get; set; }
+    public virtual Customer Customer { get; set; }
 
     public IndividualCustomer()
     {
