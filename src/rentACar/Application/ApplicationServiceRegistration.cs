@@ -37,6 +37,7 @@ public static class ApplicationServiceRegistration
         services.AddScoped<InvoiceBusinessRules>();
         services.AddScoped<ModelBusinessRules>();
         services.AddScoped<RentalBusinessRules>();
+        services.AddScoped<UserBusinessRules>();
         services.AddScoped<TransmissionBusinessRules>();
 
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
