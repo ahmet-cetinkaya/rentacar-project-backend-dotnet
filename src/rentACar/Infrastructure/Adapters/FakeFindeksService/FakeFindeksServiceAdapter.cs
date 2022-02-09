@@ -1,8 +1,8 @@
-﻿using Application.Services;
+﻿using Application.Services.FindeksService;
 
-namespace Infrastructure.Adapters.FakeFindeksCreditRateService;
+namespace Infrastructure.Adapters.FakeFindeksService;
 
-public class FakeFindeksCreditRateServiceAdapter : IFindeksCreditRateService
+public class FakeFindeksServiceAdapter : IFindeksService
 {
     public short GetScore(string identityNumber)
     {

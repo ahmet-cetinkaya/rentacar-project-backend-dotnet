@@ -1,6 +1,6 @@
-﻿using Application.Services;
+﻿using Application.Services.FindeksService;
 using Application.Services.POSService;
-using Infrastructure.Adapters.FakeFindeksCreditRateService;
+using Infrastructure.Adapters.FakeFindeksService;
 using Infrastructure.Adapters.FakePOSService;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -10,7 +10,7 @@ public static class InfrastructureServiceRegistration
 {
     public static IServiceCollection AddInfrastructureServices(this IServiceCollection services)
     {
-        services.AddScoped<IFindeksCreditRateService, FakeFindeksCreditRateServiceAdapter>();
+        services.AddScoped<IFindeksService, FakeFindeksServiceAdapter>();
         services.AddScoped<IPOSService, FakePOSServiceAdapter>();
         return services;
     }
