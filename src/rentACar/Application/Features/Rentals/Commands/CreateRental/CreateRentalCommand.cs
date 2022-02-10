@@ -7,13 +7,14 @@ using Application.Services.ModelService;
 using Application.Services.POSService;
 using Application.Services.Repositories;
 using AutoMapper;
+using Core.Application.Pipelines.Logging;
 using Core.Mailing;
 using Domain.Entities;
 using MediatR;
 
 namespace Application.Features.Rentals.Commands.CreateRental;
 
-public class CreateRentalCommand : IRequest<CreatedRentalDto>
+public class CreateRentalCommand : IRequest<CreatedRentalDto>, ILoggableRequest
 {
     public int CarId { get; set; }
     public int CustomerId { get; set; }
