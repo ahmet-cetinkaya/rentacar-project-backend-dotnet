@@ -21,7 +21,10 @@ using Application.Services.CarService;
 using Application.Services.FindeksCreditRateService;
 using Application.Services.InvoiceService;
 using Application.Services.ModelService;
+using Core.Application.Pipelines.Logging;
 using Core.Application.Pipelines.Validation;
+using Core.CrossCuttingConcerns.Logging.Serilog;
+using Core.CrossCuttingConcerns.Logging.Serilog.Logger;
 using Core.Mailing;
 using Core.Mailing.MailKitImplementations;
 using FluentValidation;
@@ -57,6 +60,7 @@ public static class ApplicationServiceRegistration
 
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestValidationBehavior<,>));
+        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
 
         services.AddScoped<IAuthService, AuthManager>();
         services.AddScoped<ICarService, CarManager>();
@@ -64,6 +68,7 @@ public static class ApplicationServiceRegistration
         services.AddScoped<IInvoiceService, InvoiceManager>();
         services.AddScoped<IModelService, ModelManager>();
         services.AddSingleton<IMailService, MailKitMailService>();
+        services.AddSingleton<LoggerServiceBase, FileLogger>();
 
         return services;
     }
