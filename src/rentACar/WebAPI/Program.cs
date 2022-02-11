@@ -1,4 +1,5 @@
 using Application;
+using Core.Application.Pipelines.Caching;
 using Core.CrossCuttingConcerns.Exceptions;
 using Infrastructure;
 using Persistence;
@@ -14,6 +15,11 @@ builder.Services.AddSecurityServices();
 builder.Services.AddPersistenceServices(builder.Configuration);
 builder.Services.AddInfrastructureServices();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+//builder.Services.AddDistributedMemoryCache(); // InMemory
+builder.Services.AddStackExchangeRedisCache(opt => opt.Configuration = "localhost:6379");
+
+builder.Services.Configure<CacheSettings>(builder.Configuration.GetSection("CacheSettings"));
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
