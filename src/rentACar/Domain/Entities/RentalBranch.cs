@@ -14,8 +14,9 @@ public class RentalBranch : Entity
         Cars = new HashSet<Car>();
     }
 
-    public RentalBranch(int id, City city) : base(id)
+    public RentalBranch(int id, City city) : this()
     {
+        Id = id;
         City = city;
     }
 }

@@ -25,9 +25,8 @@ public class Rental : Entity
 
     public Rental(int id, int customerId, int carId, int rentStartRentalBranchId, int rentEndRentalBranchId,
                   DateTime rentStartDate, DateTime rentEndDate, DateTime? returnDate, int rentStartKilometer,
-                  int rentEndKilometer)
+                  int rentEndKilometer) : base(id)
     {
-        Id = id;
         CustomerId = customerId;
         CarId = carId;
         RentStartRentalBranchId = rentStartRentalBranchId;
