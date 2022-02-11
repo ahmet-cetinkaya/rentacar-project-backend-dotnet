@@ -8,17 +8,13 @@ namespace Application.Services.AuthService;
 
 public class AuthManager : IAuthService
 {
-    private readonly IUserRepository _userRepository;
     private readonly IUserOperationClaimRepository _userOperationClaimRepository;
-    private readonly IOperationClaimRepository _operationClaimRepository;
     private readonly ITokenHelper _tokenHelper;
 
     public AuthManager(IUserRepository userRepository, IUserOperationClaimRepository userOperationClaimRepository,
                        IOperationClaimRepository operationClaimRepository, ITokenHelper tokenHelper)
     {
-        _userRepository = userRepository;
         _userOperationClaimRepository = userOperationClaimRepository;
-        _operationClaimRepository = operationClaimRepository;
         _tokenHelper = tokenHelper;
     }
 
