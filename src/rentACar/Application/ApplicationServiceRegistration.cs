@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using Application.Features.AdditionalServices.Rules;
 using Application.Features.Auths.Rules;
 using Application.Features.Brands.Rules;
 using Application.Features.CarDamages.Rules;
@@ -44,6 +45,7 @@ public static class ApplicationServiceRegistration
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
         services.AddMediatR(Assembly.GetExecutingAssembly());
 
+        services.AddScoped<AdditionalServiceBusinessRules>();
         services.AddScoped<AuthBusinessRules>();
         services.AddScoped<BrandBusinessRules>();
         services.AddScoped<CarBusinessRules>();
