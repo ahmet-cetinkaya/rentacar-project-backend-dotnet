@@ -15,6 +15,7 @@ public static class PersistenceServiceRegistration
         services.AddDbContext<BaseDbContext>(options =>
                                                  options.UseSqlServer(
                                                      configuration.GetConnectionString("RentACarConnectionString")));
+        services.AddScoped<IAdditionalServiceRepository, AdditionalServiceRepository>();
         services.AddScoped<IBrandRepository, BrandRepository>();
         services.AddScoped<ICarRepository, CarRepository>();
         services.AddScoped<ICarDamageRepository, CarDamageRepository>();
@@ -26,11 +27,13 @@ public static class PersistenceServiceRegistration
         services.AddScoped<IIndividualCustomerRepository, IndividualCustomerRepository>();
         services.AddScoped<IInvoiceRepository, InvoiceRepository>();
         services.AddScoped<IModelRepository, ModelRepository>();
-        services.AddScoped<IRentalRepository, RentalRepository>();
         services.AddScoped<IOperationClaimRepository, OperationClaimRepository>();
+        services.AddScoped<IRentalRepository, RentalRepository>();
+        services.AddScoped<IRentalsAdditionalServiceRepository, RentalsAdditionalServiceRepository>();
+        services.AddScoped<ITransmissionRepository, TransmissionRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IUserOperationClaimRepository, UserOperationClaimRepository>();
-        services.AddScoped<ITransmissionRepository, TransmissionRepository>();
+
         return services;
     }
 }
