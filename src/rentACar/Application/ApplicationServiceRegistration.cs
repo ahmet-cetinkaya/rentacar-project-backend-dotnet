@@ -16,11 +16,13 @@ using Application.Features.Rentals.Rules;
 using Application.Features.Transmissions.Rules;
 using Application.Features.UserOperationClaims.Rules;
 using Application.Features.Users.Rules;
+using Application.Services.AdditionalServiceService;
 using Application.Services.AuthService;
 using Application.Services.CarService;
 using Application.Services.FindeksCreditRateService;
 using Application.Services.InvoiceService;
 using Application.Services.ModelService;
+using Application.Services.RentalsIAdditionalServiceService;
 using Core.Application.Pipelines.Caching;
 using Core.Application.Pipelines.Logging;
 using Core.Application.Pipelines.Validation;
@@ -65,11 +67,14 @@ public static class ApplicationServiceRegistration
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(CachingBehavior<,>));
 
+        services.AddScoped<IAdditionalServiceService, AdditionalServiceManager>();
         services.AddScoped<IAuthService, AuthManager>();
         services.AddScoped<ICarService, CarManager>();
         services.AddScoped<IFindeksCreditRateService, FindeksCreditRateManager>();
         services.AddScoped<IInvoiceService, InvoiceManager>();
         services.AddScoped<IModelService, ModelManager>();
+        services.AddScoped<IRentalsAdditionalServiceService, RentalsAdditionalServiceManager>();
+
         services.AddSingleton<IMailService, MailKitMailService>();
         services.AddSingleton<LoggerServiceBase, FileLogger>();
         services.AddSingleton<IElasticSearch, ElasticSearchManager>();
