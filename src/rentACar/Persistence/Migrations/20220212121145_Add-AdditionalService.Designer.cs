@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Persistence.Contexts;
 
@@ -11,9 +12,10 @@ using Persistence.Contexts;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(BaseDbContext))]
-    partial class BaseDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220212121145_Add-AdditionalService")]
+    partial class AddAdditionalService
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -514,7 +516,7 @@ namespace Persistence.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2022, 2, 12, 17, 39, 34, 100, DateTimeKind.Local).AddTicks(9555))
+                        .HasDefaultValue(new DateTime(2022, 2, 12, 15, 11, 44, 466, DateTimeKind.Local).AddTicks(7959))
                         .HasColumnName("CreatedDate");
 
                     b.Property<int>("CustomerId")
@@ -755,32 +757,6 @@ namespace Persistence.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Domain.Entities.RentalsAdditionalService", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("Id");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("AdditionalServiceId")
-                        .HasColumnType("int")
-                        .HasColumnName("AdditionalServiceId");
-
-                    b.Property<int>("RentalId")
-                        .HasColumnType("int")
-                        .HasColumnName("RentalId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AdditionalServiceId");
-
-                    b.HasIndex("RentalId");
-
-                    b.ToTable("RentalsAdditionalServices", (string)null);
-                });
-
             modelBuilder.Entity("Domain.Entities.Transmission", b =>
                 {
                     b.Property<int>("Id")
@@ -984,25 +960,6 @@ namespace Persistence.Migrations
                     b.Navigation("RentStartRentalBranch");
                 });
 
-            modelBuilder.Entity("Domain.Entities.RentalsAdditionalService", b =>
-                {
-                    b.HasOne("Domain.Entities.AdditionalService", "AdditionalService")
-                        .WithMany()
-                        .HasForeignKey("AdditionalServiceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Entities.Rental", "Rental")
-                        .WithMany("RentalsAdditionalServices")
-                        .HasForeignKey("RentalId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("AdditionalService");
-
-                    b.Navigation("Rental");
-                });
-
             modelBuilder.Entity("Core.Security.Entities.User", b =>
                 {
                     b.Navigation("UserOperationClaims");
@@ -1044,11 +1001,6 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Domain.Entities.Model", b =>
                 {
                     b.Navigation("Cars");
-                });
-
-            modelBuilder.Entity("Domain.Entities.Rental", b =>
-                {
-                    b.Navigation("RentalsAdditionalServices");
                 });
 
             modelBuilder.Entity("Domain.Entities.RentalBranch", b =>

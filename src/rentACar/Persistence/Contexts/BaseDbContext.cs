@@ -9,6 +9,7 @@ namespace Persistence.Contexts;
 public class BaseDbContext : DbContext
 {
     protected IConfiguration Configuration { get; set; }
+    public DbSet<AdditionalService> AdditionalServices { get; set; }
     public DbSet<Brand> Brands { get; set; }
     public DbSet<Car> Cars { get; set; }
     public DbSet<CarDamage> CarDamages { get; set; }
@@ -20,6 +21,8 @@ public class BaseDbContext : DbContext
     public DbSet<IndividualCustomer> IndividualCustomers { get; set; }
     public DbSet<Invoice> Invoices { get; set; }
     public DbSet<Model> Models { get; set; }
+    public DbSet<Rental> Rentals { get; set; }
+    public DbSet<RentalsAdditionalService> RentalsAdditionalServices { get; set; }
     public DbSet<RentalBranch> RentalBranches { get; set; }
     public DbSet<OperationClaim> OperationClaims { get; set; }
     public DbSet<User> Users { get; set; }
@@ -40,6 +43,14 @@ public class BaseDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<AdditionalService>(a =>
+        {
+            a.ToTable("AdditionalServices").HasKey(k => k.Id);
+            a.Property(p => p.Id).HasColumnName("Id");
+            a.Property(p => p.Name).HasColumnName("Name");
+            a.Property(p => p.DailyPrice).HasColumnName("DailyPrice");
+        });
+
         modelBuilder.Entity<Brand>(b =>
         {
             b.ToTable("Brands").HasKey(k => k.Id);
@@ -180,6 +191,17 @@ public class BaseDbContext : DbContext
             r.HasOne(r => r.Customer);
             r.HasOne(r => r.RentStartRentalBranch);
             r.HasOne(r => r.RentEndRentalBranch);
+            r.HasMany(r => r.RentalsAdditionalServices);
+        });
+
+        modelBuilder.Entity<RentalsAdditionalService>(r =>
+        {
+            r.ToTable("RentalsAdditionalServices").HasKey(r => r.Id);
+            r.Property(r => r.Id).HasColumnName("Id");
+            r.Property(r => r.RentalId).HasColumnName("RentalId");
+            r.Property(r => r.AdditionalServiceId).HasColumnName("AdditionalServiceId");
+            r.HasOne(r => r.Rental);
+            r.HasOne(r => r.AdditionalService);
         });
 
         modelBuilder.Entity<RentalBranch>(r =>
@@ -226,6 +248,9 @@ public class BaseDbContext : DbContext
             t.Property(p => p.Name).HasColumnName("Name");
             t.HasMany(p => p.Models);
         });
+
+        AdditionalService[] additionalServiceSeeds = {new(1, "Baby Seat", 200), new(2, "Scooter", 300)};
+        modelBuilder.Entity<AdditionalService>().HasData(additionalServiceSeeds);
 
         Brand[] brandSeeds = { new(1, "BMW"), new(2, "Mercedes") };
         modelBuilder.Entity<Brand>().HasData(brandSeeds);
