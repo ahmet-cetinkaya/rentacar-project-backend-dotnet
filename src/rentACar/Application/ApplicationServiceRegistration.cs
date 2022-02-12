@@ -26,6 +26,7 @@ using Core.Application.Pipelines.Logging;
 using Core.Application.Pipelines.Validation;
 using Core.CrossCuttingConcerns.Logging.Serilog;
 using Core.CrossCuttingConcerns.Logging.Serilog.Logger;
+using Core.ElasticSearch;
 using Core.Mailing;
 using Core.Mailing.MailKitImplementations;
 using FluentValidation;
@@ -71,6 +72,7 @@ public static class ApplicationServiceRegistration
         services.AddScoped<IModelService, ModelManager>();
         services.AddSingleton<IMailService, MailKitMailService>();
         services.AddSingleton<LoggerServiceBase, FileLogger>();
+        services.AddSingleton<IElasticSearch, ElasticSearchManager>();
 
         return services;
     }
