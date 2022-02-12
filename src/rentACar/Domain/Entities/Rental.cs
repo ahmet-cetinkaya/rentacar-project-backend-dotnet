@@ -18,15 +18,18 @@ public class Rental : Entity
     public virtual Customer? Customer { get; set; }
     public virtual RentalBranch? RentStartRentalBranch { get; set; }
     public virtual RentalBranch? RentEndRentalBranch { get; set; }
+    public virtual ICollection<RentalsAdditionalService> RentalsAdditionalServices { get; set; }
 
     public Rental()
     {
+        RentalsAdditionalServices = new HashSet<RentalsAdditionalService>();
     }
 
     public Rental(int id, int customerId, int carId, int rentStartRentalBranchId, int rentEndRentalBranchId,
                   DateTime rentStartDate, DateTime rentEndDate, DateTime? returnDate, int rentStartKilometer,
-                  int rentEndKilometer) : base(id)
+                  int rentEndKilometer) : this()
     {
+        Id = id;
         CustomerId = customerId;
         CarId = carId;
         RentStartRentalBranchId = rentStartRentalBranchId;
