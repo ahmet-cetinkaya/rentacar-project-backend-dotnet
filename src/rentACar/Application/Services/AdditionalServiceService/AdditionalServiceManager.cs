@@ -1,12 +1,11 @@
 ﻿using Application.Services.Repositories;
-using Core.Persistence.Paging;
 using Domain.Entities;
 
 namespace Application.Services.AdditionalServiceService;
 
-public class AdditionalServiceManager:IAdditionalServiceService
+public class AdditionalServiceManager : IAdditionalServiceService
 {
-    private IAdditionalServiceRepository _additionalServiceRepository;
+    private readonly IAdditionalServiceRepository _additionalServiceRepository;
 
     public AdditionalServiceManager(IAdditionalServiceRepository additionalServiceRepository)
     {

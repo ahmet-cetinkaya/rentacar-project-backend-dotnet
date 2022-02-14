@@ -44,7 +44,8 @@ public class ElasticTestController : BaseController
                                                                 _elasticSearch.GetSearchByField<ModelListDto>(
                                                                     new SearchByFieldParameters
                                                                     {
-                                                                        IndexName = "models", FieldName = "Name",
+                                                                        IndexName = "models",
+                                                                        FieldName = "Name",
                                                                         Value = "BMW"
                                                                     });
 

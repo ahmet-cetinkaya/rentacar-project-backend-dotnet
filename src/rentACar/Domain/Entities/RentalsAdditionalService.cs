@@ -2,7 +2,7 @@
 
 namespace Domain.Entities;
 
-public class RentalsAdditionalService:Entity
+public class RentalsAdditionalService : Entity
 {
     public int RentalId { get; set; }
     public int AdditionalServiceId { get; set; }

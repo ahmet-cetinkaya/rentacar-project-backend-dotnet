@@ -2,7 +2,7 @@
 
 namespace Domain.Entities;
 
-public class AdditionalService:Entity
+public class AdditionalService : Entity
 {
     public string Name { get; set; }
     public decimal DailyPrice { get; set; }

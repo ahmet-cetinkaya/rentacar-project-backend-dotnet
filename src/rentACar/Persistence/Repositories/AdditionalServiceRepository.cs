@@ -5,7 +5,7 @@ using Persistence.Contexts;
 
 namespace Persistence.Repositories;
 
-public class AdditionalServiceRepository: EfRepositoryBase<AdditionalService, BaseDbContext>, IAdditionalServiceRepository
+public class AdditionalServiceRepository : EfRepositoryBase<AdditionalService, BaseDbContext>, IAdditionalServiceRepository
 {
     public AdditionalServiceRepository(BaseDbContext context) : base(context)
     {

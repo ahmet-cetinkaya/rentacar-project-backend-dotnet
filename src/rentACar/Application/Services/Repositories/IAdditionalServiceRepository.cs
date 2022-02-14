@@ -3,7 +3,6 @@ using Domain.Entities;
 
 namespace Application.Services.Repositories;
 
-public interface IAdditionalServiceRepository: IAsyncRepository<AdditionalService>, IRepository<AdditionalService>
+public interface IAdditionalServiceRepository : IAsyncRepository<AdditionalService>, IRepository<AdditionalService>
 {
-    
 }

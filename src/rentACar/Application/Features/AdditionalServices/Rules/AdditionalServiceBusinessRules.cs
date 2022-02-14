@@ -13,7 +13,7 @@ public class AdditionalServiceBusinessRules
     {
         _additionalServiceRepository = additionalServiceRepository;
     }
- 
+
     public async Task AdditionalServiceIdShouldExistWhenSelected(int id)
     {
         AdditionalService? result = await _additionalServiceRepository.GetAsync(b => b.Id == id);

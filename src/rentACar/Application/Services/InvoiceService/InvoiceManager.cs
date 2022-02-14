@@ -26,7 +26,7 @@ public class InvoiceManager : IInvoiceService
 
         decimal rentalPrice = Convert.ToDecimal(dailyPrice * totalRentalDate);
         if (rental.RentStartRentalBranchId != rental.RentEndRentalBranchId) rentalPrice += 500;
-        
+
         Invoice newInvoice = new()
         {
             CustomerId = rental.CustomerId,

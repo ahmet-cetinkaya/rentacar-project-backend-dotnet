@@ -27,7 +27,7 @@ public class AuthManager : IAuthService
             );
         IList<OperationClaim> operationClaims =
             userOperationClaims.Items.Select(u => new OperationClaim
-                                                 { Id = u.OperationClaim.Id, Name = u.OperationClaim.Name }).ToList();
+            { Id = u.OperationClaim.Id, Name = u.OperationClaim.Name }).ToList();
 
         AccessToken accessToken = _tokenHelper.CreateToken(user, operationClaims);
         return accessToken;

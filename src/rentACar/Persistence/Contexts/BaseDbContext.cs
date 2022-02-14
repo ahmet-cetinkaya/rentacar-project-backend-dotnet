@@ -249,7 +249,7 @@ public class BaseDbContext : DbContext
             t.HasMany(p => p.Models);
         });
 
-        AdditionalService[] additionalServiceSeeds = {new(1, "Baby Seat", 200), new(2, "Scooter", 300)};
+        AdditionalService[] additionalServiceSeeds = { new(1, "Baby Seat", 200), new(2, "Scooter", 300) };
         modelBuilder.Entity<AdditionalService>().HasData(additionalServiceSeeds);
 
         Brand[] brandSeeds = { new(1, "BMW"), new(2, "Mercedes") };

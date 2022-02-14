@@ -1,6 +1,5 @@
 using Application.Services.Repositories;
 using Core.CrossCuttingConcerns.Exceptions;
-using Core.Persistence.Paging;
 using Domain.Entities;
 
 namespace Application.Features.Invoices.Rules;
@@ -13,7 +12,7 @@ public class InvoiceBusinessRules
     {
         _invoiceRepository = invoiceRepository;
     }
- 
+
     public async Task InvoiceIdShouldExistWhenSelected(int id)
     {
         Invoice? result = await _invoiceRepository.GetAsync(b => b.Id == id);
