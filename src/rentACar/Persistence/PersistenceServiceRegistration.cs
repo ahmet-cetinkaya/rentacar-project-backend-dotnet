@@ -30,6 +30,7 @@ public static class PersistenceServiceRegistration
         services.AddScoped<IOperationClaimRepository, OperationClaimRepository>();
         services.AddScoped<IRentalRepository, RentalRepository>();
         services.AddScoped<IRentalsAdditionalServiceRepository, RentalsAdditionalServiceRepository>();
+        services.AddScoped<IRentalBranchRepository, RentalBranchRepository>();
         services.AddScoped<ITransmissionRepository, TransmissionRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IUserOperationClaimRepository, UserOperationClaimRepository>();
