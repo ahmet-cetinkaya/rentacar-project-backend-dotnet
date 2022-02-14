@@ -2,12 +2,13 @@
 using Application.Features.Models.Rules;
 using Application.Services.Repositories;
 using AutoMapper;
+using Core.Application.Pipelines.Caching;
 using Domain.Entities;
 using MediatR;
 
 namespace Application.Features.Models.Commands.CreateModel;
 
-public class CreateModelCommand : IRequest<CreatedModelDto>
+public class CreateModelCommand : IRequest<CreatedModelDto>, ICacheRemoverRequest
 {
     public string Name { get; set; }
     public decimal DailyPrice { get; set; }
@@ -15,6 +16,9 @@ public class CreateModelCommand : IRequest<CreatedModelDto>
     public int TransmissionId { get; set; }
     public int FuelId { get; set; }
     public string ImageUrl { get; set; }
+
+    public bool BypassCache { get; }
+    public string CacheKey => "models-list";
 
     public class CreateModelCommandHandler : IRequestHandler<CreateModelCommand, CreatedModelDto>
     {

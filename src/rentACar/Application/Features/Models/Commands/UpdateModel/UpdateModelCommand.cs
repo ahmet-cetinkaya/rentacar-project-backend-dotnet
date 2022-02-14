@@ -1,12 +1,13 @@
 ﻿using Application.Features.Models.Dtos;
 using Application.Services.Repositories;
 using AutoMapper;
+using Core.Application.Pipelines.Caching;
 using Domain.Entities;
 using MediatR;
 
 namespace Application.Features.Models.Commands.UpdateModel;
 
-public class UpdateModelCommand : IRequest<UpdatedModelDto>
+public class UpdateModelCommand : IRequest<UpdatedModelDto>, ICacheRemoverRequest
 {
     public int Id { get; set; }
     public int BrandId { get; set; }
@@ -15,6 +16,9 @@ public class UpdateModelCommand : IRequest<UpdatedModelDto>
     public string Name { get; set; }
     public decimal DailyPrice { get; set; }
     public string ImageUrl { get; set; }
+
+    public bool BypassCache { get; }
+    public string CacheKey => "models-list";
 
     public class UpdateModelCommandHandler : IRequestHandler<UpdateModelCommand, UpdatedModelDto>
     {
