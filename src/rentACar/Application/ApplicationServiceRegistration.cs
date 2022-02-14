@@ -13,6 +13,7 @@ using Application.Features.IndividualCustomers.Rules;
 using Application.Features.Invoices.Rules;
 using Application.Features.Models.Rules;
 using Application.Features.OperationClaims.Rules;
+using Application.Features.RentalBranches.Rules;
 using Application.Features.Rentals.Rules;
 using Application.Features.Transmissions.Rules;
 using Application.Features.UserOperationClaims.Rules;
@@ -59,6 +60,7 @@ public static class ApplicationServiceRegistration
         services.AddScoped<InvoiceBusinessRules>();
         services.AddScoped<ModelBusinessRules>();
         services.AddScoped<RentalBusinessRules>();
+        services.AddScoped<RentalBranchBusinessRules>();
         services.AddScoped<OperationClaimBusinessRules>();
         services.AddScoped<UserBusinessRules>();
         services.AddScoped<UserOperationClaimBusinessRules>();
