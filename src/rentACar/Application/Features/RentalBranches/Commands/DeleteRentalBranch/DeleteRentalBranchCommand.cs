@@ -2,14 +2,19 @@ using Application.Features.RentalBranches.Dtos;
 using Application.Features.RentalBranches.Rules;
 using Application.Services.Repositories;
 using AutoMapper;
+using Core.Application.Pipelines.Authorization;
 using Domain.Entities;
 using MediatR;
+using static Application.Features.RentalBranches.Constants.OperationClaims;
+using static Domain.Constants.OperationClaims;
 
 namespace Application.Features.RentalBranches.Commands.DeleteRentalBranch;
 
-public class DeleteRentalBranchCommand : IRequest<DeletedRentalBranchDto>
+public class DeleteRentalBranchCommand : IRequest<DeletedRentalBranchDto>, ISecuredRequest
 {
     public int Id { get; set; }
+
+    public string[] Roles => new[] { Admin, RentalBranchDelete };
 
     public class DeleteRentalBranchCommandHandler : IRequestHandler<DeleteRentalBranchCommand, DeletedRentalBranchDto>
     {

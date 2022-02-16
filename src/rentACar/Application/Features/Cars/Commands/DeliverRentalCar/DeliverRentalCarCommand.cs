@@ -2,15 +2,20 @@
 using Application.Features.Cars.Rules;
 using Application.Services.Repositories;
 using AutoMapper;
+using Core.Application.Pipelines.Authorization;
 using Domain.Entities;
 using Domain.Enums;
 using MediatR;
+using static Application.Features.Cars.Constants.OperationClaims;
+using static Domain.Constants.OperationClaims;
 
 namespace Application.Features.Cars.Commands.DeliverRentalCar;
 
-public class DeliverRentalCarCommand : IRequest<UpdatedCarDto>
+public class DeliverRentalCarCommand : IRequest<UpdatedCarDto>, ISecuredRequest
 {
     public int Id { get; set; }
+
+    public string[] Roles => new[] { Admin, CarUpdate };
 
     public class DeliverRentalCarCommandHandler : IRequestHandler<DeliverRentalCarCommand, UpdatedCarDto>
     {

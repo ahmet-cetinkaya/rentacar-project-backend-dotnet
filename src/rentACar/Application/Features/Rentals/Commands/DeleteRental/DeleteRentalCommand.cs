@@ -1,14 +1,19 @@
 ﻿using Application.Features.Rentals.Dtos;
 using Application.Services.Repositories;
 using AutoMapper;
+using Core.Application.Pipelines.Authorization;
 using Domain.Entities;
 using MediatR;
+using static Application.Features.Rentals.Constants.OperationClaims;
+using static Domain.Constants.OperationClaims;
 
 namespace Application.Features.Rentals.Commands.DeleteRental;
 
-public class DeleteRentalCommand : IRequest<DeletedRentalDto>
+public class DeleteRentalCommand : IRequest<DeletedRentalDto>, ISecuredRequest
 {
     public int Id { get; set; }
+
+    public string[] Roles => new[] { Admin, RentalDelete };
 
     public class DeleteRentalCommandHandler : IRequestHandler<DeleteRentalCommand, DeletedRentalDto>
     {

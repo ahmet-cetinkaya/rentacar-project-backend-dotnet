@@ -2,19 +2,24 @@ using Application.Features.Users.Dtos;
 using Application.Features.Users.Rules;
 using Application.Services.Repositories;
 using AutoMapper;
+using Core.Application.Pipelines.Authorization;
 using Core.Security.Entities;
 using Core.Security.Hashing;
 using MediatR;
+using static Application.Features.Users.Constants.OperationClaims;
+using static Domain.Constants.OperationClaims;
 
 namespace Application.Features.Users.Commands.UpdateUser;
 
-public class UpdateUserCommand : IRequest<UpdatedUserDto>
+public class UpdateUserCommand : IRequest<UpdatedUserDto>, ISecuredRequest
 {
     public int Id { get; set; }
     public string FirstName { get; set; }
     public string LastName { get; set; }
     public string Email { get; set; }
     public string Password { get; set; }
+
+    public string[] Roles => new[] { Admin, UserUpdate };
 
     public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, UpdatedUserDto>
     {

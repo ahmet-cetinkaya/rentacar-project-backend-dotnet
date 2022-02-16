@@ -2,12 +2,15 @@ using Application.Features.Invoices.Dtos;
 using Application.Features.Invoices.Rules;
 using Application.Services.Repositories;
 using AutoMapper;
+using Core.Application.Pipelines.Authorization;
 using Domain.Entities;
 using MediatR;
+using static Application.Features.Invoices.Constants.OperationClaims;
+using static Domain.Constants.OperationClaims;
 
 namespace Application.Features.Invoices.Commands.UpdateInvoice;
 
-public class UpdateInvoiceCommand : IRequest<UpdatedInvoiceDto>
+public class UpdateInvoiceCommand : IRequest<UpdatedInvoiceDto>, ISecuredRequest
 {
     public int Id { get; set; }
     public int CustomerId { get; set; }
@@ -17,6 +20,8 @@ public class UpdateInvoiceCommand : IRequest<UpdatedInvoiceDto>
     public DateTime RentalEndDate { get; set; }
     public short TotalRentalDate { get; set; }
     public decimal RentalPrice { get; set; }
+
+    public string[] Roles => new[] { Admin, InvoiceUpdate };
 
     public class UpdateInvoiceCommandHandler : IRequestHandler<UpdateInvoiceCommand, UpdatedInvoiceDto>
     {

@@ -2,14 +2,19 @@
 using Application.Features.Colors.Rules;
 using Application.Services.Repositories;
 using AutoMapper;
+using Core.Application.Pipelines.Authorization;
 using Domain.Entities;
 using MediatR;
+using static Application.Features.Colors.Constants.OperationClaims;
+using static Domain.Constants.OperationClaims;
 
 namespace Application.Features.Colors.Commands.CreateColor;
 
-public class CreateColorCommand : IRequest<CreatedColorDto>
+public class CreateColorCommand : IRequest<CreatedColorDto>, ISecuredRequest
 {
     public string Name { get; set; }
+
+    public string[] Roles => new[] { Admin, ColorAdd };
 
     public class CreateColorCommandHandler : IRequestHandler<CreateColorCommand, CreatedColorDto>
     {

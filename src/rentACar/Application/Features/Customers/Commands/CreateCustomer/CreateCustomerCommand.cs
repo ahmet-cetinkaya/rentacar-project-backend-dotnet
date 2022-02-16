@@ -2,14 +2,19 @@ using Application.Features.Customers.Dtos;
 using Application.Features.Customers.Rules;
 using Application.Services.Repositories;
 using AutoMapper;
+using Core.Application.Pipelines.Authorization;
 using Domain.Entities;
 using MediatR;
+using static Application.Features.Customers.Constants.OperationClaims;
+using static Domain.Constants.OperationClaims;
 
 namespace Application.Features.Customers.Commands.CreateCustomer;
 
-public class CreateCustomerCommand : IRequest<CreatedCustomerDto>
+public class CreateCustomerCommand : IRequest<CreatedCustomerDto>, ISecuredRequest
 {
     public int UserId { get; set; }
+
+    public string[] Roles => new[] { Admin, CustomerAdd };
 
     public class CreateCustomerCommandHandler : IRequestHandler<CreateCustomerCommand, CreatedCustomerDto>
     {

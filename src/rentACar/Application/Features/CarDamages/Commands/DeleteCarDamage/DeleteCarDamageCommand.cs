@@ -2,14 +2,19 @@ using Application.Features.CarDamages.Dtos;
 using Application.Features.CarDamages.Rules;
 using Application.Services.Repositories;
 using AutoMapper;
+using Core.Application.Pipelines.Authorization;
 using Domain.Entities;
 using MediatR;
+using static Application.Features.CarDamages.Constants.OperationClaims;
+using static Domain.Constants.OperationClaims;
 
 namespace Application.Features.CarDamages.Commands.DeleteCarDamage;
 
-public class DeleteCarDamageCommand : IRequest<DeletedCarDamageDto>
+public class DeleteCarDamageCommand : IRequest<DeletedCarDamageDto>, ISecuredRequest
 {
     public int Id { get; set; }
+
+    public string[] Roles => new[] { Admin, CarDamageDelete };
 
     public class DeleteCarDamageCommandHandler : IRequestHandler<DeleteCarDamageCommand, DeletedCarDamageDto>
     {

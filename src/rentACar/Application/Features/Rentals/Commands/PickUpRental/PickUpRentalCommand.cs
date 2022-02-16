@@ -2,17 +2,22 @@
 using Application.Services.CarService;
 using Application.Services.Repositories;
 using AutoMapper;
+using Core.Application.Pipelines.Authorization;
 using Domain.Entities;
 using MediatR;
+using static Application.Features.Rentals.Constants.OperationClaims;
+using static Domain.Constants.OperationClaims;
 
 namespace Application.Features.Rentals.Commands.PickUpRental;
 
-public class PickUpRentalCommand : IRequest<UpdatedRentalDto>
+public class PickUpRentalCommand : IRequest<UpdatedRentalDto>, ISecuredRequest
 {
     public int Id { get; set; }
     public int RentEndRentalBranchId { get; set; }
     public DateTime? ReturnDate { get; set; }
     public int RentEndKilometer { get; set; }
+
+    public string[] Roles => new[] { Admin, RentalUpdate };
 
     public class PickUpRentalCommandHandler : IRequestHandler<PickUpRentalCommand, UpdatedRentalDto>
     {

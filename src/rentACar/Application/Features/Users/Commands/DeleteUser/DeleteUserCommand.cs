@@ -2,14 +2,19 @@ using Application.Features.Users.Dtos;
 using Application.Features.Users.Rules;
 using Application.Services.Repositories;
 using AutoMapper;
+using Core.Application.Pipelines.Authorization;
 using Core.Security.Entities;
 using MediatR;
+using static Application.Features.Users.Constants.OperationClaims;
+using static Domain.Constants.OperationClaims;
 
 namespace Application.Features.Users.Commands.DeleteUser;
 
-public class DeleteUserCommand : IRequest<DeletedUserDto>
+public class DeleteUserCommand : IRequest<DeletedUserDto>, ISecuredRequest
 {
     public int Id { get; set; }
+
+    public string[] Roles => new[] { Admin, UserDelete };
 
     public class DeleteUserCommandHandler : IRequestHandler<DeleteUserCommand, DeletedUserDto>
     {

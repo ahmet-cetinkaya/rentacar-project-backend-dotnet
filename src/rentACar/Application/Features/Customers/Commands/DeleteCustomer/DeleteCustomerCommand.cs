@@ -2,14 +2,19 @@ using Application.Features.Customers.Dtos;
 using Application.Features.Customers.Rules;
 using Application.Services.Repositories;
 using AutoMapper;
+using Core.Application.Pipelines.Authorization;
 using Domain.Entities;
 using MediatR;
+using static Application.Features.Customers.Constants.OperationClaims;
+using static Domain.Constants.OperationClaims;
 
 namespace Application.Features.Customers.Commands.DeleteCustomer;
 
-public class DeleteCustomerCommand : IRequest<DeletedCustomerDto>
+public class DeleteCustomerCommand : IRequest<DeletedCustomerDto>, ISecuredRequest
 {
     public int Id { get; set; }
+
+    public string[] Roles => new[] { Admin, CustomerDelete };
 
     public class DeleteCustomerCommandHandler : IRequestHandler<DeleteCustomerCommand, DeletedCustomerDto>
     {

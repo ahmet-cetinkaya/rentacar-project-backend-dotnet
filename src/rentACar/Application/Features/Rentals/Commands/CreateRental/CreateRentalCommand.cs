@@ -40,7 +40,13 @@ public class CreateRentalCommand : IRequest<CreatedRentalDto>, ILoggableRequest
         private readonly IPOSService _posService;
         private readonly IRentalsAdditionalServiceService _rentalsAdditionalServiceService;
 
-        public CreateRentalCommandHandler(IRentalRepository rentalRepository, IMapper mapper, RentalBusinessRules rentalBusinessRules, IAdditionalServiceService additionalServiceService, ICarService carService, IFindeksCreditRateService findeksCreditRateService, IInvoiceService invoiceService, IModelService modelService, IMailService mailService, IPOSService posService, IRentalsAdditionalServiceService rentalsAdditionalServiceService)
+        public CreateRentalCommandHandler(IRentalRepository rentalRepository, IMapper mapper,
+                                          RentalBusinessRules rentalBusinessRules,
+                                          IAdditionalServiceService additionalServiceService, ICarService carService,
+                                          IFindeksCreditRateService findeksCreditRateService,
+                                          IInvoiceService invoiceService, IModelService modelService,
+                                          IMailService mailService, IPOSService posService,
+                                          IRentalsAdditionalServiceService rentalsAdditionalServiceService)
         {
             _rentalRepository = rentalRepository;
             _mapper = mapper;
@@ -73,7 +79,8 @@ public class CreateRentalCommand : IRequest<CreatedRentalDto>, ILoggableRequest
             mappedRental.RentStartRentalBranchId = carToBeRented.RentalBranchId;
             mappedRental.RentStartKilometer = carToBeRented.Kilometer;
 
-            IList<AdditionalService> additionalServices = await _additionalServiceService.GetListByIds(request.AdditionalServiceIds);
+            IList<AdditionalService> additionalServices =
+                await _additionalServiceService.GetListByIds(request.AdditionalServiceIds);
             decimal totalAdditionalServicesPrice = additionalServices.Sum(a => a.DailyPrice);
 
             decimal dailyPrice = model.DailyPrice + totalAdditionalServicesPrice;
@@ -84,7 +91,8 @@ public class CreateRentalCommand : IRequest<CreatedRentalDto>, ILoggableRequest
             await _invoiceService.Add(newInvoice);
 
             Rental createdRental = await _rentalRepository.AddAsync(mappedRental);
-            await _rentalsAdditionalServiceService.AddManyByRentalIdAndAdditionalServices(createdRental.Id, additionalServices);
+            await _rentalsAdditionalServiceService.AddManyByRentalIdAndAdditionalServices(
+                createdRental.Id, additionalServices);
 
             _mailService.SendMail(new Mail
             {

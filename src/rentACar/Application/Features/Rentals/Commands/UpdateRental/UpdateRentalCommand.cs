@@ -2,19 +2,28 @@
 using Application.Features.Rentals.Rules;
 using Application.Services.Repositories;
 using AutoMapper;
+using Core.Application.Pipelines.Authorization;
 using Domain.Entities;
 using MediatR;
+using static Application.Features.Rentals.Constants.OperationClaims;
+using static Domain.Constants.OperationClaims;
 
 namespace Application.Features.Rentals.Commands.UpdateRental;
 
-public class UpdateRentalCommand : IRequest<UpdatedRentalDto>
+public class UpdateRentalCommand : IRequest<UpdatedRentalDto>, ISecuredRequest
 {
     public int Id { get; set; }
     public int CarId { get; set; }
     public int CustomerId { get; set; }
+    public int RentStartRentalBranchId { get; set; }
+    public int? RentEndRentalBranchId { get; set; }
     public DateTime RentStartDate { get; set; }
     public DateTime RentEndDate { get; set; }
     public DateTime? ReturnDate { get; set; }
+    public int RentStartKilometer { get; set; }
+    public int? RentEndKilometer { get; set; }
+
+    public string[] Roles => new[] { Admin, RentalUpdate };
 
     public class UpdateRentalCommandHandler : IRequestHandler<UpdateRentalCommand, UpdatedRentalDto>
     {

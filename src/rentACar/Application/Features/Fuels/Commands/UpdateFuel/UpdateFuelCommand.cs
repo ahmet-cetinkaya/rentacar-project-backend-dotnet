@@ -1,15 +1,20 @@
 ﻿using Application.Features.Fuels.Dtos;
 using Application.Services.Repositories;
 using AutoMapper;
+using Core.Application.Pipelines.Authorization;
 using Domain.Entities;
 using MediatR;
+using static Application.Features.Fuels.Constants.OperationClaims;
+using static Domain.Constants.OperationClaims;
 
 namespace Application.Features.Fuels.Commands.UpdateFuel;
 
-public class UpdateFuelCommand : IRequest<UpdatedFuelDto>
+public class UpdateFuelCommand : IRequest<UpdatedFuelDto>, ISecuredRequest
 {
     public int Id { get; set; }
     public string Name { get; set; }
+
+    public string[] Roles => new[] { Admin, FuelDelete };
 
     public class UpdateFuelCommandHandler : IRequestHandler<UpdateFuelCommand, UpdatedFuelDto>
     {

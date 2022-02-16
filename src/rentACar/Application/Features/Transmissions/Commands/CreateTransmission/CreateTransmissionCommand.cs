@@ -2,14 +2,19 @@
 using Application.Features.Transmissions.Rules;
 using Application.Services.Repositories;
 using AutoMapper;
+using Core.Application.Pipelines.Authorization;
 using Domain.Entities;
 using MediatR;
+using static Application.Features.Transmissions.Constants.OperationClaims;
+using static Domain.Constants.OperationClaims;
 
 namespace Application.Features.Transmissions.Commands.CreateTransmission;
 
-public class CreateTransmissionCommand : IRequest<CreatedTransmissionDto>
+public class CreateTransmissionCommand : IRequest<CreatedTransmissionDto>, ISecuredRequest
 {
     public string Name { get; set; }
+
+    public string[] Roles => new[] { Admin, TransmissionAdd };
 
     public class CreateTransmissionCommandHandler : IRequestHandler<CreateTransmissionCommand, CreatedTransmissionDto>
     {

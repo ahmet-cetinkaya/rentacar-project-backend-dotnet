@@ -1,13 +1,17 @@
 ﻿using Application.Features.Cars.Dtos;
 using Application.Services.Repositories;
 using AutoMapper;
+using Core.Application.Pipelines.Authorization;
 using Domain.Entities;
 using Domain.Enums;
 using MediatR;
+using static Application.Features.Cars.Constants.OperationClaims;
+using static Domain.Constants.OperationClaims;
+
 
 namespace Application.Features.Cars.Commands.UpdateCar;
 
-public class UpdateCarCommand : IRequest<UpdatedCarDto>
+public class UpdateCarCommand : IRequest<UpdatedCarDto>, ISecuredRequest
 {
     public int Id { get; set; }
     public int ColorId { get; set; }
@@ -15,6 +19,8 @@ public class UpdateCarCommand : IRequest<UpdatedCarDto>
     public CarState CarState { get; set; }
     public short ModelYear { get; set; }
     public string Plate { get; set; }
+
+    public string[] Roles => new[] { Admin, CarUpdate };
 
     public class UpdateCarCommandHandler : IRequestHandler<UpdateCarCommand, UpdatedCarDto>
     {

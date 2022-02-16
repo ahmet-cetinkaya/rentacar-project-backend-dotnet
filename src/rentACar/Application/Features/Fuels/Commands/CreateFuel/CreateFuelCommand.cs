@@ -2,14 +2,19 @@
 using Application.Features.Fuels.Rules;
 using Application.Services.Repositories;
 using AutoMapper;
+using Core.Application.Pipelines.Authorization;
 using Domain.Entities;
 using MediatR;
+using static Application.Features.Fuels.Constants.OperationClaims;
+using static Domain.Constants.OperationClaims;
 
 namespace Application.Features.Fuels.Commands.CreateFuel;
 
-public class CreateFuelCommand : IRequest<CreatedFuelDto>
+public class CreateFuelCommand : IRequest<CreatedFuelDto>, ISecuredRequest
 {
     public string Name { get; set; }
+
+    public string[] Roles => new[] { Admin, FuelAdd };
 
     public class CreateFuelCommandHandler : IRequestHandler<CreateFuelCommand, CreatedFuelDto>
     {

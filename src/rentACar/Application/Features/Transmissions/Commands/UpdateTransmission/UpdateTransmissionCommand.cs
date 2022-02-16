@@ -1,15 +1,20 @@
 ﻿using Application.Features.Transmissions.Dtos;
 using Application.Services.Repositories;
 using AutoMapper;
+using Core.Application.Pipelines.Authorization;
 using Domain.Entities;
 using MediatR;
+using static Application.Features.Transmissions.Constants.OperationClaims;
+using static Domain.Constants.OperationClaims;
 
 namespace Application.Features.Transmissions.Commands.UpdateTransmission;
 
-public class UpdateTransmissionCommand : IRequest<UpdatedTransmissionDto>
+public class UpdateTransmissionCommand : IRequest<UpdatedTransmissionDto>, ISecuredRequest
 {
     public int Id { get; set; }
     public string Name { get; set; }
+
+    public string[] Roles => new[] { Admin, TransmissionUpdate };
 
     public class UpdateTransmissionCommandHandler : IRequestHandler<UpdateTransmissionCommand, UpdatedTransmissionDto>
     {

@@ -2,15 +2,20 @@ using Application.Features.AdditionalServices.Dtos;
 using Application.Features.AdditionalServices.Rules;
 using Application.Services.Repositories;
 using AutoMapper;
+using Core.Application.Pipelines.Authorization;
 using Domain.Entities;
 using MediatR;
+using static Application.Features.AdditionalServices.Constants.OperationClaims;
+using static Domain.Constants.OperationClaims;
 
 namespace Application.Features.AdditionalServices.Commands.CreateAdditionalService;
 
-public class CreateAdditionalServiceCommand : IRequest<CreatedAdditionalServiceDto>
+public class CreateAdditionalServiceCommand : IRequest<CreatedAdditionalServiceDto>, ISecuredRequest
 {
     public string Name { get; set; }
     public decimal DailyPrice { get; set; }
+
+    public string[] Roles => new[] { Admin, AdditionalServiceAdd };
 
     public class
         CreateAdditionalServiceCommandHandler : IRequestHandler<CreateAdditionalServiceCommand,

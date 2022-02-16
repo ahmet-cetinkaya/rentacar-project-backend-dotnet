@@ -2,17 +2,22 @@ using Application.Features.IndividualCustomers.Dtos;
 using Application.Features.IndividualCustomers.Rules;
 using Application.Services.Repositories;
 using AutoMapper;
+using Core.Application.Pipelines.Authorization;
 using Domain.Entities;
 using MediatR;
+using static Application.Features.IndividualCustomers.Constants.OperationClaims;
+using static Domain.Constants.OperationClaims;
 
 namespace Application.Features.IndividualCustomers.Commands.CreateIndividualCustomer;
 
-public class CreateIndividualCustomerCommand : IRequest<CreatedIndividualCustomerDto>
+public class CreateIndividualCustomerCommand : IRequest<CreatedIndividualCustomerDto>, ISecuredRequest
 {
     public int CustomerId { get; set; }
     public string FirstName { get; set; }
     public string LastName { get; set; }
     public string NationalIdentity { get; set; }
+
+    public string[] Roles => new[] { Admin, IndividualCustomerAdd };
 
     public class
         CreateIndividualCustomerCommandHandler : IRequestHandler<CreateIndividualCustomerCommand,

@@ -2,13 +2,16 @@
 using Application.Features.Models.Rules;
 using Application.Services.Repositories;
 using AutoMapper;
+using Core.Application.Pipelines.Authorization;
 using Core.Application.Pipelines.Caching;
 using Domain.Entities;
 using MediatR;
+using static Application.Features.Models.Constants.OperationClaims;
+using static Domain.Constants.OperationClaims;
 
 namespace Application.Features.Models.Commands.CreateModel;
 
-public class CreateModelCommand : IRequest<CreatedModelDto>, ICacheRemoverRequest
+public class CreateModelCommand : IRequest<CreatedModelDto>, ISecuredRequest, ICacheRemoverRequest
 {
     public string Name { get; set; }
     public decimal DailyPrice { get; set; }
@@ -19,6 +22,7 @@ public class CreateModelCommand : IRequest<CreatedModelDto>, ICacheRemoverReques
 
     public bool BypassCache { get; }
     public string CacheKey => "models-list";
+    public string[] Roles => new[] { Admin, ModelsAdd };
 
     public class CreateModelCommandHandler : IRequestHandler<CreateModelCommand, CreatedModelDto>
     {

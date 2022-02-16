@@ -1,14 +1,19 @@
 ﻿using Application.Features.Transmissions.Dtos;
 using Application.Services.Repositories;
 using AutoMapper;
+using Core.Application.Pipelines.Authorization;
 using Domain.Entities;
 using MediatR;
+using static Application.Features.Transmissions.Constants.OperationClaims;
+using static Domain.Constants.OperationClaims;
 
 namespace Application.Features.Transmissions.Commands.DeleteTransmission;
 
-public class DeleteTransmissionCommand : IRequest<DeletedTransmissionDto>
+public class DeleteTransmissionCommand : IRequest<DeletedTransmissionDto>, ISecuredRequest
 {
     public int Id { get; set; }
+
+    public string[] Roles => new[] { Admin, TransmissionDelete };
 
     public class DeleteTransmissionCommandHandler : IRequestHandler<DeleteTransmissionCommand, DeletedTransmissionDto>
     {

@@ -2,15 +2,20 @@ using Application.Features.Customers.Dtos;
 using Application.Features.Customers.Rules;
 using Application.Services.Repositories;
 using AutoMapper;
+using Core.Application.Pipelines.Authorization;
 using Domain.Entities;
 using MediatR;
+using static Application.Features.Customers.Constants.OperationClaims;
+using static Domain.Constants.OperationClaims;
 
 namespace Application.Features.Customers.Commands.UpdateCustomer;
 
-public class UpdateCustomerCommand : IRequest<UpdatedCustomerDto>
+public class UpdateCustomerCommand : IRequest<UpdatedCustomerDto>, ISecuredRequest
 {
     public int Id { get; set; }
     public int UserId { get; set; }
+
+    public string[] Roles => new[] { Admin, CustomerUpdate };
 
     public class UpdateCustomerCommandHandler : IRequestHandler<UpdateCustomerCommand, UpdatedCustomerDto>
     {

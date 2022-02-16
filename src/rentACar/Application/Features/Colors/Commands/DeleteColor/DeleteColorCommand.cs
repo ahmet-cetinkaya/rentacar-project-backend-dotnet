@@ -1,14 +1,19 @@
 ﻿using Application.Features.Colors.Dtos;
 using Application.Services.Repositories;
 using AutoMapper;
+using Core.Application.Pipelines.Authorization;
 using Domain.Entities;
 using MediatR;
+using static Application.Features.Colors.Constants.OperationClaims;
+using static Domain.Constants.OperationClaims;
 
 namespace Application.Features.Colors.Commands.DeleteColor;
 
-public class DeleteColorCommand : IRequest<DeletedColorDto>
+public class DeleteColorCommand : IRequest<DeletedColorDto>, ISecuredRequest
 {
     public int Id { get; set; }
+
+    public string[] Roles => new[] { Admin, ColorDelete };
 
     public class DeleteColorCommandHandler : IRequestHandler<DeleteColorCommand, DeletedColorDto>
     {

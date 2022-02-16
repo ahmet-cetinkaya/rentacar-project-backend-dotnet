@@ -1,15 +1,20 @@
 ﻿using Application.Features.Brands.Dtos;
 using Application.Services.Repositories;
 using AutoMapper;
+using Core.Application.Pipelines.Authorization;
 using Domain.Entities;
 using MediatR;
+using static Application.Features.Brands.Constants.OperationClaims;
+using static Domain.Constants.OperationClaims;
 
 namespace Application.Features.Brands.Commands.UpdateBrand;
 
-public class UpdateBrandCommand : IRequest<UpdatedBrandDto>
+public class UpdateBrandCommand : IRequest<UpdatedBrandDto>, ISecuredRequest
 {
     public int Id { get; set; }
     public string Name { get; set; }
+
+    public string[] Roles => new[] { Admin, BrandUpdate };
 
     public class UpdateBrandCommandHandler : IRequestHandler<UpdateBrandCommand, UpdatedBrandDto>
     {

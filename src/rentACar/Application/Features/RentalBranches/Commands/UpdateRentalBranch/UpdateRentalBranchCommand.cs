@@ -2,16 +2,21 @@ using Application.Features.RentalBranches.Dtos;
 using Application.Features.RentalBranches.Rules;
 using Application.Services.Repositories;
 using AutoMapper;
+using Core.Application.Pipelines.Authorization;
 using Domain.Entities;
 using Domain.Enums;
 using MediatR;
+using static Application.Features.RentalBranches.Constants.OperationClaims;
+using static Domain.Constants.OperationClaims;
 
 namespace Application.Features.RentalBranches.Commands.UpdateRentalBranch;
 
-public class UpdateRentalBranchCommand : IRequest<UpdatedRentalBranchDto>
+public class UpdateRentalBranchCommand : IRequest<UpdatedRentalBranchDto>, ISecuredRequest
 {
     public int Id { get; set; }
     public City City { get; set; }
+
+    public string[] Roles => new[] { Admin, RentalBranchUpdate };
 
     public class UpdateRentalBranchCommandHandler : IRequestHandler<UpdateRentalBranchCommand, UpdatedRentalBranchDto>
     {
