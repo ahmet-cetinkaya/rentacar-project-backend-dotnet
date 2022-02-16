@@ -1,6 +1,7 @@
 ﻿using Application.Features.Brands.Models;
 using Application.Services.Repositories;
 using AutoMapper;
+using Core.Application.Pipelines.Caching;
 using Core.Application.Requests;
 using Core.Persistence.Paging;
 using Domain.Entities;
@@ -8,9 +9,13 @@ using MediatR;
 
 namespace Application.Features.Brands.Queries.GetListBrand;
 
-public class GetListBrandQuery : IRequest<BrandListModel>
+public class GetListBrandQuery : IRequest<BrandListModel>, ICachableRequest
 {
     public PageRequest PageRequest { get; set; }
+
+    public bool BypassCache { get; }
+    public string CacheKey => "brands-list";
+    public TimeSpan? SlidingExpiration { get; }
 
     public class GetListBrandQueryHandler : IRequestHandler<GetListBrandQuery, BrandListModel>
     {

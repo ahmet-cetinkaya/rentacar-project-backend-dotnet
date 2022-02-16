@@ -2,6 +2,7 @@
 using Application.Services.Repositories;
 using AutoMapper;
 using Core.Application.Pipelines.Authorization;
+using Core.Application.Pipelines.Caching;
 using Domain.Entities;
 using MediatR;
 using static Application.Features.Brands.Constants.OperationClaims;
@@ -9,10 +10,12 @@ using static Domain.Constants.OperationClaims;
 
 namespace Application.Features.Brands.Commands.DeleteBrand;
 
-public class DeleteBrandCommand : IRequest<DeletedBrandDto>, ISecuredRequest
+public class DeleteBrandCommand : IRequest<DeletedBrandDto>, ISecuredRequest, ICacheRemoverRequest
 {
     public int Id { get; set; }
 
+    public bool BypassCache { get; }
+    public string CacheKey => "brands-list";
     public string[] Roles => new[] { Admin, BrandDelete };
 
     public class DeleteBrandCommandHandler : IRequestHandler<DeleteBrandCommand, DeletedBrandDto>
