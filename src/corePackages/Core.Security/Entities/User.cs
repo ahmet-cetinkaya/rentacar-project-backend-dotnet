@@ -19,8 +19,9 @@ public class User : Entity
     }
 
     public User(int id, string firstName, string lastName, string email, byte[] passwordSalt, byte[] passwordHash,
-                bool status) : base(id)
+                bool status) : this()
     {
+        Id = id;
         FirstName = firstName;
         LastName = lastName;
         Email = email;

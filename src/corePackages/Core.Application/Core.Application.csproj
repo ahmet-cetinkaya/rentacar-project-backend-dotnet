@@ -16,10 +16,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Core.CrossCuttingConcers\Core.CrossCuttingConcerns.csproj" />
+    <ProjectReference Include="..\Core.Security\Core.Security.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Pipelines\Caching\" />
+    <Folder Include="Pipelines\Authorization\" />
   </ItemGroup>
 
 </Project>
