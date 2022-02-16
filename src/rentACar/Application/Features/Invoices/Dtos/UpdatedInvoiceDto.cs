@@ -3,7 +3,7 @@ namespace Application.Features.Invoices.Dtos;
 public class UpdatedInvoiceDto
 {
     public int Id { get; set; }
-    public string CustomerName { get; set; }
+    public int CustomerId { get; set; }
     public string No { get; set; }
     public DateTime CreatedDate { get; set; }
     public DateTime RentalStartDate { get; set; }

@@ -3,14 +3,13 @@
 public class UpdatedRentalDto
 {
     public int Id { get; set; }
-    public string CarModelBrandName { get; set; }
-    public string CarModelName { get; set; }
-    public string CarColorName { get; set; }
-    public short CarModelYear { get; set; }
-    public string CarPlate { get; set; }
-    public string CustomerFullName { get; set; }
-    public string CustomerMail { get; set; }
+    public int CarId { get; set; }
+    public int CustomerId { get; set; }
+    public int RentStartRentalBranchId { get; set; }
+    public int? RentEndRentalBranchId { get; set; }
     public DateTime RentStartDate { get; set; }
     public DateTime RentEndDate { get; set; }
     public DateTime? ReturnDate { get; set; }
+    public int RentStartKilometer { get; set; }
+    public int? RentEndKilometer { get; set; }
 }

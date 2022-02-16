@@ -1,9 +1,9 @@
-﻿using System.Text;
-using MediatR;
+﻿using MediatR;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using System.Text;
 
 namespace Core.Application.Pipelines.Caching;
 

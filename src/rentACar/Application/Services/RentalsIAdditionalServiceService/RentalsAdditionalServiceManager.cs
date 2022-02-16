@@ -17,7 +17,7 @@ public class RentalsAdditionalServiceManager : IRentalsAdditionalServiceService
     {
         IList<RentalsAdditionalService> rentalsAdditionalServices =
             additionalServices.Select(a => new RentalsAdditionalService
-                                          { RentalId = rentalId, AdditionalServiceId = a.Id }).ToList();
+            { RentalId = rentalId, AdditionalServiceId = a.Id }).ToList();
 
         foreach (RentalsAdditionalService rentalsAdditionalService in rentalsAdditionalServices)
             await _additionalServiceRepository.AddAsync(rentalsAdditionalService);

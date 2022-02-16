@@ -33,7 +33,7 @@ public class ElasticTestController : BaseController
         {
             IndexName = "models",
             Item = new CreateModelCommand
-                { BrandId = 1, FuelId = 1, TransmissionId = 1, DailyPrice = 1000, Name = "BMW" }
+            { BrandId = 1, FuelId = 1, TransmissionId = 1, DailyPrice = 1000, Name = "BMW" }
         };
 
         IElasticSearchResult result2 = await _elasticSearch.InsertAsync(model);

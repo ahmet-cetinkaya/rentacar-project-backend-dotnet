@@ -16,10 +16,8 @@ public class EfRepositoryBase<TEntity, TContext> : IAsyncRepository<TEntity>, IR
         Context = context;
     }
 
-    public async Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> predicate)
-    {
-        return await Context.Set<TEntity>().FirstOrDefaultAsync(predicate);
-    }
+    public async Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> predicate) =>
+        await Context.Set<TEntity>().FirstOrDefaultAsync(predicate);
 
     public async Task<IPaginate<TEntity>> GetListAsync(Expression<Func<TEntity, bool>>? predicate = null,
                                                        Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy =
@@ -38,10 +36,7 @@ public class EfRepositoryBase<TEntity, TContext> : IAsyncRepository<TEntity>, IR
         return await queryable.ToPaginateAsync(index, size, 0, cancellationToken);
     }
 
-    public IQueryable<TEntity> Query()
-    {
-        return Context.Set<TEntity>();
-    }
+    public IQueryable<TEntity> Query() => Context.Set<TEntity>();
 
     public async Task<TEntity> AddAsync(TEntity entity)
     {
@@ -64,10 +59,7 @@ public class EfRepositoryBase<TEntity, TContext> : IAsyncRepository<TEntity>, IR
         return entity;
     }
 
-    public TEntity Get(Expression<Func<TEntity, bool>> predicate)
-    {
-        return Context.Set<TEntity>().FirstOrDefault(predicate);
-    }
+    public TEntity Get(Expression<Func<TEntity, bool>> predicate) => Context.Set<TEntity>().FirstOrDefault(predicate);
 
     public IPaginate<TEntity> GetList(Expression<Func<TEntity, bool>>? predicate = null,
                                       Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,

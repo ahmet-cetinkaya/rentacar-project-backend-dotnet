@@ -1,5 +1,4 @@
-﻿using System.Reflection;
-using Application.Features.AdditionalServices.Rules;
+﻿using Application.Features.AdditionalServices.Rules;
 using Application.Features.Auths.Rules;
 using Application.Features.Brands.Rules;
 using Application.Features.CarDamages.Rules;
@@ -37,6 +36,7 @@ using Core.Mailing.MailKitImplementations;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
+using System.Reflection;
 
 namespace Application;
 
