@@ -27,6 +27,7 @@ public class BaseDbContext : DbContext
     public DbSet<OperationClaim> OperationClaims { get; set; }
     public DbSet<User> Users { get; set; }
     public DbSet<UserOperationClaim> UserOperationClaims { get; set; }
+    public DbSet<RefreshToken> RefreshTokens { get; set; }
     public DbSet<Transmission> Transmissions { get; set; }
 
     public BaseDbContext(DbContextOptions dbContextOptions, IConfiguration configuration) : base(dbContextOptions)
@@ -172,6 +173,22 @@ public class BaseDbContext : DbContext
             m.HasMany(p => p.Cars);
             m.HasOne(p => p.Fuel);
             m.HasOne(p => p.Transmission);
+        });
+
+        modelBuilder.Entity<RefreshToken>(r =>
+        {
+            r.ToTable("RefreshTokens").HasKey(r => r.Id);
+            r.Property(r => r.Id).HasColumnName("Id");
+            r.Property(r => r.UserId).HasColumnName("UserId");
+            r.Property(r => r.Token).HasColumnName("Token");
+            r.Property(r => r.Expires).HasColumnName("Expires");
+            r.Property(r => r.Created).HasColumnName("Created");
+            r.Property(r => r.CreatedByIp).HasColumnName("CreatedByIp");
+            r.Property(r => r.Revoked).HasColumnName("Revoked");
+            r.Property(r => r.RevokedByIp).HasColumnName("RevokedByIp");
+            r.Property(r => r.ReplacedByToken).HasColumnName("ReplacedByToken");
+            r.Property(r => r.ReasonRevoked).HasColumnName("ReasonRevoked");
+            r.HasOne(r => r.User);
         });
 
         modelBuilder.Entity<Rental>(r =>

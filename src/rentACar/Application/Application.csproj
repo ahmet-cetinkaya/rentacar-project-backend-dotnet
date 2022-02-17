@@ -28,6 +28,8 @@
 
   <ItemGroup>
     <Folder Include="Features\Auths\Commands\Login\" />
+    <Folder Include="Features\Auths\Commands\RefleshToken\" />
+    <Folder Include="Features\Auths\Commands\RevokeToken\" />
     <Folder Include="Features\Auths\Commands\Register\" />
     <Folder Include="Features\Auths\Models\" />
     <Folder Include="Features\Auths\Dtos\" />
@@ -47,6 +49,7 @@
     <Folder Include="Services\CarService\" />
     <Folder Include="Services\ModelService\" />
     <Folder Include="Services\InvoiceService\" />
+    <Folder Include="Services\UserService\" />
   </ItemGroup>
 
   <ItemGroup>

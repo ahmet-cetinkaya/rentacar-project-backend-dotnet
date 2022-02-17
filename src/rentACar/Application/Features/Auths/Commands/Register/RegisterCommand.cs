@@ -1,4 +1,5 @@
-﻿using Application.Features.Auths.Rules;
+﻿using Application.Features.Auths.Dtos;
+using Application.Features.Auths.Rules;
 using Application.Services.AuthService;
 using Application.Services.Repositories;
 using Core.Security.Dtos;
@@ -9,11 +10,12 @@ using MediatR;
 
 namespace Application.Features.Auths.Commands.Register;
 
-public class RegisterCommand : IRequest<AccessToken>
+public class RegisterCommand : IRequest<AuthenticateTokensDto>
 {
     public UserForRegisterDto UserForRegisterDto { get; set; }
+    public string IPAddress { get; set; }
 
-    public class RegisterCommandHandler : IRequestHandler<RegisterCommand, AccessToken>
+    public class RegisterCommandHandler : IRequestHandler<RegisterCommand, AuthenticateTokensDto>
     {
         private readonly IUserRepository _userRepository;
         private readonly IAuthService _authService;
@@ -27,7 +29,7 @@ public class RegisterCommand : IRequest<AccessToken>
             _authBusinessRules = authBusinessRules;
         }
 
-        public async Task<AccessToken> Handle(RegisterCommand request, CancellationToken cancellationToken)
+        public async Task<AuthenticateTokensDto> Handle(RegisterCommand request, CancellationToken cancellationToken)
         {
             await _authBusinessRules.UserEmailShouldBeNotExists(request.UserForRegisterDto.Email);
 
@@ -44,8 +46,14 @@ public class RegisterCommand : IRequest<AccessToken>
             };
             User createdUser = await _userRepository.AddAsync(newUser);
 
-            AccessToken accessToken = await _authService.CreateAccessToken(createdUser);
-            return accessToken;
+            AccessToken createdAccessToken = await _authService.CreateAccessToken(createdUser);
+
+            RefreshToken createdRefreshToken = await _authService.CreateRefreshToken(createdUser, request.IPAddress);
+            RefreshToken addedRefreshToken = await _authService.AddRefreshToken(createdRefreshToken);
+
+            AuthenticateTokensDto authenticateTokensDto = new()
+            { AccessToken = createdAccessToken, RefreshToken = addedRefreshToken };
+            return authenticateTokensDto;
         }
     }
 }

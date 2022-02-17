@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Persistence.Contexts;
 
@@ -11,9 +12,10 @@ using Persistence.Contexts;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(BaseDbContext))]
-    partial class BaseDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220216193228_Add-RefreshToken")]
+    partial class AddRefreshToken
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -71,10 +73,12 @@ namespace Persistence.Migrations
                         .HasColumnName("Expires");
 
                     b.Property<string>("ReasonRevoked")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("ReasonRevoked");
 
                     b.Property<string>("ReplacedByToken")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("ReplacedByToken");
 
@@ -83,6 +87,7 @@ namespace Persistence.Migrations
                         .HasColumnName("Revoked");
 
                     b.Property<string>("RevokedByIp")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("RevokedByIp");
 
@@ -568,7 +573,7 @@ namespace Persistence.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2022, 2, 16, 22, 46, 47, 552, DateTimeKind.Local).AddTicks(3327))
+                        .HasDefaultValue(new DateTime(2022, 2, 16, 22, 32, 26, 108, DateTimeKind.Local).AddTicks(6713))
                         .HasColumnName("CreatedDate");
 
                     b.Property<int>("CustomerId")

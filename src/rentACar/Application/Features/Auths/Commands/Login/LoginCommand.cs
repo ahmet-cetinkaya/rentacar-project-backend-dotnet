@@ -1,6 +1,7 @@
-﻿using Application.Features.Auths.Rules;
+﻿using Application.Features.Auths.Dtos;
+using Application.Features.Auths.Rules;
 using Application.Services.AuthService;
-using Application.Services.Repositories;
+using Application.Services.UserService;
 using Core.Security.Dtos;
 using Core.Security.Entities;
 using Core.Security.JWT;
@@ -8,33 +9,40 @@ using MediatR;
 
 namespace Application.Features.Auths.Commands.Login;
 
-public class LoginCommand : IRequest<AccessToken>
+public class LoginCommand : IRequest<AuthenticateTokensDto>
 {
     public UserForLoginDto UserForLoginDto { get; set; }
+    public string IPAddress { get; set; }
 
-    public class LoginCommandHandler : IRequestHandler<LoginCommand, AccessToken>
+    public class LoginCommandHandler : IRequestHandler<LoginCommand, AuthenticateTokensDto>
     {
-        private readonly IUserRepository _userRepository;
+        private readonly IUserService _userService;
         private readonly IAuthService _authService;
         private readonly AuthBusinessRules _authBusinessRules;
 
-        public LoginCommandHandler(IUserRepository userRepository, IAuthService authService,
+        public LoginCommandHandler(IUserService userService, IAuthService authService,
                                    AuthBusinessRules authBusinessRules)
         {
-            _userRepository = userRepository;
+            _userService = userService;
             _authService = authService;
             _authBusinessRules = authBusinessRules;
         }
 
-        public async Task<AccessToken> Handle(LoginCommand request, CancellationToken cancellationToken)
+        public async Task<AuthenticateTokensDto> Handle(LoginCommand request, CancellationToken cancellationToken)
         {
-            await _authBusinessRules.UserEmailShouldBeExists(request.UserForLoginDto.Email);
-
-            User? user = await _userRepository.GetAsync(u => u.Email == request.UserForLoginDto.Email);
+            User? user = await _userService.GetByEmail(request.UserForLoginDto.Email);
+            await _authBusinessRules.UserShouldBeExists(user);
             await _authBusinessRules.UserPasswordShouldBeMatch(user.Id, request.UserForLoginDto.Password);
 
-            AccessToken accessToken = await _authService.CreateAccessToken(user);
-            return accessToken;
+            AccessToken createdAccessToken = await _authService.CreateAccessToken(user);
+
+            RefreshToken createdRefreshToken = await _authService.CreateRefreshToken(user, request.IPAddress);
+            RefreshToken addedRefreshToken = await _authService.AddRefreshToken(createdRefreshToken);
+            await _authService.DeleteOldRefreshTokens(user.Id);
+
+            AuthenticateTokensDto authenticateTokensDto = new()
+            { AccessToken = createdAccessToken, RefreshToken = addedRefreshToken };
+            return authenticateTokensDto;
         }
     }
 }

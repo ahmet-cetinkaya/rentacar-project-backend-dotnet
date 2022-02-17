@@ -24,6 +24,7 @@ using Application.Services.FindeksCreditRateService;
 using Application.Services.InvoiceService;
 using Application.Services.ModelService;
 using Application.Services.RentalsIAdditionalServiceService;
+using Application.Services.UserService;
 using Core.Application.Pipelines.Authorization;
 using Core.Application.Pipelines.Caching;
 using Core.Application.Pipelines.Logging;
@@ -82,6 +83,7 @@ public static class ApplicationServiceRegistration
         services.AddScoped<IInvoiceService, InvoiceManager>();
         services.AddScoped<IModelService, ModelManager>();
         services.AddScoped<IRentalsAdditionalServiceService, RentalsAdditionalServiceManager>();
+        services.AddScoped<IUserService, UserManager>();
 
         services.AddSingleton<IMailService, MailKitMailService>();
         services.AddSingleton<LoggerServiceBase, FileLogger>();
