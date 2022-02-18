@@ -8,12 +8,12 @@ using MediatR;
 
 namespace Application.Features.Auths.Commands.RefleshToken;
 
-public class RefreshTokenCommand : IRequest<AuthenticateTokensDto>
+public class RefreshTokenCommand : IRequest<RefreshedTokensDto>
 {
     public string? RefleshToken { get; set; }
     public string? IPAddress { get; set; }
 
-    public class RefreshTokenCommandHandler : IRequestHandler<RefreshTokenCommand, AuthenticateTokensDto>
+    public class RefreshTokenCommandHandler : IRequestHandler<RefreshTokenCommand, RefreshedTokensDto>
     {
         private readonly IAuthService _authService;
         private readonly IUserService _userService;
@@ -27,8 +27,8 @@ public class RefreshTokenCommand : IRequest<AuthenticateTokensDto>
             _authBusinessRules = authBusinessRules;
         }
 
-        public async Task<AuthenticateTokensDto> Handle(RefreshTokenCommand request,
-                                                        CancellationToken cancellationToken)
+        public async Task<RefreshedTokensDto> Handle(RefreshTokenCommand request,
+                                                     CancellationToken cancellationToken)
         {
             RefreshToken? refreshToken = await _authService.GetRefreshTokenByToken(request.RefleshToken);
             await _authBusinessRules.RefreshTokenShouldBeExists(refreshToken);
@@ -47,9 +47,9 @@ public class RefreshTokenCommand : IRequest<AuthenticateTokensDto>
 
             AccessToken createdAccessToken = await _authService.CreateAccessToken(user);
 
-            AuthenticateTokensDto authenticateTokensDto = new()
+            RefreshedTokensDto refreshedTokensDto = new()
                 { AccessToken = createdAccessToken, RefreshToken = addedRefreshToken };
-            return authenticateTokensDto;
+            return refreshedTokensDto;
         }
     }
 }

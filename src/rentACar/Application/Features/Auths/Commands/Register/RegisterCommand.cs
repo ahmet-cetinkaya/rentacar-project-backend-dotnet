@@ -10,12 +10,12 @@ using MediatR;
 
 namespace Application.Features.Auths.Commands.Register;
 
-public class RegisterCommand : IRequest<AuthenticateTokensDto>
+public class RegisterCommand : IRequest<RegisteredDto>
 {
     public UserForRegisterDto UserForRegisterDto { get; set; }
     public string IPAddress { get; set; }
 
-    public class RegisterCommandHandler : IRequestHandler<RegisterCommand, AuthenticateTokensDto>
+    public class RegisterCommandHandler : IRequestHandler<RegisterCommand, RegisteredDto>
     {
         private readonly IUserRepository _userRepository;
         private readonly IAuthService _authService;
@@ -29,7 +29,7 @@ public class RegisterCommand : IRequest<AuthenticateTokensDto>
             _authBusinessRules = authBusinessRules;
         }
 
-        public async Task<AuthenticateTokensDto> Handle(RegisterCommand request, CancellationToken cancellationToken)
+        public async Task<RegisteredDto> Handle(RegisterCommand request, CancellationToken cancellationToken)
         {
             await _authBusinessRules.UserEmailShouldBeNotExists(request.UserForRegisterDto.Email);
 
@@ -51,9 +51,9 @@ public class RegisterCommand : IRequest<AuthenticateTokensDto>
             RefreshToken createdRefreshToken = await _authService.CreateRefreshToken(createdUser, request.IPAddress);
             RefreshToken addedRefreshToken = await _authService.AddRefreshToken(createdRefreshToken);
 
-            AuthenticateTokensDto authenticateTokensDto = new()
-            { AccessToken = createdAccessToken, RefreshToken = addedRefreshToken };
-            return authenticateTokensDto;
+            RegisteredDto registeredDto = new()
+                { AccessToken = createdAccessToken, RefreshToken = addedRefreshToken };
+            return registeredDto;
         }
     }
 }

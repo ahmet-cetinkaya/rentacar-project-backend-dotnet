@@ -4,17 +4,18 @@ using Application.Services.AuthService;
 using Application.Services.UserService;
 using Core.Security.Dtos;
 using Core.Security.Entities;
+using Core.Security.Enums;
 using Core.Security.JWT;
 using MediatR;
 
 namespace Application.Features.Auths.Commands.Login;
 
-public class LoginCommand : IRequest<AuthenticateTokensDto>
+public class LoginCommand : IRequest<LoggedDto>
 {
     public UserForLoginDto UserForLoginDto { get; set; }
     public string IPAddress { get; set; }
 
-    public class LoginCommandHandler : IRequestHandler<LoginCommand, AuthenticateTokensDto>
+    public class LoginCommandHandler : IRequestHandler<LoginCommand, LoggedDto>
     {
         private readonly IUserService _userService;
         private readonly IAuthService _authService;
@@ -28,11 +29,25 @@ public class LoginCommand : IRequest<AuthenticateTokensDto>
             _authBusinessRules = authBusinessRules;
         }
 
-        public async Task<AuthenticateTokensDto> Handle(LoginCommand request, CancellationToken cancellationToken)
+        public async Task<LoggedDto> Handle(LoginCommand request, CancellationToken cancellationToken)
         {
             User? user = await _userService.GetByEmail(request.UserForLoginDto.Email);
             await _authBusinessRules.UserShouldBeExists(user);
             await _authBusinessRules.UserPasswordShouldBeMatch(user.Id, request.UserForLoginDto.Password);
+
+            LoggedDto loggedDto = new();
+
+            if (user.AuthenticatorType is not AuthenticatorType.None)
+            {
+                if (request.UserForLoginDto.AuthenticatorCode is null)
+                {
+                    await _authService.SendAuthenticatorCode(user);
+                    loggedDto.RequiredAuthenticatorType = user.AuthenticatorType;
+                    return loggedDto;
+                }
+
+                await _authService.VerifyAuthenticatorCode(user, request.UserForLoginDto.AuthenticatorCode);
+            }
 
             AccessToken createdAccessToken = await _authService.CreateAccessToken(user);
 
@@ -40,9 +55,9 @@ public class LoginCommand : IRequest<AuthenticateTokensDto>
             RefreshToken addedRefreshToken = await _authService.AddRefreshToken(createdRefreshToken);
             await _authService.DeleteOldRefreshTokens(user.Id);
 
-            AuthenticateTokensDto authenticateTokensDto = new()
-            { AccessToken = createdAccessToken, RefreshToken = addedRefreshToken };
-            return authenticateTokensDto;
+            loggedDto.AccessToken = createdAccessToken;
+            loggedDto.RefreshToken = addedRefreshToken;
+            return loggedDto;
         }
     }
 }

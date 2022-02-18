@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Persistence.Contexts;
 
@@ -11,9 +12,10 @@ using Persistence.Contexts;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(BaseDbContext))]
-    partial class BaseDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220218102344_Add-EmailAuthenticator")]
+    partial class AddEmailAuthenticator
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -31,6 +33,7 @@ namespace Persistence.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("ActivationKey")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("ActivationKey");
 
@@ -599,7 +602,7 @@ namespace Persistence.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2022, 2, 18, 14, 27, 44, 53, DateTimeKind.Local).AddTicks(4208))
+                        .HasDefaultValue(new DateTime(2022, 2, 18, 13, 23, 42, 625, DateTimeKind.Local).AddTicks(5408))
                         .HasColumnName("CreatedDate");
 
                     b.Property<int>("CustomerId")

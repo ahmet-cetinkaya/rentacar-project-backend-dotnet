@@ -117,6 +117,15 @@ public class BaseDbContext : DbContext
             c.HasMany(c => c.Rentals);
         });
 
+        modelBuilder.Entity<EmailAuthenticator>(e =>
+        {
+            e.ToTable("EmailAuthenticators").HasKey(e => e.Id);
+            e.Property(e => e.UserId).HasColumnName("UserId");
+            e.Property(e => e.ActivationKey).HasColumnName("ActivationKey");
+            e.Property(e => e.IsVerified).HasColumnName("IsVerified");
+            e.HasOne(e => e.User);
+        });
+
         modelBuilder.Entity<FindeksCreditRate>(f =>
         {
             f.ToTable("FindeksCreditRates").HasKey(f => f.Id);
@@ -246,6 +255,7 @@ public class BaseDbContext : DbContext
             u.Property(u => u.PasswordSalt).HasColumnName("PasswordSalt");
             u.Property(u => u.PasswordHash).HasColumnName("PasswordHash");
             u.Property(u => u.Status).HasColumnName("Status").HasDefaultValue(true);
+            u.Property(u => u.AuthenticatorType).HasColumnName("AuthenticatorType");
         });
 
         modelBuilder.Entity<UserOperationClaim>(u =>

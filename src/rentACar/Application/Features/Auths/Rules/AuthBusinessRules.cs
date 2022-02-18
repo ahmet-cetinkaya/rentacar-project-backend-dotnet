@@ -8,10 +8,24 @@ namespace Application.Features.Auths.Rules;
 public class AuthBusinessRules
 {
     private readonly IUserRepository _userRepository;
+    private readonly IEmailAuthenticatorRepository _emailAuthenticatorRepository;
 
-    public AuthBusinessRules(IUserRepository userRepository)
+    public AuthBusinessRules(IUserRepository userRepository, IEmailAuthenticatorRepository emailAuthenticatorRepository)
     {
         _userRepository = userRepository;
+        _emailAuthenticatorRepository = emailAuthenticatorRepository;
+    }
+
+    public Task EmailAuthenticatorShouldBeExists(EmailAuthenticator? emailAuthenticator)
+    {
+        if (emailAuthenticator is null) throw new BusinessException("Email authenticator don't exists.");
+        return Task.CompletedTask;
+    }
+
+    public Task EmailAuthenticatorActivationKeyShouldBeExists(EmailAuthenticator emailAuthenticator)
+    {
+        if (emailAuthenticator.ActivationKey is null) throw new BusinessException("Email Activation Key don't exists.");
+        return Task.CompletedTask;
     }
 
     public Task UserShouldBeExists(User? user)
