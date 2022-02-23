@@ -36,19 +36,22 @@
     <Folder Include="Features\Auths\Tests\" />
     <Folder Include="Features\Auths\Queries\" />
     <Folder Include="Features\Brands\Tests\" />
+    <Folder Include="Features\CarDamages\Queries\GetListByCarIdCarDamage\" />
     <Folder Include="Features\Cars\Tests\" />
     <Folder Include="Features\Colors\Tests\" />
-    <Folder Include="Features\FindeksCreditRates\Commands\UpdateFindeksCreditRateFromService\" />
     <Folder Include="Features\Fuels\Tests\" />
     <Folder Include="Features\Models\Tests\" />
     <Folder Include="Features\Rentals\Commands\DeleteRental\" />
     <Folder Include="Features\Rentals\Commands\PickUpRental\" />
     <Folder Include="Features\Rentals\Tests\" />
     <Folder Include="Features\Transmissions\Tests\" />
+    <Folder Include="Features\Users\Commands\UpdateUserFromAuth\" />
     <Folder Include="Services\AuthService\" />
     <Folder Include="Services\CarService\" />
     <Folder Include="Services\ModelService\" />
     <Folder Include="Services\InvoiceService\" />
+    <Folder Include="Services\CustomerService\" />
+    <Folder Include="Services\RentalService\" />
     <Folder Include="Services\UserService\" />
   </ItemGroup>
 

@@ -12,9 +12,9 @@ public class LoggedDto
 
     public LoggedResponseDto CreateResponseDto()
     {
-        return new LoggedResponseDto
-            { AccessToken = AccessToken, RequiredAuthenticatorType = RequiredAuthenticatorType };
+        return new() { AccessToken = AccessToken, RequiredAuthenticatorType = RequiredAuthenticatorType };
     }
+
 
     public class LoggedResponseDto
     {

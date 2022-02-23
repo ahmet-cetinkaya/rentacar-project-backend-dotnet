@@ -1,4 +1,5 @@
-﻿using Application.Features.AdditionalServices.Rules;
+﻿using System.Reflection;
+using Application.Features.AdditionalServices.Rules;
 using Application.Features.Auths.Rules;
 using Application.Features.Brands.Rules;
 using Application.Features.CarDamages.Rules;
@@ -20,9 +21,11 @@ using Application.Features.Users.Rules;
 using Application.Services.AdditionalServiceService;
 using Application.Services.AuthService;
 using Application.Services.CarService;
+using Application.Services.CustomerService;
 using Application.Services.FindeksCreditRateService;
 using Application.Services.InvoiceService;
 using Application.Services.ModelService;
+using Application.Services.RentalService;
 using Application.Services.RentalsIAdditionalServiceService;
 using Application.Services.UserService;
 using Core.Application.Pipelines.Authorization;
@@ -37,7 +40,6 @@ using Core.Mailing.MailKitImplementations;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
-using System.Reflection;
 
 namespace Application;
 
@@ -79,9 +81,11 @@ public static class ApplicationServiceRegistration
         services.AddScoped<IAdditionalServiceService, AdditionalServiceManager>();
         services.AddScoped<IAuthService, AuthManager>();
         services.AddScoped<ICarService, CarManager>();
+        services.AddScoped<ICustomerService, CustomerManager>();
         services.AddScoped<IFindeksCreditRateService, FindeksCreditRateManager>();
         services.AddScoped<IInvoiceService, InvoiceManager>();
         services.AddScoped<IModelService, ModelManager>();
+        services.AddScoped<IRentalService, RentalManager>();
         services.AddScoped<IRentalsAdditionalServiceService, RentalsAdditionalServiceManager>();
         services.AddScoped<IUserService, UserManager>();
 

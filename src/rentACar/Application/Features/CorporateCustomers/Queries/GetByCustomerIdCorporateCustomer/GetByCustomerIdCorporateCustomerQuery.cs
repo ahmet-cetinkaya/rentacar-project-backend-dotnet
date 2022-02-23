@@ -5,14 +5,15 @@ using AutoMapper;
 using Domain.Entities;
 using MediatR;
 
-namespace Application.Features.CorporateCustomers.Queries.GetByIdCorporateCustomer;
+namespace Application.Features.CorporateCustomers.Queries.GetByCustomerIdCorporateCustomer;
 
-public class GetByIdCorporateCustomerQuery : IRequest<CorporateCustomerDto>
+public class GetByCustomerIdCorporateCustomerQuery : IRequest<CorporateCustomerDto>
 {
-    public int Id { get; set; }
+    public int CustomerId { get; set; }
 
     public class
-        GetByIdCorporateCustomerQueryHandler : IRequestHandler<GetByIdCorporateCustomerQuery, CorporateCustomerDto>
+        GetByIdCorporateCustomerQueryHandler : IRequestHandler<GetByCustomerIdCorporateCustomerQuery,
+            CorporateCustomerDto>
     {
         private readonly ICorporateCustomerRepository _corporateCustomerRepository;
         private readonly IMapper _mapper;
@@ -28,11 +29,11 @@ public class GetByIdCorporateCustomerQuery : IRequest<CorporateCustomerDto>
         }
 
 
-        public async Task<CorporateCustomerDto> Handle(GetByIdCorporateCustomerQuery request,
+        public async Task<CorporateCustomerDto> Handle(GetByCustomerIdCorporateCustomerQuery request,
                                                        CancellationToken cancellationToken)
         {
             CorporateCustomer? corporateCustomer =
-                await _corporateCustomerRepository.GetAsync(b => b.Id == request.Id);
+                await _corporateCustomerRepository.GetAsync(b => b.CustomerId == request.CustomerId);
             await _corporateCustomerBusinessRules.CorporateCustomerShouldBeExist(corporateCustomer);
             CorporateCustomerDto corporateCustomerDto = _mapper.Map<CorporateCustomerDto>(corporateCustomer);
             return corporateCustomerDto;

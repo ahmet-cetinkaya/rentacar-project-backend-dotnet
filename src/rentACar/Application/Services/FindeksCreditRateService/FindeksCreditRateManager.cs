@@ -20,4 +20,10 @@ public class FindeksCreditRateManager : IFindeksCreditRateService
         if (findeksCreditRate == null) throw new BusinessException("Customer's findeks score do not exists.");
         return findeksCreditRate;
     }
+
+    public async Task<FindeksCreditRate> Add(FindeksCreditRate findeksCreditRate)
+    {
+        FindeksCreditRate addedFindeksCreditRate = await _findeksCreditRateRepository.AddAsync(findeksCreditRate);
+        return addedFindeksCreditRate;
+    }
 }

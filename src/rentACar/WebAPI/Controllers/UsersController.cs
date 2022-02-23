@@ -1,6 +1,7 @@
 ﻿using Application.Features.Users.Commands.CreateUser;
 using Application.Features.Users.Commands.DeleteUser;
 using Application.Features.Users.Commands.UpdateUser;
+using Application.Features.Users.Commands.UpdateUserFromAuth;
 using Application.Features.Users.Dtos;
 using Application.Features.Users.Models;
 using Application.Features.Users.Queries.GetByIdUser;
@@ -17,6 +18,14 @@ public class UsersController : BaseController
     [HttpGet("{Id}")]
     public async Task<IActionResult> GetById([FromRoute] GetByIdUserQuery getByIdUserQuery)
     {
+        UserDto result = await Mediator.Send(getByIdUserQuery);
+        return Ok(result);
+    }
+
+    [HttpGet("GetFromAuth")]
+    public async Task<IActionResult> GetFromAuth()
+    {
+        GetByIdUserQuery getByIdUserQuery = new() { Id = getUserIdFromRequest() };
         UserDto result = await Mediator.Send(getByIdUserQuery);
         return Ok(result);
     }
@@ -40,6 +49,14 @@ public class UsersController : BaseController
     public async Task<IActionResult> Update([FromBody] UpdateUserCommand updateUserCommand)
     {
         UpdatedUserDto result = await Mediator.Send(updateUserCommand);
+        return Ok(result);
+    }
+
+    [HttpPut("FromAuth")]
+    public async Task<IActionResult> UpdateFromAuth([FromBody] UpdateUserFromAuthCommand updateUserFromAuthCommand)
+    {
+        updateUserFromAuthCommand.Id = getUserIdFromRequest();
+        UpdatedUserFromAuthDto result = await Mediator.Send(updateUserFromAuthCommand);
         return Ok(result);
     }
 

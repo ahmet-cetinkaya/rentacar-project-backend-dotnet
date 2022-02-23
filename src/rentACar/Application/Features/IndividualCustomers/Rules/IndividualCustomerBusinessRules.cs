@@ -20,6 +20,12 @@ public class IndividualCustomerBusinessRules
         if (result == null) throw new BusinessException("Individual customer not exists.");
     }
 
+    public Task IndividualCustomerShouldBeExist(IndividualCustomer? individualCustomer)
+    {
+        if (individualCustomer is null) throw new BusinessException("Individual customer not exists.");
+        return Task.CompletedTask;
+    }
+
     public async Task IndividualCustomerNationalIdentityCanNotBeDuplicatedWhenInserted(string nationalIdentity)
     {
         IPaginate<IndividualCustomer> result =

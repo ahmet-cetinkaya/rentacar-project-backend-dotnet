@@ -20,6 +20,12 @@ public class CorporateCustomerBusinessRules
         if (result == null) throw new BusinessException("CorporateCustomer not exists.");
     }
 
+    public Task CorporateCustomerShouldBeExist(CorporateCustomer corporateCustomer)
+    {
+        if (corporateCustomer is null) throw new BusinessException("CorporateCustomer not exists.");
+        return Task.CompletedTask;
+    }
+
     public async Task CorporateCustomerTaxNoCanNotBeDuplicatedWhenInserted(string taxNo)
     {
         IPaginate<CorporateCustomer> result = await _corporateCustomerRepository.GetListAsync(c => c.TaxNo == taxNo);

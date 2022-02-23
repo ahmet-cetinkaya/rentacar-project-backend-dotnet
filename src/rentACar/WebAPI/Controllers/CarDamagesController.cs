@@ -4,6 +4,7 @@ using Application.Features.CarDamages.Commands.UpdateCarDamage;
 using Application.Features.CarDamages.Dtos;
 using Application.Features.CarDamages.Models;
 using Application.Features.CarDamages.Queries.GetByIdCarDamage;
+using Application.Features.CarDamages.Queries.GetListByCarIdCarDamage;
 using Application.Features.CarDamages.Queries.GetListCarDamage;
 using Core.Application.Requests;
 using Microsoft.AspNetCore.Mvc;
@@ -25,6 +26,14 @@ public class CarDamagesController : BaseController
     public async Task<IActionResult> GetList([FromQuery] PageRequest pageRequest)
     {
         GetListCarDamageQuery getListCarDamageQuery = new() { PageRequest = pageRequest };
+        CarDamageListModel result = await Mediator.Send(getListCarDamageQuery);
+        return Ok(result);
+    }
+
+    [HttpGet("ByCarId/{carId}")]
+    public async Task<IActionResult> GetListByCarId([FromRoute] int carId, [FromQuery] PageRequest pageRequest)
+    {
+        GetListByCarIdCarDamageQuery getListCarDamageQuery = new() { CarId = carId, PageRequest = pageRequest };
         CarDamageListModel result = await Mediator.Send(getListCarDamageQuery);
         return Ok(result);
     }

@@ -18,10 +18,11 @@ namespace Application.Features.Rentals.Commands.CreateRental;
 
 public class CreateRentalCommand : IRequest<CreatedRentalDto>, ILoggableRequest
 {
-    public int CarId { get; set; }
+    public int ModelId { get; set; }
     public int CustomerId { get; set; }
     public DateTime RentStartDate { get; set; }
     public DateTime RentEndDate { get; set; }
+    public int RentStartRentalBranchId { get; set; }
     public int RentEndRentalBranchId { get; set; }
     public int[] AdditionalServiceIds { get; set; }
 
@@ -63,12 +64,12 @@ public class CreateRentalCommand : IRequest<CreatedRentalDto>, ILoggableRequest
 
         public async Task<CreatedRentalDto> Handle(CreateRentalCommand request, CancellationToken cancellationToken)
         {
-            await _rentalBusinessRules.RentalCanNotBeCreateWhenCarIsRented(request.CarId, request.RentStartDate,
-                                                                           request.RentEndDate);
             FindeksCreditRate customerFindeksCreditRate =
                 await _findeksCreditRateService.GetFindeksCreditRateByCustomerId(request.CustomerId);
 
-            Car carToBeRented = await _carService.GetById(request.CarId);
+            Car? carToBeRented = await _carService.GetAvailableCarToRent(
+                                     request.ModelId, request.RentStartRentalBranchId, request.RentStartDate,
+                                     request.RentEndDate);
 
             await _rentalBusinessRules.RentalCanNotBeCreatedWhenCustomerFindeksScoreLowerThanCarMinFindeksScore(
                 customerFindeksCreditRate.Score, carToBeRented.MinFindeksCreditRate);
@@ -76,6 +77,7 @@ public class CreateRentalCommand : IRequest<CreatedRentalDto>, ILoggableRequest
             Model model = await _modelService.GetById(carToBeRented.ModelId);
 
             Rental mappedRental = _mapper.Map<Rental>(request);
+            mappedRental.CarId = carToBeRented.Id;
             mappedRental.RentStartRentalBranchId = carToBeRented.RentalBranchId;
             mappedRental.RentStartKilometer = carToBeRented.Kilometer;
 

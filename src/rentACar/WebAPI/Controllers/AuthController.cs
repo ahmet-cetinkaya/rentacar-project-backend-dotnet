@@ -7,7 +7,6 @@ using Application.Features.Auths.Commands.VerifyEmailAuthenticator;
 using Application.Features.Auths.Dtos;
 using Core.Security.Dtos;
 using Core.Security.Entities;
-using Core.Security.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
@@ -98,17 +97,5 @@ public class AuthController : BaseController
     {
         CookieOptions cookieOptions = new() { HttpOnly = true, Expires = DateTime.UtcNow.AddDays(7) };
         Response.Cookies.Append("refreshToken", refreshToken.Token, cookieOptions);
-    }
-
-    private string? getIpAddress()
-    {
-        if (Request.Headers.ContainsKey("X-Forwarded-For")) return Request.Headers["X-Forwarded-For"];
-        return HttpContext.Connection.RemoteIpAddress?.MapToIPv4().ToString();
-    }
-
-    private int getUserIdFromRequest() //todo authentication behavior?
-    {
-        int userId = HttpContext.User.GetUserId();
-        return userId;
     }
 }

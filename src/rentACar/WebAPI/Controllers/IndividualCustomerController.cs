@@ -3,6 +3,7 @@ using Application.Features.IndividualCustomers.Commands.DeleteIndividualCustomer
 using Application.Features.IndividualCustomers.Commands.UpdateIndividualCustomer;
 using Application.Features.IndividualCustomers.Dtos;
 using Application.Features.IndividualCustomers.Models;
+using Application.Features.IndividualCustomers.Queries.GetByCustomerIdIndividualCustomer;
 using Application.Features.IndividualCustomers.Queries.GetByIdIndividualCustomer;
 using Application.Features.IndividualCustomers.Queries.GetListIndividualCustomer;
 using Core.Application.Requests;
@@ -18,6 +19,14 @@ public class IndividualCustomersController : BaseController
     public async Task<IActionResult> GetById([FromRoute] GetByIdIndividualCustomerQuery getByIdIndividualCustomerQuery)
     {
         IndividualCustomerDto result = await Mediator.Send(getByIdIndividualCustomerQuery);
+        return Ok(result);
+    }
+
+    [HttpGet("ByCustomerId/{CustomerId}")]
+    public async Task<IActionResult> GetById(
+        [FromRoute] GetByCustomerIdIndividualCustomerQuery getByCustomerIdIndividualCustomerQuery)
+    {
+        IndividualCustomerDto result = await Mediator.Send(getByCustomerIdIndividualCustomerQuery);
         return Ok(result);
     }
 

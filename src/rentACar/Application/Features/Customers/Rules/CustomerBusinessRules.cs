@@ -13,9 +13,15 @@ public class CustomerBusinessRules
         _customerRepository = customerRepository;
     }
 
-    public async Task CustomerIdShouldExistWhenSelected(int id)
+    public async Task CustomerIdShouldExist(int id)
     {
         Customer? result = await _customerRepository.GetAsync(b => b.Id == id);
         if (result == null) throw new BusinessException("Customer not exists.");
+    }
+
+    public Task CustomerShouldBeExist(Customer? customer)
+    {
+        if (customer is null) throw new BusinessException("Customer don't exists.");
+        return Task.CompletedTask;
     }
 }

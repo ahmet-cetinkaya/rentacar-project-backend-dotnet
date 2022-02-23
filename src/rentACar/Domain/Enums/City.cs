@@ -2,6 +2,6 @@
 
 public enum City
 {
-    Ankara = 1,
+    Ankara = 6,
     Antalya = 7
 }

@@ -8,6 +8,7 @@ public class CarListDto
     public string BrandName { get; set; }
     public string ModelName { get; set; }
     public string ColorName { get; set; }
+    public string Plate { get; set; }
     public CarState CarState { get; set; }
     public short ModelYear { get; set; }
 }

@@ -28,9 +28,8 @@ public class GetByIdCustomerQuery : IRequest<CustomerDto>
 
         public async Task<CustomerDto> Handle(GetByIdCustomerQuery request, CancellationToken cancellationToken)
         {
-            await _customerBusinessRules.CustomerIdShouldExistWhenSelected(request.Id);
-
             Customer? customer = await _customerRepository.GetAsync(b => b.Id == request.Id);
+            await _customerBusinessRules.CustomerShouldBeExist(customer);
             CustomerDto customerDto = _mapper.Map<CustomerDto>(customer);
             return customerDto;
         }

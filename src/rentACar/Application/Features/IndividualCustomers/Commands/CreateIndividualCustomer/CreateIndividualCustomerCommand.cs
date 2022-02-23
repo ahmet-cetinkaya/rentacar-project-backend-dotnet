@@ -1,5 +1,6 @@
 using Application.Features.IndividualCustomers.Dtos;
 using Application.Features.IndividualCustomers.Rules;
+using Application.Services.FindeksCreditRateService;
 using Application.Services.Repositories;
 using AutoMapper;
 using Core.Application.Pipelines.Authorization;
@@ -26,14 +27,17 @@ public class CreateIndividualCustomerCommand : IRequest<CreatedIndividualCustome
         private readonly IIndividualCustomerRepository _individualCustomerRepository;
         private readonly IMapper _mapper;
         private readonly IndividualCustomerBusinessRules _individualCustomerBusinessRules;
+        private readonly IFindeksCreditRateService _findeksCreditRateService;
 
         public CreateIndividualCustomerCommandHandler(IIndividualCustomerRepository individualCustomerRepository,
                                                       IMapper mapper,
-                                                      IndividualCustomerBusinessRules individualCustomerBusinessRules)
+                                                      IndividualCustomerBusinessRules individualCustomerBusinessRules,
+                                                      IFindeksCreditRateService findeksCreditRateService)
         {
             _individualCustomerRepository = individualCustomerRepository;
             _mapper = mapper;
             _individualCustomerBusinessRules = individualCustomerBusinessRules;
+            _findeksCreditRateService = findeksCreditRateService;
         }
 
         public async Task<CreatedIndividualCustomerDto> Handle(CreateIndividualCustomerCommand request,
@@ -45,6 +49,11 @@ public class CreateIndividualCustomerCommand : IRequest<CreatedIndividualCustome
             IndividualCustomer mappedIndividualCustomer = _mapper.Map<IndividualCustomer>(request);
             IndividualCustomer createdIndividualCustomer =
                 await _individualCustomerRepository.AddAsync(mappedIndividualCustomer);
+
+            await _findeksCreditRateService.Add(new FindeksCreditRate
+                                                    { CustomerId = createdIndividualCustomer.CustomerId });
+
+
             CreatedIndividualCustomerDto createdIndividualCustomerDto =
                 _mapper.Map<CreatedIndividualCustomerDto>(createdIndividualCustomer);
             return createdIndividualCustomerDto;
