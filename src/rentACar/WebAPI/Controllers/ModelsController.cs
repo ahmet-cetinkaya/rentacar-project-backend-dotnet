@@ -5,7 +5,9 @@ using Application.Features.Models.Dtos;
 using Application.Features.Models.Models;
 using Application.Features.Models.Queries.GetByIdModel;
 using Application.Features.Models.Queries.GetListModel;
+using Application.Features.Models.Queries.GetListModelByDynamic;
 using Core.Application.Requests;
+using Core.Persistence.Dynamic;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers;
@@ -26,6 +28,15 @@ public class ModelsController : BaseController
     {
         GetListModelQuery getListModelQuery = new() { PageRequest = pageRequest };
         ModelListModel result = await Mediator.Send(getListModelQuery);
+        return Ok(result);
+    }
+
+    [HttpPost("GetList/ByDynamic")]
+    public async Task<IActionResult> GetListByDynamic([FromQuery] PageRequest pageRequest,
+                                                      [FromBody] Dynamic? dynamic = null)
+    {
+        GetListModelByDynamicQuery getListModelByDynamicQuery = new() { PageRequest = pageRequest, Dynamic = dynamic };
+        ModelListModel result = await Mediator.Send(getListModelByDynamicQuery);
         return Ok(result);
     }
 
