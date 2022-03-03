@@ -95,7 +95,7 @@ public class AuthManager : IAuthService
     {
         RefreshToken childToken = await _refreshTokenRepository.GetAsync(r => r.Token == refreshToken.ReplacedByToken);
 
-        if (childToken.Revoked != null && childToken.Expires <= DateTime.UtcNow)
+        if (childToken != null && childToken.Revoked != null && childToken.Expires <= DateTime.UtcNow)
             await RevokeRefreshToken(childToken, ipAddress, reason);
         else await RevokeDescendantRefreshTokens(childToken, ipAddress, reason);
     }

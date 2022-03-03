@@ -1,4 +1,5 @@
 ﻿using System.Linq.Dynamic.Core;
+using System.Text;
 
 namespace Core.Persistence.Dynamic;
 
@@ -61,32 +62,38 @@ public static class IQueryableDynamicFilterExtensions
 
     private static void GetFilters(Filter filter, IList<Filter> filters)
     {
+        filters.Add(filter);
         if (filter.Filters is not null && filter.Filters.Any())
             foreach (Filter item in filter.Filters)
                 GetFilters(item, filters);
-        else
-            filters.Add(filter);
     }
 
     public static string Transform(Filter filter, IList<Filter> filters)
     {
-        if (filter.Filters is not null && filter.Filters.Any())
-            return $"({string.Join($" {filter.Logic} ", filter.Filters.Select(f => Transform(f, filters)).ToArray())})";
-
         int index = filters.IndexOf(filter);
         string comparison = Operators[filter.Operator];
+        StringBuilder where = new();
 
-        if (filter.Operator == "doesnotcontain")
-            return $"(!np({filter.Field}).{comparison}(@{index}))";
+        if (!string.IsNullOrEmpty(filter.Value))
+        {
+            if (filter.Operator == "doesnotcontain")
+                where.Append($"(!np({filter.Field}).{comparison}(@{index}))");
+            else if (comparison == "StartsWith" ||
+                     comparison == "EndsWith" ||
+                     comparison == "Contains")
+                where.Append($"(np({filter.Field}).{comparison}(@{index}))");
+            else
+                where.Append($"np({filter.Field}) {comparison} @{index}");
+        }
+        else if (filter.Operator == "isnull" || filter.Operator == "isnotnull")
+        {
+            where.Append($"np({filter.Field}) {comparison}");
+        }
 
-        if (comparison == "StartsWith" ||
-            comparison == "EndsWith" ||
-            comparison == "Contains")
-            return $"(np({filter.Field}).{comparison}(@{index}))";
+        if (filter.Logic is not null && filter.Filters is not null && filter.Filters.Any())
+            return
+                $"{where} {filter.Logic} ({string.Join($" {filter.Logic} ", filter.Filters.Select(f => Transform(f, filters)).ToArray())})";
 
-        if (comparison == "== null" || comparison == "!= null")
-            return $"np({filter.Field}) {comparison}";
-
-        return $"np({filter.Field}) {comparison} @{index}";
+        return where.ToString();
     }
 }
