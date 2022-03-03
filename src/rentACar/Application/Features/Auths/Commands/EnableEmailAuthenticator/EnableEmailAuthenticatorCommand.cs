@@ -38,6 +38,7 @@ public class EnableEmailAuthenticatorCommand : IRequest
         {
             User user = await _userService.GetById(request.UserId);
             await _authBusinessRules.UserShouldBeExists(user);
+            await _authBusinessRules.UserShouldNotBeHaveAuthenticator(user);
 
             user.AuthenticatorType = AuthenticatorType.Email;
             await _userService.Update(user);

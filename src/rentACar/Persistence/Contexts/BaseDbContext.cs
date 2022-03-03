@@ -16,6 +16,7 @@ public class BaseDbContext : DbContext
     public DbSet<Color> Colors { get; set; }
     public DbSet<CorporateCustomer> CorporateCustomers { get; set; }
     public DbSet<Customer> Customers { get; set; }
+    public DbSet<EmailAuthenticator> EmailAuthenticators { get; set; }
     public DbSet<FindeksCreditRate> FindeksCreditRates { get; set; }
     public DbSet<Fuel> Fuel { get; set; }
     public DbSet<IndividualCustomer> IndividualCustomers { get; set; }
@@ -29,6 +30,7 @@ public class BaseDbContext : DbContext
     public DbSet<UserOperationClaim> UserOperationClaims { get; set; }
     public DbSet<RefreshToken> RefreshTokens { get; set; }
     public DbSet<Transmission> Transmissions { get; set; }
+    public DbSet<OtpAuthenticator> OtpAuthenticators { get; set; }
 
     public BaseDbContext(DbContextOptions dbContextOptions, IConfiguration configuration) : base(dbContextOptions)
     {
@@ -274,6 +276,15 @@ public class BaseDbContext : DbContext
             t.Property(p => p.Id).HasColumnName("Id");
             t.Property(p => p.Name).HasColumnName("Name");
             t.HasMany(p => p.Models);
+        });
+
+        modelBuilder.Entity<OtpAuthenticator>(e =>
+        {
+            e.ToTable("OtpAuthenticators").HasKey(e => e.Id);
+            e.Property(e => e.UserId).HasColumnName("UserId");
+            e.Property(e => e.SecretKey).HasColumnName("SecretKey");
+            e.Property(e => e.IsVerified).HasColumnName("IsVerified");
+            e.HasOne(e => e.User);
         });
 
         AdditionalService[] additionalServiceSeeds = { new(1, "Baby Seat", 200), new(2, "Scooter", 300) };

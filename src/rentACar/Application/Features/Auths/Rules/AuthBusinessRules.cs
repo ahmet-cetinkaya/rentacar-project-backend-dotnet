@@ -1,6 +1,7 @@
 using Application.Services.Repositories;
 using Core.CrossCuttingConcerns.Exceptions;
 using Core.Security.Entities;
+using Core.Security.Enums;
 using Core.Security.Hashing;
 
 namespace Application.Features.Auths.Rules;
@@ -22,6 +23,19 @@ public class AuthBusinessRules
         return Task.CompletedTask;
     }
 
+    public Task OtpAuthenticatorShouldBeExists(OtpAuthenticator? otpAuthenticator)
+    {
+        if (otpAuthenticator is null) throw new BusinessException("Otp authenticator don't exists.");
+        return Task.CompletedTask;
+    }
+
+    public Task OtpAuthenticatorThatVerifiedShouldNotBeExists(OtpAuthenticator? otpAuthenticator)
+    {
+        if (otpAuthenticator is not null && otpAuthenticator.IsVerified)
+            throw new BusinessException("Already verified otp authenticator is exists.");
+        return Task.CompletedTask;
+    }
+
     public Task EmailAuthenticatorActivationKeyShouldBeExists(EmailAuthenticator emailAuthenticator)
     {
         if (emailAuthenticator.ActivationKey is null) throw new BusinessException("Email Activation Key don't exists.");
@@ -31,6 +45,13 @@ public class AuthBusinessRules
     public Task UserShouldBeExists(User? user)
     {
         if (user == null) throw new BusinessException("User don't exists.");
+        return Task.CompletedTask;
+    }
+
+    public Task UserShouldNotBeHaveAuthenticator(User user)
+    {
+        if (user.AuthenticatorType != AuthenticatorType.None)
+            throw new BusinessException("User have already a authenticator.");
         return Task.CompletedTask;
     }
 

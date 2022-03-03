@@ -29,6 +29,7 @@ public static class PersistenceServiceRegistration
         services.AddScoped<IInvoiceRepository, InvoiceRepository>();
         services.AddScoped<IModelRepository, ModelRepository>();
         services.AddScoped<IOperationClaimRepository, OperationClaimRepository>();
+        services.AddScoped<IOtpAuthenticatorRepository, OtpAuthenticatorRepository>();
         services.AddScoped<IRentalRepository, RentalRepository>();
         services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
         services.AddScoped<IRentalsAdditionalServiceRepository, RentalsAdditionalServiceRepository>();

@@ -1,9 +1,11 @@
 ﻿using Application.Features.Auths.Commands.EnableEmailAuthenticator;
+using Application.Features.Auths.Commands.EnableOtpAuthenticator;
 using Application.Features.Auths.Commands.Login;
 using Application.Features.Auths.Commands.RefleshToken;
 using Application.Features.Auths.Commands.Register;
 using Application.Features.Auths.Commands.RevokeToken;
 using Application.Features.Auths.Commands.VerifyEmailAuthenticator;
+using Application.Features.Auths.Commands.VerifyOtpAuthenticator;
 using Application.Features.Auths.Dtos;
 using Core.Security.Dtos;
 using Core.Security.Entities;
@@ -80,10 +82,33 @@ public class AuthController : BaseController
         return Ok();
     }
 
+    [HttpGet("EnableOtpAuthenticator")]
+    public async Task<IActionResult> EnableOtpAuthenticator()
+    {
+        EnableOtpAuthenticatorCommand enableOtpAuthenticatorCommand = new()
+        {
+            UserId = getUserIdFromRequest()
+        };
+        EnabledOtpAuthenticatorDto result = await Mediator.Send(enableOtpAuthenticatorCommand);
+
+        return Ok(result);
+    }
+
     [HttpGet("VerifyEmailAuthenticator")]
     public async Task<IActionResult> VerifyEmailAuthenticator(
         [FromQuery] VerifyEmailAuthenticatorCommand verifyEmailAuthenticatorCommand)
     {
+        await Mediator.Send(verifyEmailAuthenticatorCommand);
+        return Ok();
+    }
+
+    [HttpPost("VerifyOtpAuthenticator")]
+    public async Task<IActionResult> VerifyOtpAuthenticator(
+        [FromBody] string authenticatorCode)
+    {
+        VerifyOtpAuthenticatorCommand verifyEmailAuthenticatorCommand =
+            new() { UserId = getUserIdFromRequest(), ActivationCode = authenticatorCode };
+
         await Mediator.Send(verifyEmailAuthenticatorCommand);
         return Ok();
     }
