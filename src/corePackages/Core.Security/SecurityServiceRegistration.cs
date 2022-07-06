@@ -1,5 +1,6 @@
 ﻿using Core.Security.EmailAuthenticator;
 using Core.Security.JWT;
+using Core.Security.MicrosoftAuth;
 using Core.Security.OtpAuthenticator;
 using Core.Security.OtpAuthenticator.OtpNet;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,6 +14,7 @@ public static class SecurityServiceRegistration
         services.AddScoped<ITokenHelper, JwtHelper>();
         services.AddScoped<IEmailAuthenticatorHelper, EmailAuthenticatorHelper>();
         services.AddScoped<IOtpAuthenticatorHelper, OtpNetOtpAuthenticatorHelper>();
+        services.AddScoped<IMicrosoftAuth, MicrosoftAuth>();
         return services;
     }
 }
