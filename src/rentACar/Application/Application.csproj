@@ -29,6 +29,7 @@
   <ItemGroup>
     <Folder Include="Features\Auths\Commands\Login\" />
     <Folder Include="Features\Auths\Commands\EnableEmailAuthenticator\" />
+    <Folder Include="Features\Auths\Commands\LoginWithGoogle\" />
     <Folder Include="Features\Auths\Commands\RefleshToken\" />
     <Folder Include="Features\Auths\Commands\RevokeToken\" />
     <Folder Include="Features\Auths\Commands\Register\" />

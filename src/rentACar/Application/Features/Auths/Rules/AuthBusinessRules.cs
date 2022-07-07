@@ -2,6 +2,7 @@ using Application.Services.Repositories;
 using Core.CrossCuttingConcerns.Exceptions;
 using Core.Security.Entities;
 using Core.Security.Enums;
+using Core.Security.GoogleAuth;
 using Core.Security.Hashing;
 
 namespace Application.Features.Auths.Rules;
@@ -79,5 +80,10 @@ public class AuthBusinessRules
         User? user = await _userRepository.GetAsync(u => u.Id == id);
         if (!HashingHelper.VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
             throw new BusinessException("Password don't match.");
+    }
+
+    public async Task UsersGoogleMailShouldBeVerified(GoogleUserDetail googleUserDetail)
+    {
+        if (googleUserDetail.EmailVerified == false) throw new BusinessException("Google mail has to be verified.");
     }
 }

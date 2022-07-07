@@ -1,4 +1,5 @@
 ﻿using Core.Security.EmailAuthenticator;
+using Core.Security.GoogleAuth;
 using Core.Security.JWT;
 using Core.Security.MicrosoftAuth;
 using Core.Security.OtpAuthenticator;
@@ -15,6 +16,7 @@ public static class SecurityServiceRegistration
         services.AddScoped<IEmailAuthenticatorHelper, EmailAuthenticatorHelper>();
         services.AddScoped<IOtpAuthenticatorHelper, OtpNetOtpAuthenticatorHelper>();
         services.AddScoped<IMicrosoftAuth, MicrosoftAuth>();
+        services.AddScoped<IGoogleAuthAdapter, GoogleAuthAdapter>();
         return services;
     }
 }

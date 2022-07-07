@@ -1,6 +1,7 @@
 ﻿using Application.Features.Auths.Commands.EnableEmailAuthenticator;
 using Application.Features.Auths.Commands.EnableOtpAuthenticator;
 using Application.Features.Auths.Commands.Login;
+using Application.Features.Auths.Commands.LoginWithGoogle;
 using Application.Features.Auths.Commands.LoginWithMicrosoft;
 using Application.Features.Auths.Commands.RefleshToken;
 using Application.Features.Auths.Commands.Register;
@@ -43,6 +44,18 @@ public class AuthController : BaseController
         LoginWithMicrosoftCommand loginWithMicrosoftCommand = new()
             { MicrosoftAccessToken = microsoftAccessToken, IPAddress = getIpAddress() };
         LoggedDto result = await Mediator.Send(loginWithMicrosoftCommand);
+
+        if (result.RefreshToken is not null) setRefreshTokenToCookie(result.RefreshToken);
+
+        return Ok(result.CreateResponseDto());
+    }
+
+    [HttpPost("LoginWithGoogle")]
+    public async Task<IActionResult> LoginWithGoogle([FromBody] string googleAccessToken)
+    {
+        LoginWithGoogleCommand loginWithGoogleCommand = new()
+            { GoogleAccessToken = googleAccessToken, IPAddress = getIpAddress() };
+        LoggedDto result = await Mediator.Send(loginWithGoogleCommand);
 
         if (result.RefreshToken is not null) setRefreshTokenToCookie(result.RefreshToken);
 
