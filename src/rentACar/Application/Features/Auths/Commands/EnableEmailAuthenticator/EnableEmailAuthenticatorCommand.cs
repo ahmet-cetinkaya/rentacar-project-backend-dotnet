@@ -5,7 +5,6 @@ using Application.Services.Repositories;
 using Application.Services.UserService;
 using Core.Mailing;
 using Core.Security.Entities;
-using Core.Security.Enums;
 using MediatR;
 
 namespace Application.Features.Auths.Commands.EnableEmailAuthenticator;
@@ -40,9 +39,7 @@ public class EnableEmailAuthenticatorCommand : IRequest
             await _authBusinessRules.UserShouldBeExists(user);
             await _authBusinessRules.UserShouldNotBeHaveAuthenticator(user);
 
-            user.AuthenticatorType = AuthenticatorType.Email;
-            await _userService.Update(user);
-
+            await _authService.DeleteOldEmailAuthenticators(user);
             EmailAuthenticator emailAuthenticator = await _authService.CreateEmailAuthenticator(user);
             EmailAuthenticator addedEmailAuthenticator =
                 await _emailAuthenticatorRepository.AddAsync(emailAuthenticator);
