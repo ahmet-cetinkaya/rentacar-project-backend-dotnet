@@ -45,7 +45,7 @@ public class UpdateUserFromAuthCommand : IRequest<UpdatedUserFromAuthDto>
             if (request.NewPassword is not null && !string.IsNullOrWhiteSpace(request.NewPassword))
             {
                 byte[] passwordHash, passwordSalt;
-                HashingHelper.CreatePasswordHash(request.Password, out passwordHash, out passwordSalt);
+                HashingHelper.CreatePasswordHash(request.NewPassword, out passwordHash, out passwordSalt);
                 user.PasswordHash = passwordHash;
                 user.PasswordSalt = passwordSalt;
             }
