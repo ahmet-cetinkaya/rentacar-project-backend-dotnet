@@ -1,3 +1,5 @@
+using Core.Security.Enums;
+
 namespace Application.Features.Users.Dtos;
 
 public class UserDto
@@ -7,4 +9,5 @@ public class UserDto
     public string LastName { get; set; }
     public string Email { get; set; }
     public bool Status { get; set; }
+    public AuthenticatorType AuthenticatorType { get; set; }
 }

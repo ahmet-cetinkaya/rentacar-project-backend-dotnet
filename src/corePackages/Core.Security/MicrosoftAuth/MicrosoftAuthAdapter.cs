@@ -4,18 +4,18 @@ using Microsoft.Extensions.Configuration;
 
 namespace Core.Security.MicrosoftAuth;
 
-public class MicrosoftAuth : IMicrosoftAuth
+public class MicrosoftAuthAdapter : IMicrosoftAuthAdapter
 {
-    private MicrosoftAuthOptions _options;
+    private readonly MicrosoftAuthOptions _options;
     private readonly HttpClient _httpClient;
 
-    public MicrosoftAuth(IConfiguration configuration)
+    public MicrosoftAuthAdapter(IConfiguration configuration)
     {
-        _options = configuration.GetSection("MicrosoftAuth").Get<MicrosoftAuthOptions>();
+        _options = configuration.GetSection("MicrosoftAuthAdapter").Get<MicrosoftAuthOptions>();
         _httpClient = new HttpClient();
     }
 
-    public async Task<MicrosoftUserDetail> getMicrosoftUserDetail(string microsoftAccessToken)
+    public async Task<MicrosoftUserDetail> GetMicrosoftUserDetail(string microsoftAccessToken)
     {
         MicrosoftUserDetail microsoftUserDetail;
 

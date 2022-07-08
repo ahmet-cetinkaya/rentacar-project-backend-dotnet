@@ -19,22 +19,23 @@ public class LoginWithMicrosoftCommand : IRequest<LoggedDto>
     {
         private readonly IUserService _userService;
         private readonly IAuthService _authService;
-        private readonly IMicrosoftAuth _microsoftAuth;
+        private readonly IMicrosoftAuthAdapter _microsoftAuthAdapter;
         private readonly AuthBusinessRules _authBusinessRules;
 
-        public LoginCommandHandler(IUserService userService, IAuthService authService, IMicrosoftAuth microsoftAuth,
+        public LoginCommandHandler(IUserService userService, IAuthService authService,
+                                   IMicrosoftAuthAdapter microsoftAuthAdapter,
                                    AuthBusinessRules authBusinessRules, IConfiguration configuration)
         {
             _userService = userService;
             _authService = authService;
-            _microsoftAuth = microsoftAuth;
+            _microsoftAuthAdapter = microsoftAuthAdapter;
             _authBusinessRules = authBusinessRules;
         }
 
         public async Task<LoggedDto> Handle(LoginWithMicrosoftCommand request, CancellationToken cancellationToken)
         {
             MicrosoftUserDetail microsoftUserDetail =
-                await _microsoftAuth.getMicrosoftUserDetail(request.MicrosoftAccessToken);
+                await _microsoftAuthAdapter.GetMicrosoftUserDetail(request.MicrosoftAccessToken);
 
             User? user = await _userService.GetByEmail(microsoftUserDetail.UserPrincipalName);
             await _authBusinessRules.UserShouldBeExists(user);
