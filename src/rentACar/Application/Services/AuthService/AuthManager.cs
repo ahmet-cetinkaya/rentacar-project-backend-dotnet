@@ -124,6 +124,14 @@ public class AuthManager : IAuthService
         return emailAuthenticator;
     }
 
+    public async Task DeleteOldEmailAuthenticators(User user)
+    {
+        IList<EmailAuthenticator> emailAuthenticators =
+            (await _emailAuthenticatorRepository.GetListAsync(r => r.UserId == user.Id)).Items;
+        foreach (EmailAuthenticator emailAuthenticator in emailAuthenticators)
+            await _emailAuthenticatorRepository.DeleteAsync(emailAuthenticator);
+    }
+
     public async Task<OtpAuthenticator> CreateOtpAuthenticator(User user)
     {
         OtpAuthenticator otpAuthenticator = new()
@@ -133,6 +141,14 @@ public class AuthManager : IAuthService
             IsVerified = false
         };
         return otpAuthenticator;
+    }
+
+    public async Task DeleteOldOtpAuthenticators(User user)
+    {
+        IList<OtpAuthenticator> otpAuthenticators =
+            (await _otpAuthenticatorRepository.GetListAsync(r => r.UserId == user.Id)).Items;
+        foreach (OtpAuthenticator otpAuthenticator in otpAuthenticators)
+            await _otpAuthenticatorRepository.DeleteAsync(otpAuthenticator);
     }
 
     public async Task<string> ConvertSecretKeyToString(byte[] secretKey)

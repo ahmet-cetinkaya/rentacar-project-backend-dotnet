@@ -1,4 +1,6 @@
-﻿using Application.Features.Auths.Commands.EnableEmailAuthenticator;
+﻿using Application.Features.Auths.Commands.DisableEmailAuthenticator;
+using Application.Features.Auths.Commands.DisableOtpAuthenticator;
+using Application.Features.Auths.Commands.EnableEmailAuthenticator;
 using Application.Features.Auths.Commands.EnableOtpAuthenticator;
 using Application.Features.Auths.Commands.Login;
 using Application.Features.Auths.Commands.LoginWithGoogle;
@@ -136,6 +138,30 @@ public class AuthController : BaseController
             new() { UserId = getUserIdFromRequest(), ActivationCode = authenticatorCode };
 
         await Mediator.Send(verifyEmailAuthenticatorCommand);
+        return Ok();
+    }
+
+    [HttpGet("DisableEmailAuthenticator")]
+    public async Task<IActionResult> DisableEmailAuthenticator()
+    {
+        DisableEmailAuthenticatorCommand disableEmailAuthenticatorCommand = new()
+        {
+            UserId = getUserIdFromRequest()
+        };
+        await Mediator.Send(disableEmailAuthenticatorCommand);
+
+        return Ok();
+    }
+
+    [HttpGet("DisableOtpAuthenticator")]
+    public async Task<IActionResult> DisableOtpAuthenticator()
+    {
+        DisableOtpAuthenticatorCommand disableOtpAuthenticatorCommand = new()
+        {
+            UserId = getUserIdFromRequest()
+        };
+        await Mediator.Send(disableOtpAuthenticatorCommand);
+
         return Ok();
     }
 
